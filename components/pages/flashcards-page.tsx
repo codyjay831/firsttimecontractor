@@ -41,7 +41,7 @@ export function FlashcardsPageContent() {
             Flip card
           </Button>
           <Button variant="secondary" disabled className="flex-1 sm:flex-none">
-            I don't know this
+            I don&apos;t know this
           </Button>
           <Button disabled className="flex-1 sm:flex-none">
             I know this
