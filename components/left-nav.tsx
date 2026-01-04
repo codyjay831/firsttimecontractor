@@ -15,6 +15,8 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useLens } from "@/lib/lens/use-lens";
+import { buildLensHref } from "@/lib/lens/href";
 
 const navItems = [
   {
@@ -47,6 +49,7 @@ const navItems = [
 export function LeftNav() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
+  const lens = useLens();
 
   return (
     <aside
@@ -71,11 +74,12 @@ export function LeftNav() {
       </div>
       <nav className="flex flex-1 flex-col gap-1 p-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const href = buildLensHref({ base: item.href, lens });
+          const isActive = pathname === href || pathname === item.href;
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={href}
               className={cn(
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",

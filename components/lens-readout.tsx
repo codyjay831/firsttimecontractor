@@ -1,18 +1,24 @@
 "use client";
 
-import { useTopContext } from "@/lib/top-context/use-top-context";
+import { useLens } from "@/lib/lens/use-lens";
 import { STATES, LICENSE_TYPES, TRADES } from "@/lib/top-context/types";
+import { Badge } from "@/components/ui/badge";
 
-export function ContextReadout() {
-  const { state, licenseType, trade } = useTopContext();
+export function LensReadout() {
+  const lens = useLens();
 
-  const stateLabel = STATES.find((s) => s.value === state)?.label || "None";
-  const licenseLabel = LICENSE_TYPES.find((lt) => lt.value === licenseType)?.label || "None";
-  const tradeLabel = TRADES.find((t) => t.value === trade)?.label || "None";
+  const stateLabel = STATES.find((s) => s.value === lens.state)?.label || lens.state || "None";
+  const licenseLabel = LICENSE_TYPES.find((lt) => lt.value === lens.licenseType)?.label || lens.licenseType || "None";
+  const tradeLabel = TRADES.find((t) => t.value === lens.trade)?.label || lens.trade || "None";
 
   return (
     <div className="rounded-md border border-border bg-muted/50 p-4 text-sm mb-6">
-      <h2 className="mb-2 font-semibold">Active Context</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="font-semibold">Resolved Lens</h2>
+        <Badge variant="outline" className="text-[10px] uppercase">
+          Source: {lens.source}
+        </Badge>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <span className="text-muted-foreground">State:</span>{" "}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TopContextSelector } from "@/components/top-context-selector";
+import { TopBarLensInfo } from "@/components/top-bar-lens-info";
 
 export function TopBar() {
   return (
@@ -18,7 +19,8 @@ export function TopBar() {
           <TopContextSelector />
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
+        <TopBarLensInfo />
         <ThemeToggle />
       </div>
     </header>
