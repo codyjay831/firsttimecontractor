@@ -25,7 +25,7 @@ export function resolveLens(
   }
 
   // Fallback to store
-  if (store.state || store.licenseType || store.trade) {
+  if (store.state && store.licenseType) {
     return {
       state: store.state,
       licenseType: store.licenseType,
