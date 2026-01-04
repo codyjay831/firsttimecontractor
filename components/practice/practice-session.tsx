@@ -10,69 +10,94 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, XCircle, RotateCcw, ChevronLeft, ChevronRight, SkipForward } from "lucide-react";
 
-export function PracticeSession() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
-  
-  // Session tracking
-  const [correctCount, setCorrectCount] = useState(0);
-  const [incorrectCount, setIncorrectCount] = useState(0);
-  const [skippedCount, setSkippedCount] = useState(0);
+type QuestionSessionRecord = {
+  selectedChoiceId: string | null;
+  status: "idle" | "submitted";
+  isCorrect: boolean | null;  // only meaningful after submit
+  wasSkipped: boolean;        // true if user used Skip on this question at least once
+};
 
+export function PracticeSession() {
   const questions = SAMPLE_PRACTICE_QUESTIONS;
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>({});
+  
   const isFinished = currentIndex >= questions.length;
   const currentQuestion = !isFinished ? questions[currentIndex] : null;
-  const isCorrect = status === "submitted" && selectedChoiceId === currentQuestion?.correctChoiceId;
+
+  // Derive current state from records
+  const currentRecord = currentQuestion ? recordsById[currentQuestion.id] || {
+    selectedChoiceId: null,
+    status: "idle",
+    isCorrect: null,
+    wasSkipped: false,
+  } : null;
+
+  const selectedChoiceId = currentRecord?.selectedChoiceId ?? null;
+  const status = currentRecord?.status ?? "idle";
+  const isCorrect = currentRecord?.isCorrect ?? null;
+
+  // Derived counts
+  const records = Object.values(recordsById);
+  const correctCount = records.filter(r => r.status === "submitted" && r.isCorrect).length;
+  const incorrectCount = records.filter(r => r.status === "submitted" && r.isCorrect === false).length;
+  const answeredCount = correctCount + incorrectCount;
+  const skippedCount = records.filter(r => r.wasSkipped && r.status !== "submitted").length;
+
+  const updateRecord = (questionId: string, updates: Partial<QuestionSessionRecord>) => {
+    setRecordsById(prev => ({
+      ...prev,
+      [questionId]: {
+        ...(prev[questionId] || {
+          selectedChoiceId: null,
+          status: "idle",
+          isCorrect: null,
+          wasSkipped: false,
+        }),
+        ...updates
+      }
+    }));
+  };
 
   const handleChoiceSelect = (choiceId: string) => {
-    if (status === "submitted") return;
-    setSelectedChoiceId(choiceId);
+    if (!currentQuestion || status === "submitted") return;
+    updateRecord(currentQuestion.id, { selectedChoiceId: choiceId });
   };
 
   const handleSubmit = () => {
     if (selectedChoiceId && currentQuestion) {
-      setStatus("submitted");
-      if (selectedChoiceId === currentQuestion.correctChoiceId) {
-        setCorrectCount((prev) => prev + 1);
-      } else {
-        setIncorrectCount((prev) => prev + 1);
-      }
+      const correct = selectedChoiceId === currentQuestion.correctChoiceId;
+      updateRecord(currentQuestion.id, {
+        status: "submitted",
+        isCorrect: correct
+      });
     }
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => prev + 1);
-    setSelectedChoiceId(null);
-    setStatus("idle");
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
-      setSelectedChoiceId(null);
-      setStatus("idle");
     }
   };
 
   const handleSkip = () => {
-    setSkippedCount((prev) => prev + 1);
+    if (currentQuestion) {
+      updateRecord(currentQuestion.id, { wasSkipped: true });
+    }
     setCurrentIndex((prev) => prev + 1);
-    setSelectedChoiceId(null);
-    setStatus("idle");
   };
 
   const handleRestart = () => {
     setCurrentIndex(0);
-    setSelectedChoiceId(null);
-    setStatus("idle");
-    setCorrectCount(0);
-    setIncorrectCount(0);
-    setSkippedCount(0);
+    setRecordsById({});
   };
 
   if (isFinished) {
-    const answeredCount = correctCount + incorrectCount;
     return (
       <div className="space-y-6">
         <EmptyState
