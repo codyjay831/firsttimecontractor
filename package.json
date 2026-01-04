@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "guard:repo": "powershell -ExecutionPolicy Bypass -File scripts/ci/guard_no_nested_apps.ps1"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",
@@ -30,4 +31,5 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   }
+  
 }
