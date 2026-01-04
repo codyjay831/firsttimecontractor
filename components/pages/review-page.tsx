@@ -1,10 +1,9 @@
-import { LensReadout } from "@/components/lens-readout";
+import { LensHeader } from "@/components/lens/lens-header";
 
 export function ReviewPageContent() {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold tracking-tight">Review mistakes</h1>
-      <LensReadout />
+      <LensHeader title="Review mistakes" />
       <div className="rounded-lg border border-border bg-card p-6">
         <p className="text-muted-foreground">
           🚧 Under construction — Mistake review coming soon.

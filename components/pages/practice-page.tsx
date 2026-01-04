@@ -1,10 +1,9 @@
-import { LensReadout } from "@/components/lens-readout";
+import { LensHeader } from "@/components/lens/lens-header";
 
 export function PracticePageContent() {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold tracking-tight">Practice</h1>
-      <LensReadout />
+      <LensHeader title="Practice" />
       <div className="rounded-lg border border-border bg-card p-6">
         <p className="text-muted-foreground">
           🚧 Under construction — Practice mode coming soon.
