@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppShell } from "@/components/app-shell";
+import { TopContextProvider } from "@/lib/top-context/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,9 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="ftc-theme"
         >
-          <AppShell>{children}</AppShell>
+          <TopContextProvider>
+            <AppShell>{children}</AppShell>
+          </TopContextProvider>
         </ThemeProvider>
       </body>
     </html>
