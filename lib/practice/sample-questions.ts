@@ -11,7 +11,9 @@ export const SAMPLE_PRACTICE_QUESTIONS: PracticeQuestion[] = [
       { id: "d", text: "To protect the contractor from liability for property damage." }
     ],
     correctChoiceId: "c",
-    explanation: "A bid bond guarantees that the contractor will enter into the contract if awarded the project at the bid price."
+    explanation: "A bid bond guarantees that the contractor will enter into the contract if awarded the project at the bid price.",
+    category: "Bidding & Bonding",
+    difficulty: "medium"
   },
   {
     id: "q2",
@@ -23,7 +25,9 @@ export const SAMPLE_PRACTICE_QUESTIONS: PracticeQuestion[] = [
       { id: "d", text: "Before starting work" }
     ],
     correctChoiceId: "b",
-    explanation: "In many states, a preliminary notice must be filed within 20 days of starting work to preserve lien rights."
+    explanation: "In many states, a preliminary notice must be filed within 20 days of starting work to preserve lien rights.",
+    category: "Legal & Liens",
+    difficulty: "hard"
   },
   {
     id: "q3",
@@ -35,7 +39,9 @@ export const SAMPLE_PRACTICE_QUESTIONS: PracticeQuestion[] = [
       { id: "d", text: "Time and materials" }
     ],
     correctChoiceId: "c",
-    explanation: "A cost-plus contract reimburses the contractor for actual project costs plus an agreed-upon fee."
+    explanation: "A cost-plus contract reimburses the contractor for actual project costs plus an agreed-upon fee.",
+    category: "Contracts",
+    difficulty: "easy"
   },
   {
     id: "q4",
@@ -47,7 +53,9 @@ export const SAMPLE_PRACTICE_QUESTIONS: PracticeQuestion[] = [
       { id: "d", text: "To cover theft of construction equipment" }
     ],
     correctChoiceId: "b",
-    explanation: "Workers' compensation provides medical care and partial wage replacement for employees injured on the job."
+    explanation: "Workers' compensation provides medical care and partial wage replacement for employees injured on the job.",
+    category: "Insurance",
+    difficulty: "easy"
   },
   {
     id: "q5",
@@ -59,7 +67,9 @@ export const SAMPLE_PRACTICE_QUESTIONS: PracticeQuestion[] = [
       { id: "d", text: "The change order" }
     ],
     correctChoiceId: "c",
-    explanation: "The specifications (specs) provide detailed written instructions on material quality and execution standards."
+    explanation: "The specifications (specs) provide detailed written instructions on material quality and execution standards.",
+    category: "Project Management",
+    difficulty: "medium"
   }
 ];
 

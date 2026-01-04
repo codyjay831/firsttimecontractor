@@ -4,5 +4,7 @@ export type PracticeQuestion = {
   choices: { id: string; text: string }[]
   correctChoiceId: string
   explanation: string
+  category?: string
+  difficulty?: "easy" | "medium" | "hard"
 }
 

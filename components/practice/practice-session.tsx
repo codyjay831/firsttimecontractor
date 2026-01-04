@@ -6,13 +6,19 @@ import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { EmptyState } from "@/components/scaffold/empty-state";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, ChevronLeft, ChevronRight, SkipForward } from "lucide-react";
 
 export function PracticeSession() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  
+  // Session tracking
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [skippedCount, setSkippedCount] = useState(0);
 
   const questions = SAMPLE_PRACTICE_QUESTIONS;
   const isFinished = currentIndex >= questions.length;
@@ -25,8 +31,13 @@ export function PracticeSession() {
   };
 
   const handleSubmit = () => {
-    if (selectedChoiceId) {
+    if (selectedChoiceId && currentQuestion) {
       setStatus("submitted");
+      if (selectedChoiceId === currentQuestion.correctChoiceId) {
+        setCorrectCount((prev) => prev + 1);
+      } else {
+        setIncorrectCount((prev) => prev + 1);
+      }
     }
   };
 
@@ -36,20 +47,58 @@ export function PracticeSession() {
     setStatus("idle");
   };
 
-  const handleRestart = () => {
-    setCurrentIndex(0);
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+      setSelectedChoiceId(null);
+      setStatus("idle");
+    }
+  };
+
+  const handleSkip = () => {
+    setSkippedCount((prev) => prev + 1);
+    setCurrentIndex((prev) => prev + 1);
     setSelectedChoiceId(null);
     setStatus("idle");
   };
 
+  const handleRestart = () => {
+    setCurrentIndex(0);
+    setSelectedChoiceId(null);
+    setStatus("idle");
+    setCorrectCount(0);
+    setIncorrectCount(0);
+    setSkippedCount(0);
+  };
+
   if (isFinished) {
+    const answeredCount = correctCount + incorrectCount;
     return (
       <div className="space-y-6">
         <EmptyState
           icon={CheckCircle2}
-          title="You finished this set"
-          description="Great job! You've completed all the practice questions in this session."
+          title="Session Complete"
+          description="You've reached the end of this practice set. Here is how you did:"
         />
+        
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionCard title="Total Questions">
+            <div className="text-3xl font-bold">{questions.length}</div>
+          </SectionCard>
+          <SectionCard title="Answered">
+            <div className="text-3xl font-bold text-primary">{answeredCount}</div>
+          </SectionCard>
+          <SectionCard title="Skipped">
+            <div className="text-3xl font-bold text-muted-foreground">{skippedCount}</div>
+          </SectionCard>
+          <SectionCard title="Correct">
+            <div className="text-3xl font-bold text-green-600 dark:text-green-400">{correctCount}</div>
+          </SectionCard>
+          <SectionCard title="Incorrect">
+            <div className="text-3xl font-bold text-destructive">{incorrectCount}</div>
+          </SectionCard>
+        </div>
+
         <ActionRow>
           <Button onClick={handleRestart} variant="outline" className="gap-2">
             <RotateCcw className="h-4 w-4" />
@@ -78,9 +127,31 @@ export function PracticeSession() {
       </SectionCard>
 
       <SectionCard title="Question">
-        <p className="text-base leading-relaxed">
-          {currentQuestion.prompt}
-        </p>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap gap-2">
+            {currentQuestion.category && (
+              <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider">
+                {currentQuestion.category}
+              </Badge>
+            )}
+            {currentQuestion.difficulty && (
+              <Badge variant="outline" className={cn(
+                "font-normal text-xs uppercase tracking-wider",
+                currentQuestion.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
+                currentQuestion.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
+                currentQuestion.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
+              )}>
+                {currentQuestion.difficulty}
+              </Badge>
+            )}
+            <Badge variant="outline" className="font-normal text-xs uppercase tracking-wider ml-auto">
+              {status === "idle" ? "Not answered" : isCorrect ? "Correct" : "Incorrect"}
+            </Badge>
+          </div>
+          <p className="text-base leading-relaxed">
+            {currentQuestion.prompt}
+          </p>
+        </div>
       </SectionCard>
 
       <SectionCard title="Answer choices">
@@ -150,24 +221,49 @@ export function PracticeSession() {
       )}
 
       <ActionRow>
-        {status === "idle" ? (
-          <Button 
-            onClick={handleSubmit} 
-            disabled={!selectedChoiceId}
-            className="w-full sm:w-auto"
+        <div className="flex w-full items-center justify-between gap-4">
+          <Button
+            variant="ghost"
+            onClick={handlePrevious}
+            disabled={currentIndex === 0}
+            className="gap-2"
           >
-            Check Answer
+            <ChevronLeft className="h-4 w-4" />
+            Previous
           </Button>
-        ) : (
-          <Button 
-            onClick={handleNext}
-            className="w-full sm:w-auto"
-          >
-            {currentIndex === questions.length - 1 ? "Finish Session" : "Next Question"}
-          </Button>
-        )}
+
+          <div className="flex items-center gap-2">
+            {status === "idle" && (
+              <Button
+                variant="ghost"
+                onClick={handleSkip}
+                className="gap-2"
+              >
+                Skip
+                <SkipForward className="h-4 w-4" />
+              </Button>
+            )}
+
+            {status === "idle" ? (
+              <Button 
+                onClick={handleSubmit} 
+                disabled={!selectedChoiceId}
+                className="min-w-[120px]"
+              >
+                Check Answer
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleNext}
+                className="min-w-[120px] gap-2"
+              >
+                {currentIndex === questions.length - 1 ? "Finish Session" : "Next Question"}
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </div>
       </ActionRow>
     </div>
   );
 }
-
