@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SAMPLE_PRACTICE_QUESTIONS } from "@/lib/practice/sample-questions";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { EmptyState } from "@/components/scaffold/empty-state";
@@ -14,6 +13,7 @@ import { useReview } from "@/components/review/use-review";
 import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionPrompt } from "@/components/questions/question-prompt";
 import { ChoiceList } from "@/components/questions/choice-list";
+import { PracticeQuestion } from "@/lib/practice/types";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -22,8 +22,7 @@ type QuestionSessionRecord = {
   wasSkipped: boolean;        // true if user used Skip on this question at least once
 };
 
-export function PracticeSession() {
-  const questions = SAMPLE_PRACTICE_QUESTIONS;
+export function PracticeSession({ questions }: { questions: PracticeQuestion[] }) {
   const router = useRouter();
   const { setPayload } = useReview();
   
