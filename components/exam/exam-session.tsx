@@ -271,12 +271,14 @@ export function ExamSession() {
               Review Exam
             </Button>
 
-            {(summary.incorrectCount > 0 || summary.unansweredCount > 0 || summary.flaggedCount > 0) && (
-              <Button onClick={handleReviewMissed} className="gap-2">
-                <BookOpen className="h-4 w-4" />
-                Review missed & flagged (New Tab)
-              </Button>
-            )}
+            <Button 
+              onClick={handleReviewMissed} 
+              className="gap-2"
+              disabled={summary.incorrectCount === 0 && summary.unansweredCount === 0 && summary.flaggedCount === 0}
+            >
+              <BookOpen className="h-4 w-4" />
+              Review missed & flagged
+            </Button>
           </div>
         </ActionRow>
       </div>
