@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AppShell } from "@/components/app-shell";
 import { TopContextProvider } from "@/lib/top-context/provider";
 import { ReviewProvider } from "@/components/review/review-provider";
+import { PracticeSeedProvider } from "@/components/practice/practice-seed-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,9 @@ export default function RootLayout({
         >
           <TopContextProvider>
             <ReviewProvider>
-              <AppShell>{children}</AppShell>
+              <PracticeSeedProvider>
+                <AppShell>{children}</AppShell>
+              </PracticeSeedProvider>
             </ReviewProvider>
           </TopContextProvider>
         </ThemeProvider>

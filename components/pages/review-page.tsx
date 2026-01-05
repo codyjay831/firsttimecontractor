@@ -20,9 +20,11 @@ import {
   ChevronRight
 } from "lucide-react";
 import { useReview } from "@/components/review/use-review";
+import { usePracticeSeed } from "@/components/practice/use-practice-seed";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { QuestionBlock } from "@/components/questions/question-block";
-import { RotateCcw, CheckCircle2 } from "lucide-react";
+import { RotateCcw, CheckCircle2, Play } from "lucide-react";
 
 type RetryRecord = {
   selectedChoiceId: string | null;
@@ -32,6 +34,8 @@ type RetryRecord = {
 
 export function ReviewPageContent() {
   const { payload, clearPayload } = useReview();
+  const { setPracticeSeed } = usePracticeSeed();
+  const router = useRouter();
   const [selectedItemId, setSelectedItemId] = useState<string | null>(
     payload?.items[0]?.id ?? null
   );
@@ -62,6 +66,25 @@ export function ReviewPageContent() {
     setRetryById({});
     setRetryingId(null);
     setSelectedItemId(null);
+  };
+
+  const handlePracticeThese = () => {
+    if (!payload || payload.items.length === 0) return;
+
+    const questions = payload.items.map(item => ({
+      id: item.id,
+      prompt: item.prompt,
+      choices: item.choices ?? [],
+      correctChoiceId: item.correctChoiceId ?? "",
+      explanation: item.explanation ?? "",
+    }));
+
+    setPracticeSeed({
+      source: "review",
+      questions,
+    });
+
+    router.push("/practice");
   };
 
   const handleRetryIncorrect = () => {
@@ -256,6 +279,16 @@ export function ReviewPageContent() {
             <span className="text-lg font-bold">{payload.items.length}</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <Button 
+              variant="default" 
+              size="sm" 
+              onClick={handlePracticeThese}
+              disabled={!payload || payload.items.length === 0}
+              className="gap-2"
+            >
+              <Play className="h-4 w-4" />
+              Practice these
+            </Button>
             <Button 
               variant="outline" 
               size="sm" 
