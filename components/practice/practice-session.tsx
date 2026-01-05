@@ -174,12 +174,14 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
             <RotateCcw className="h-4 w-4" />
             Restart session
           </Button>
-          {(incorrectCount > 0 || skippedCount > 0) && (
-            <Button onClick={handleReviewMissed} className="gap-2">
-              <BookOpen className="h-4 w-4" />
-              Review missed
-            </Button>
-          )}
+          <Button 
+            onClick={handleReviewMissed} 
+            className="gap-2"
+            disabled={incorrectCount === 0 && skippedCount === 0}
+          >
+            <BookOpen className="h-4 w-4" />
+            Review missed
+          </Button>
         </ActionRow>
       </div>
     );
