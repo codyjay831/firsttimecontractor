@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { SAMPLE_FLASHCARDS } from "@/lib/flashcards/sample-deck";
+import { FlashcardDeck } from "@/lib/flashcards/decks";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,13 @@ type FlashcardRecord = {
   seen: boolean;
 };
 
-export function FlashcardsSession() {
+export function FlashcardsSession({ deck }: { deck: FlashcardDeck }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [recordsById, setRecordsById] = useState<Record<string, FlashcardRecord>>({});
 
-  const cards = SAMPLE_FLASHCARDS;
+  const cards = deck.cards;
   const currentCard = cards[currentIndex];
   
   const currentRecord = recordsById[currentCard.id] || {
