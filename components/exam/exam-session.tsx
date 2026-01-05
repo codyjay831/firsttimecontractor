@@ -169,10 +169,6 @@ export function ExamSession() {
         reason = "flagged";
       }
 
-      // If it was flagged AND incorrect/unanswered, we already assigned incorrect/unanswered
-      // But if it was ONLY flagged (and correct), we assigned flagged.
-      // The requirement says: Prefer reason order: incorrect > unanswered > flagged
-      
       if (reason) {
         items.push({
           id: q.id,
@@ -198,7 +194,6 @@ export function ExamSession() {
     }
   };
 
-  // Rendering logic
   if (view === "summary") {
     return (
       <div className="flex flex-col gap-6">
@@ -288,9 +283,6 @@ export function ExamSession() {
     );
   }
 
-  // Review mode rendering is handled later in the main return block by checking view === "review"
-  // ... rest of the code ...
-
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-6 md:grid-cols-[1fr_240px]">
@@ -315,6 +307,7 @@ export function ExamSession() {
                 onSelectChoice={handleChoiceSelect}
                 disableSelection={view !== "exam"}
                 showCorrectness={view === "review"}
+                showLabels={view === "review"}
                 correctChoiceId={currentQuestion.correctChoiceId}
                 userChoiceIdForReview={currentRecord.selectedChoiceId}
               />
@@ -368,8 +361,10 @@ export function ExamSession() {
 
                 <Button
                   variant="outline"
+                  size="icon"
                   onClick={() => setShowGrid(!showGrid)}
-                  className="gap-2 md:hidden"
+                  className="md:hidden"
+                  title="Toggle question grid"
                 >
                   <LayoutGrid className="h-4 w-4" />
                 </Button>
@@ -388,7 +383,7 @@ export function ExamSession() {
                   ) : (
                     <>
                       {view === "review" && (
-                         <Button onClick={() => setView("summary")} variant="ghost" className="hidden sm:flex">
+                        <Button onClick={() => setView("summary")} variant="ghost">
                           Back to results
                         </Button>
                       )}
@@ -445,8 +440,6 @@ export function ExamSession() {
                   const isFlagged = record?.flagged;
                   const isCurrent = idx === currentIndex;
                   
-                  // In review mode, we can show correctness in the grid if we want, 
-                  // but let's stick to the basics first.
                   const isCorrect = isAnswered && record.selectedChoiceId === q.correctChoiceId;
                   const isIncorrect = isAnswered && record.selectedChoiceId !== q.correctChoiceId;
 
@@ -510,4 +503,3 @@ export function ExamSession() {
     </div>
   );
 }
-
