@@ -47,10 +47,40 @@ export function ReviewPageContent() {
   const isRetrying = retryingId === selectedItemId;
   const currentRetry = selectedItemId ? retryById[selectedItemId] : null;
 
+  // Derive grouped items for display
+  const REASON_ORDER = ["incorrect", "unanswered", "skipped", "flagged"] as const;
+  const groupedItems = REASON_ORDER.map(reason => ({
+    reason,
+    items: payload?.items.filter(item => item.reason === reason) ?? []
+  })).filter(group => group.items.length > 0);
+
+  const incorrectItems = payload?.items.filter(item => item.reason === "incorrect") ?? [];
+  const hasIncorrect = incorrectItems.length > 0;
+
   const handleClearAll = () => {
     clearPayload();
     setRetryById({});
     setRetryingId(null);
+    setSelectedItemId(null);
+  };
+
+  const handleRetryIncorrect = () => {
+    if (incorrectItems.length === 0) return;
+    const firstIncorrect = incorrectItems[0];
+    setSelectedItemId(firstIncorrect.id);
+    setRetryingId(firstIncorrect.id);
+    
+    // Ensure retry record exists
+    if (!retryById[firstIncorrect.id]) {
+      setRetryById(prev => ({
+        ...prev,
+        [firstIncorrect.id]: {
+          selectedChoiceId: null,
+          status: "idle",
+          isCorrect: null,
+        }
+      }));
+    }
   };
 
   const startRetry = () => {
@@ -119,6 +149,36 @@ export function ReviewPageContent() {
     if (canGoNext && payload) {
       setSelectedItemId(payload.items[selectedIndex + 1].id);
       setRetryingId(null);
+    }
+  };
+
+  const goToNextIncorrect = () => {
+    if (!hasIncorrect || !selectedItemId) return;
+    
+    const currentIndexInIncorrect = incorrectItems.findIndex(item => item.id === selectedItemId);
+    let nextItem;
+    
+    if (currentIndexInIncorrect === -1 || currentIndexInIncorrect === incorrectItems.length - 1) {
+      // If current is not incorrect, or it's the last incorrect, go to first incorrect
+      nextItem = incorrectItems[0];
+    } else {
+      nextItem = incorrectItems[currentIndexInIncorrect + 1];
+    }
+
+    setSelectedItemId(nextItem.id);
+    // Keep retry mode ON for this flow
+    setRetryingId(nextItem.id);
+    
+    // Ensure retry record exists
+    if (!retryById[nextItem.id]) {
+      setRetryById(prev => ({
+        ...prev,
+        [nextItem.id]: {
+          selectedChoiceId: null,
+          status: "idle",
+          isCorrect: null,
+        }
+      }));
     }
   };
 
@@ -195,15 +255,27 @@ export function ReviewPageContent() {
             <span className="text-sm font-medium text-muted-foreground">Items to review:</span>
             <span className="text-lg font-bold">{payload.items.length}</span>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleClearAll}
-            className="text-destructive hover:text-destructive hover:bg-destructive/10 ml-auto gap-2"
-          >
-            <Trash2 className="h-4 w-4" />
-            Clear review
-          </Button>
+          <div className="ml-auto flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleRetryIncorrect}
+              disabled={!hasIncorrect}
+              className="gap-2 border-destructive/20 hover:bg-destructive/5 text-destructive"
+            >
+              <RotateCcw className="h-4 w-4" />
+              Retry incorrect
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleClearAll}
+              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 gap-2"
+            >
+              <Trash2 className="h-4 w-4" />
+              Clear review
+            </Button>
+          </div>
         </div>
       </SectionCard>
 
@@ -213,32 +285,43 @@ export function ReviewPageContent() {
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
             Missed items
           </h3>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-[600px] pr-1">
-            {payload.items.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setSelectedItemId(item.id);
-                  setRetryingId(null);
-                }}
-                className={cn(
-                  "flex flex-col gap-2 rounded-lg border p-4 text-left transition-all hover:bg-accent/50",
-                  selectedItemId === item.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "bg-card"
-                )}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    {getReasonIcon(item.reason)}
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {item.mode}
-                    </span>
-                  </div>
-                  {getReasonBadge(item.reason)}
+          <div className="flex flex-col gap-6 overflow-y-auto max-h-[600px] pr-1">
+            {groupedItems.map((group) => (
+              <div key={group.reason} className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 px-1 mb-1">
+                  {getReasonIcon(group.reason)}
+                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80">
+                    {group.reason} ({group.items.length})
+                  </span>
                 </div>
-                <p className="line-clamp-2 text-sm font-medium leading-tight">
-                  {item.prompt}
-                </p>
-              </button>
+                <div className="flex flex-col gap-2">
+                  {group.items.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedItemId(item.id);
+                        setRetryingId(null);
+                      }}
+                      className={cn(
+                        "flex flex-col gap-2 rounded-lg border p-4 text-left transition-all hover:bg-accent/50",
+                        selectedItemId === item.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "bg-card"
+                      )}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                            {item.mode}
+                          </span>
+                        </div>
+                        {getReasonBadge(item.reason)}
+                      </div>
+                      <p className="line-clamp-2 text-sm font-medium leading-tight">
+                        {item.prompt}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -263,16 +346,30 @@ export function ReviewPageContent() {
                       <ChevronLeft className="h-4 w-4" />
                       Previous
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={goToNext} 
-                      disabled={!canGoNext}
-                      className="gap-1 px-2"
-                    >
-                      Next missed
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
+                    
+                    <div className="flex items-center gap-2">
+                      {hasIncorrect && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={goToNextIncorrect}
+                          className="gap-1 px-2 text-destructive border-destructive/20 hover:bg-destructive/5"
+                        >
+                          Next incorrect
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={goToNext} 
+                        disabled={!canGoNext}
+                        className="gap-1 px-2"
+                      >
+                        Next missed
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
 
                   {isRetrying ? (
@@ -319,7 +416,12 @@ export function ReviewPageContent() {
                                 <RotateCcw className="h-3.5 w-3.5" />
                                 Try again
                               </Button>
-                              {canGoNext && (
+                              {hasIncorrect ? (
+                                <Button size="sm" onClick={goToNextIncorrect} className="gap-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+                                  Next incorrect
+                                  <ChevronRight className="h-4 w-4" />
+                                </Button>
+                              ) : canGoNext && (
                                 <Button size="sm" onClick={goToNext} className="gap-2">
                                   Next missed
                                   <ChevronRight className="h-4 w-4" />
@@ -383,7 +485,18 @@ export function ReviewPageContent() {
                         </div>
                       )}
 
-                      <div className="flex w-full items-center justify-end pt-2">
+                      <div className="flex w-full items-center justify-end pt-2 gap-2">
+                        {hasIncorrect && (
+                          <Button 
+                            variant="outline"
+                            size="sm" 
+                            onClick={goToNextIncorrect} 
+                            className="gap-2 text-destructive border-destructive/20 hover:bg-destructive/5"
+                          >
+                            Next incorrect
+                            <ChevronRight className="h-4 w-4" />
+                          </Button>
+                        )}
                         {canGoNext && (
                           <Button size="sm" onClick={goToNext} className="gap-2">
                             Next missed
