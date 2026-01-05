@@ -21,6 +21,13 @@ import {
 import { useReview } from "@/components/review/use-review";
 import Link from "next/link";
 import { QuestionBlock } from "@/components/questions/question-block";
+import { RotateCcw, CheckCircle2 } from "lucide-react";
+
+type RetryRecord = {
+  selectedChoiceId: string | null;
+  status: "idle" | "submitted";
+  isCorrect: boolean | null;
+};
 
 export function ReviewPageContent() {
   const { payload, clearPayload } = useReview();
@@ -28,7 +35,73 @@ export function ReviewPageContent() {
     payload?.items[0]?.id ?? null
   );
 
+  const [retryById, setRetryById] = useState<Record<string, RetryRecord>>({});
+  const [retryingId, setRetryingId] = useState<string | null>(null);
+
   const selectedItem = payload?.items.find(item => item.id === selectedItemId);
+  const isRetrying = retryingId === selectedItemId;
+  const currentRetry = selectedItemId ? retryById[selectedItemId] : null;
+
+  const handleClearAll = () => {
+    clearPayload();
+    setRetryById({});
+    setRetryingId(null);
+  };
+
+  const startRetry = () => {
+    if (!selectedItemId) return;
+    setRetryingId(selectedItemId);
+    if (!retryById[selectedItemId]) {
+      setRetryById(prev => ({
+        ...prev,
+        [selectedItemId]: {
+          selectedChoiceId: null,
+          status: "idle",
+          isCorrect: null,
+        }
+      }));
+    }
+  };
+
+  const cancelRetry = () => {
+    setRetryingId(null);
+  };
+
+  const handleRetrySelect = (choiceId: string) => {
+    if (!selectedItemId || currentRetry?.status === "submitted") return;
+    setRetryById(prev => ({
+      ...prev,
+      [selectedItemId]: {
+        ...prev[selectedItemId] || { status: "idle", isCorrect: null },
+        selectedChoiceId: choiceId
+      }
+    }));
+  };
+
+  const handleRetrySubmit = () => {
+    if (!selectedItemId || !selectedItem || !currentRetry?.selectedChoiceId) return;
+    const isCorrect = currentRetry.selectedChoiceId === selectedItem.correctChoiceId;
+    setRetryById(prev => ({
+      ...prev,
+      [selectedItemId]: {
+        ...prev[selectedItemId],
+        status: "submitted",
+        isCorrect
+      }
+    }));
+  };
+
+  const handleRetryReset = () => {
+    if (!selectedItemId) return;
+    setRetryById(prev => ({
+      ...prev,
+      [selectedItemId]: {
+        selectedChoiceId: null,
+        status: "idle",
+        isCorrect: null,
+      }
+    }));
+  };
 
   const formatDate = (timestamp: number) => {
     return new Intl.DateTimeFormat("en-US", {
@@ -106,7 +179,7 @@ export function ReviewPageContent() {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={clearPayload}
+            onClick={handleClearAll}
             className="text-destructive hover:text-destructive hover:bg-destructive/10 ml-auto gap-2"
           >
             <Trash2 className="h-4 w-4" />
@@ -154,26 +227,105 @@ export function ReviewPageContent() {
             <>
               <SectionCard title="Question Detail">
                 <div className="flex flex-col gap-6">
-                  <QuestionBlock
-                    prompt={selectedItem.prompt}
-                    meta={
-                      <>
-                        {getReasonBadge(selectedItem.reason)}
-                        <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
-                      </>
-                    }
-                    choices={selectedItem.choices ?? []}
-                    userChoiceIdForReview={selectedItem.userChoiceId}
-                    correctChoiceId={selectedItem.correctChoiceId}
-                    showCorrectness={true}
-                    showLabels={true}
-                    disableSelection={true}
-                  />
+                  {isRetrying ? (
+                    <div className="flex flex-col gap-6">
+                      <QuestionBlock
+                        prompt={selectedItem.prompt}
+                        meta={
+                          <>
+                            <Badge variant="outline" className="gap-1.5 py-0.5">
+                              <RotateCcw className="h-3 w-3" />
+                              Retry Mode
+                            </Badge>
+                            {currentRetry?.status === "submitted" && (
+                              <Badge variant={currentRetry.isCorrect ? "default" : "destructive"} className="ml-auto">
+                                {currentRetry.isCorrect ? "Correct" : "Incorrect"}
+                              </Badge>
+                            )}
+                          </>
+                        }
+                        choices={selectedItem.choices ?? []}
+                        selectedChoiceId={currentRetry?.selectedChoiceId}
+                        onSelectChoice={handleRetrySelect}
+                        disableSelection={currentRetry?.status === "submitted"}
+                        showCorrectness={currentRetry?.status === "submitted"}
+                        correctChoiceId={selectedItem.correctChoiceId}
+                        showLabels={true}
+                      />
 
-                  {selectedItem.explanation && (
-                    <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
-                      <span className="font-semibold block mb-1">Explanation:</span>
-                      <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                      {currentRetry?.status === "submitted" && selectedItem.explanation && (
+                        <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
+                          <span className="font-semibold block mb-1">Explanation:</span>
+                          <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                        </div>
+                      )}
+
+                      <div className="flex w-full items-center justify-between pt-2">
+                        <Button variant="ghost" size="sm" onClick={cancelRetry}>
+                          Done
+                        </Button>
+                        <div className="flex items-center gap-2">
+                          {currentRetry?.status === "submitted" ? (
+                            <Button variant="outline" size="sm" onClick={handleRetryReset} className="gap-2">
+                              <RotateCcw className="h-3.5 w-3.5" />
+                              Try again
+                            </Button>
+                          ) : (
+                            <Button 
+                              size="sm" 
+                              onClick={handleRetrySubmit} 
+                              disabled={!currentRetry?.selectedChoiceId}
+                              className="gap-2"
+                            >
+                              <CheckCircle2 className="h-3.5 w-3.5" />
+                              Check answer
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-center gap-2">
+                          {getReasonBadge(selectedItem.reason)}
+                          <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
+                        </div>
+                        {selectedItem.choices && selectedItem.correctChoiceId && (
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={startRetry}
+                            className="gap-2"
+                          >
+                            <RotateCcw className="h-3.5 w-3.5" />
+                            Retry this
+                          </Button>
+                        )}
+                      </div>
+
+                      <QuestionBlock
+                        prompt={selectedItem.prompt}
+                        choices={selectedItem.choices ?? []}
+                        userChoiceIdForReview={selectedItem.userChoiceId}
+                        correctChoiceId={selectedItem.correctChoiceId}
+                        showCorrectness={true}
+                        showLabels={true}
+                        disableSelection={true}
+                      />
+
+                      {selectedItem.explanation && (
+                        <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
+                          <span className="font-semibold block mb-1">Explanation:</span>
+                          <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                        </div>
+                      )}
+
+                      {(!selectedItem.choices || !selectedItem.correctChoiceId) && (
+                        <div className="text-xs text-muted-foreground italic bg-muted/50 p-2 rounded text-center">
+                          Retry not available for this item.
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
