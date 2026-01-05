@@ -217,7 +217,10 @@ export function ReviewPageContent() {
             {payload.items.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setSelectedItemId(item.id)}
+                onClick={() => {
+                  setSelectedItemId(item.id);
+                  setRetryingId(null);
+                }}
                 className={cn(
                   "flex flex-col gap-2 rounded-lg border p-4 text-left transition-all hover:bg-accent/50",
                   selectedItemId === item.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "bg-card"
@@ -379,6 +382,15 @@ export function ReviewPageContent() {
                           Retry not available for this item.
                         </div>
                       )}
+
+                      <div className="flex w-full items-center justify-end pt-2">
+                        {canGoNext && (
+                          <Button size="sm" onClick={goToNext} className="gap-2">
+                            Next missed
+                            <ChevronRight className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
