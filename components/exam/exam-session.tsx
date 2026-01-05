@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { SAMPLE_EXAM_QUESTIONS } from "@/lib/exam/sample-exam-questions";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -14,8 +15,11 @@ import {
   Timer, 
   CheckCircle2, 
   RotateCcw,
-  LayoutGrid
+  LayoutGrid,
+  BookOpen
 } from "lucide-react";
+import { useReview } from "@/components/review/use-review";
+import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -26,6 +30,8 @@ const EXAM_TIME_SECONDS = 30 * 60; // 30 minutes
 
 export function ExamSession() {
   const questions = SAMPLE_EXAM_QUESTIONS;
+  const router = useRouter();
+  const { setPayload } = useReview();
   
   // Basic State
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -141,6 +147,54 @@ export function ExamSession() {
     setShowGrid(false);
   };
 
+  const handleReviewMissed = () => {
+    const items: ReviewItem[] = [];
+
+    questions.forEach(q => {
+      const record = recordsById[q.id];
+      const selectedChoiceId = record?.selectedChoiceId ?? null;
+      const flagged = record?.flagged ?? false;
+      const isIncorrect = selectedChoiceId !== null && selectedChoiceId !== q.correctChoiceId;
+      const isUnanswered = selectedChoiceId === null;
+
+      let reason: "incorrect" | "unanswered" | "flagged" | null = null;
+      if (isIncorrect) {
+        reason = "incorrect";
+      } else if (isUnanswered) {
+        reason = "unanswered";
+      } else if (flagged) {
+        reason = "flagged";
+      }
+
+      // If it was flagged AND incorrect/unanswered, we already assigned incorrect/unanswered
+      // But if it was ONLY flagged (and correct), we assigned flagged.
+      // The requirement says: Prefer reason order: incorrect > unanswered > flagged
+      
+      if (reason) {
+        items.push({
+          id: q.id,
+          mode: "exam",
+          prompt: q.prompt,
+          choices: q.choices,
+          correctChoiceId: q.correctChoiceId,
+          explanation: q.explanation,
+          userChoiceId: selectedChoiceId,
+          reason,
+        });
+      }
+    });
+
+    if (items.length > 0) {
+      const payload: ReviewPayload = {
+        createdAt: Date.now(),
+        source: "exam",
+        items,
+      };
+      setPayload(payload);
+      router.push("/review");
+    }
+  };
+
   // Rendering logic
   if (isFinished) {
     return (
@@ -212,6 +266,12 @@ export function ExamSession() {
             <RotateCcw className="h-4 w-4" />
             Restart Exam
           </Button>
+          {(summary.incorrectCount > 0 || summary.unansweredCount > 0 || summary.flaggedCount > 0) && (
+            <Button onClick={handleReviewMissed} className="gap-2">
+              <BookOpen className="h-4 w-4" />
+              Review missed & flagged
+            </Button>
+          )}
         </ActionRow>
       </div>
     );

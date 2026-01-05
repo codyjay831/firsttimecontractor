@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { SAMPLE_PRACTICE_QUESTIONS } from "@/lib/practice/sample-questions";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -8,7 +9,9 @@ import { EmptyState } from "@/components/scaffold/empty-state";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, XCircle, RotateCcw, ChevronLeft, ChevronRight, SkipForward } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, ChevronLeft, ChevronRight, SkipForward, BookOpen } from "lucide-react";
+import { useReview } from "@/components/review/use-review";
+import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -19,6 +22,8 @@ type QuestionSessionRecord = {
 
 export function PracticeSession() {
   const questions = SAMPLE_PRACTICE_QUESTIONS;
+  const router = useRouter();
+  const { setPayload } = useReview();
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>({});
@@ -97,6 +102,45 @@ export function PracticeSession() {
     setRecordsById({});
   };
 
+  const handleReviewMissed = () => {
+    const items: ReviewItem[] = [];
+
+    questions.forEach(q => {
+      const record = recordsById[q.id];
+      if (!record) return;
+
+      let reason: "incorrect" | "skipped" | null = null;
+      if (record.status === "submitted" && record.isCorrect === false) {
+        reason = "incorrect";
+      } else if (record.wasSkipped && record.status !== "submitted") {
+        reason = "skipped";
+      }
+
+      if (reason) {
+        items.push({
+          id: q.id,
+          mode: "practice",
+          prompt: q.prompt,
+          choices: q.choices,
+          correctChoiceId: q.correctChoiceId,
+          explanation: q.explanation,
+          userChoiceId: record.selectedChoiceId,
+          reason,
+        });
+      }
+    });
+
+    if (items.length > 0) {
+      const payload: ReviewPayload = {
+        createdAt: Date.now(),
+        source: "practice",
+        items,
+      };
+      setPayload(payload);
+      router.push("/review");
+    }
+  };
+
   if (isFinished) {
     return (
       <div className="space-y-6">
@@ -129,6 +173,12 @@ export function PracticeSession() {
             <RotateCcw className="h-4 w-4" />
             Restart session
           </Button>
+          {(incorrectCount > 0 || skippedCount > 0) && (
+            <Button onClick={handleReviewMissed} className="gap-2">
+              <BookOpen className="h-4 w-4" />
+              Review missed
+            </Button>
+          )}
         </ActionRow>
       </div>
     );
