@@ -16,6 +16,7 @@ import {
   Flag,
   Trash2,
   ArrowLeft,
+  ChevronLeft,
   ChevronRight
 } from "lucide-react";
 import { useReview } from "@/components/review/use-review";
@@ -39,6 +40,10 @@ export function ReviewPageContent() {
   const [retryingId, setRetryingId] = useState<string | null>(null);
 
   const selectedItem = payload?.items.find(item => item.id === selectedItemId);
+  const selectedIndex = payload?.items.findIndex(item => item.id === selectedItemId) ?? -1;
+  const canGoPrevious = selectedIndex > 0;
+  const canGoNext = selectedIndex < (payload?.items.length ?? 0) - 1;
+
   const isRetrying = retryingId === selectedItemId;
   const currentRetry = selectedItemId ? retryById[selectedItemId] : null;
 
@@ -101,6 +106,20 @@ export function ReviewPageContent() {
         isCorrect: null,
       }
     }));
+  };
+
+  const goToPrevious = () => {
+    if (canGoPrevious && payload) {
+      setSelectedItemId(payload.items[selectedIndex - 1].id);
+      setRetryingId(null);
+    }
+  };
+
+  const goToNext = () => {
+    if (canGoNext && payload) {
+      setSelectedItemId(payload.items[selectedIndex + 1].id);
+      setRetryingId(null);
+    }
   };
 
   const formatDate = (timestamp: number) => {
@@ -225,8 +244,34 @@ export function ReviewPageContent() {
         <div className="flex flex-col gap-6">
           {selectedItem ? (
             <>
-              <SectionCard title="Question Detail">
+              <SectionCard 
+                title="Question Detail"
+                description={`Item ${selectedIndex + 1} of ${payload.items.length}`}
+              >
                 <div className="flex flex-col gap-6">
+                  <div className="flex items-center justify-between border-b pb-4">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={goToPrevious} 
+                      disabled={!canGoPrevious}
+                      className="gap-1 px-2"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={goToNext} 
+                      disabled={!canGoNext}
+                      className="gap-1 px-2"
+                    >
+                      Next missed
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+
                   {isRetrying ? (
                     <div className="flex flex-col gap-6">
                       <QuestionBlock
@@ -266,10 +311,18 @@ export function ReviewPageContent() {
                         </Button>
                         <div className="flex items-center gap-2">
                           {currentRetry?.status === "submitted" ? (
-                            <Button variant="outline" size="sm" onClick={handleRetryReset} className="gap-2">
-                              <RotateCcw className="h-3.5 w-3.5" />
-                              Try again
-                            </Button>
+                            <>
+                              <Button variant="outline" size="sm" onClick={handleRetryReset} className="gap-2">
+                                <RotateCcw className="h-3.5 w-3.5" />
+                                Try again
+                              </Button>
+                              {canGoNext && (
+                                <Button size="sm" onClick={goToNext} className="gap-2">
+                                  Next missed
+                                  <ChevronRight className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </>
                           ) : (
                             <Button 
                               size="sm" 
