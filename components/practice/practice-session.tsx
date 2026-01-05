@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -14,6 +14,7 @@ import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionPrompt } from "@/components/questions/question-prompt";
 import { ChoiceList } from "@/components/questions/choice-list";
 import { PracticeQuestion } from "@/lib/practice/types";
+import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -22,13 +23,29 @@ type QuestionSessionRecord = {
   wasSkipped: boolean;        // true if user used Skip on this question at least once
 };
 
+const STORAGE_KEYS = {
+  CURRENT_INDEX: "practice_current_index",
+  RECORDS: "practice_records",
+};
+
 export function PracticeSession({ questions }: { questions: PracticeQuestion[] }) {
   const router = useRouter();
   const { setPayload } = useReview();
   
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>({});
-  
+  const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
+  const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
+  const isInitialMount = useRef(true);
+
+  // Persist to sessionStorage on changes
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
+    setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
+  }, [currentIndex, recordsById]);
+
   const isFinished = currentIndex >= questions.length;
   const currentQuestion = !isFinished ? questions[currentIndex] : null;
 
@@ -99,8 +116,12 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   };
 
   const handleRestart = () => {
-    setCurrentIndex(0);
-    setRecordsById({});
+    if (confirm("Are you sure you want to reset your practice session? All progress will be lost.")) {
+      setCurrentIndex(0);
+      setRecordsById({});
+      removeSessionItem(STORAGE_KEYS.CURRENT_INDEX);
+      removeSessionItem(STORAGE_KEYS.RECORDS);
+    }
   };
 
   const handleReviewMissed = () => {
@@ -296,15 +317,27 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
 
       <ActionRow>
         <div className="flex w-full items-center justify-between gap-4">
-          <Button
-            variant="ghost"
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-            className="gap-2"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Previous
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+              className="gap-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </Button>
+            
+            <Button
+              variant="ghost"
+              onClick={handleRestart}
+              className="gap-2 text-muted-foreground hover:text-destructive"
+              title="Reset session"
+            >
+              <RotateCcw className="h-4 w-4" />
+              <span className="hidden sm:inline">Reset</span>
+            </Button>
+          </div>
 
           <div className="flex items-center gap-2">
             {status === "idle" && (

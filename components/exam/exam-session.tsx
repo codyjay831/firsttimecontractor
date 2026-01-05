@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { SAMPLE_EXAM_QUESTIONS } from "@/lib/exam/sample-exam-questions";
 import { SectionCard } from "@/components/scaffold/section-card";
@@ -21,6 +21,7 @@ import {
 import { useReview } from "@/components/review/use-review";
 import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionBlock } from "@/components/questions/question-block";
+import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -31,17 +32,39 @@ type ExamView = "exam" | "summary" | "review";
 
 const EXAM_TIME_SECONDS = 30 * 60; // 30 minutes
 
+const STORAGE_KEYS = {
+  CURRENT_INDEX: "exam_current_index",
+  VIEW: "exam_view",
+  SECONDS_REMAINING: "exam_seconds_remaining",
+  RECORDS: "exam_records",
+  SHOW_GRID: "exam_show_grid",
+};
+
 export function ExamSession() {
   const questions = SAMPLE_EXAM_QUESTIONS;
   const router = useRouter();
   const { setPayload } = useReview();
   
   // Basic State
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [view, setView] = useState<ExamView>("exam");
-  const [secondsRemaining, setSecondsRemaining] = useState(EXAM_TIME_SECONDS);
-  const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>({});
-  const [showGrid, setShowGrid] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
+  const [view, setView] = useState<ExamView>(() => getSessionItem(STORAGE_KEYS.VIEW, "exam"));
+  const [secondsRemaining, setSecondsRemaining] = useState(() => getSessionItem(STORAGE_KEYS.SECONDS_REMAINING, EXAM_TIME_SECONDS));
+  const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
+  const [showGrid, setShowGrid] = useState(() => getSessionItem(STORAGE_KEYS.SHOW_GRID, false));
+  const isInitialMount = useRef(true);
+
+  // Persist to sessionStorage on changes
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
+    setSessionItem(STORAGE_KEYS.VIEW, view);
+    setSessionItem(STORAGE_KEYS.SECONDS_REMAINING, secondsRemaining);
+    setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
+    setSessionItem(STORAGE_KEYS.SHOW_GRID, showGrid);
+  }, [currentIndex, view, secondsRemaining, recordsById, showGrid]);
 
   // Timer logic
   useEffect(() => {
@@ -143,11 +166,20 @@ export function ExamSession() {
   };
 
   const handleRestart = () => {
-    setCurrentIndex(0);
-    setView("exam");
-    setSecondsRemaining(EXAM_TIME_SECONDS);
-    setRecordsById({});
-    setShowGrid(false);
+    if (confirm("Are you sure you want to reset your exam session? All progress will be lost.")) {
+      setCurrentIndex(0);
+      setView("exam");
+      setSecondsRemaining(EXAM_TIME_SECONDS);
+      setRecordsById({});
+      setShowGrid(false);
+      
+      // Explicitly clear from storage
+      removeSessionItem(STORAGE_KEYS.CURRENT_INDEX);
+      removeSessionItem(STORAGE_KEYS.VIEW);
+      removeSessionItem(STORAGE_KEYS.SECONDS_REMAINING);
+      removeSessionItem(STORAGE_KEYS.RECORDS);
+      removeSessionItem(STORAGE_KEYS.SHOW_GRID);
+    }
   };
 
   const handleReviewMissed = () => {
@@ -342,15 +374,29 @@ export function ExamSession() {
 
           <ActionRow>
             <div className="flex w-full items-center justify-between gap-4">
-              <Button
-                variant="ghost"
-                onClick={handlePrev}
-                disabled={currentIndex === 0}
-                className="gap-2"
-              >
-                <ChevronLeft className="h-4 w-4" />
-                Previous
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={handlePrev}
+                  disabled={currentIndex === 0}
+                  className="gap-2"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {view === "exam" && (
+                  <Button
+                    variant="ghost"
+                    onClick={handleRestart}
+                    className="gap-2 text-muted-foreground hover:text-destructive"
+                    title="Reset exam"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    <span className="hidden sm:inline">Reset</span>
+                  </Button>
+                )}
+              </div>
 
               <div className="flex items-center gap-2">
                 {view === "review" ? (
