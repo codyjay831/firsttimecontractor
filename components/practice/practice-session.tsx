@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, XCircle, RotateCcw, ChevronLeft, ChevronRight, SkipForward, BookOpen } from "lucide-react";
 import { useReview } from "@/components/review/use-review";
 import { ReviewItem, ReviewPayload } from "@/lib/review/types";
+import { QuestionPrompt } from "@/components/questions/question-prompt";
+import { ChoiceList } from "@/components/questions/choice-list";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -202,67 +204,42 @@ export function PracticeSession() {
       </SectionCard>
 
       <SectionCard title="Question">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap gap-2">
-            {currentQuestion.category && (
-              <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider">
-                {currentQuestion.category}
+        <QuestionPrompt
+          prompt={currentQuestion.prompt}
+          meta={
+            <>
+              {currentQuestion.category && (
+                <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider">
+                  {currentQuestion.category}
+                </Badge>
+              )}
+              {currentQuestion.difficulty && (
+                <Badge variant="outline" className={cn(
+                  "font-normal text-xs uppercase tracking-wider",
+                  currentQuestion.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
+                  currentQuestion.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
+                  currentQuestion.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
+                )}>
+                  {currentQuestion.difficulty}
+                </Badge>
+              )}
+              <Badge variant="outline" className="font-normal text-xs uppercase tracking-wider ml-auto">
+                {status === "idle" ? "Not answered" : isCorrect ? "Correct" : "Incorrect"}
               </Badge>
-            )}
-            {currentQuestion.difficulty && (
-              <Badge variant="outline" className={cn(
-                "font-normal text-xs uppercase tracking-wider",
-                currentQuestion.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
-                currentQuestion.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
-                currentQuestion.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
-              )}>
-                {currentQuestion.difficulty}
-              </Badge>
-            )}
-            <Badge variant="outline" className="font-normal text-xs uppercase tracking-wider ml-auto">
-              {status === "idle" ? "Not answered" : isCorrect ? "Correct" : "Incorrect"}
-            </Badge>
-          </div>
-          <p className="text-base leading-relaxed">
-            {currentQuestion.prompt}
-          </p>
-        </div>
+            </>
+          }
+        />
       </SectionCard>
 
       <SectionCard title="Answer choices">
-        <div className="grid gap-3">
-          {currentQuestion.choices.map((choice) => {
-            const isSelected = selectedChoiceId === choice.id;
-            const isCorrectChoice = status === "submitted" && choice.id === currentQuestion.correctChoiceId;
-            const isWrongChoice = status === "submitted" && isSelected && choice.id !== currentQuestion.correctChoiceId;
-
-            return (
-              <button
-                key={choice.id}
-                onClick={() => handleChoiceSelect(choice.id)}
-                disabled={status === "submitted"}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg border p-4 text-left transition-all",
-                  !isSelected && status === "idle" && "hover:bg-accent/50",
-                  isSelected && status === "idle" && "border-primary bg-primary/5 ring-1 ring-primary",
-                  isCorrectChoice && "border-green-500 bg-green-50 dark:bg-green-950/20 ring-1 ring-green-500",
-                  isWrongChoice && "border-destructive bg-destructive/5 ring-1 ring-destructive",
-                  status === "submitted" && !isCorrectChoice && !isWrongChoice && "opacity-50"
-                )}
-              >
-                <div className={cn(
-                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium transition-colors",
-                  isSelected && status === "idle" && "bg-primary text-primary-foreground border-primary",
-                  isCorrectChoice && "bg-green-500 text-white border-green-500",
-                  isWrongChoice && "bg-destructive text-destructive-foreground border-destructive"
-                )}>
-                  {choice.id.toUpperCase()}
-                </div>
-                <span className="text-sm font-medium">{choice.text}</span>
-              </button>
-            );
-          })}
-        </div>
+        <ChoiceList
+          choices={currentQuestion.choices}
+          selectedChoiceId={selectedChoiceId}
+          onSelectChoice={handleChoiceSelect}
+          disableSelection={status === "submitted"}
+          showCorrectness={status === "submitted"}
+          correctChoiceId={currentQuestion.correctChoiceId}
+        />
       </SectionCard>
 
       {status === "submitted" && (

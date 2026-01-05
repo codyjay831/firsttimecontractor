@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useReview } from "@/components/review/use-review";
 import Link from "next/link";
+import { QuestionBlock } from "@/components/questions/question-block";
 
 export function ReviewPageContent() {
   const { payload, clearPayload } = useReview();
@@ -153,57 +154,21 @@ export function ReviewPageContent() {
             <>
               <SectionCard title="Question Detail">
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2">
-                      {getReasonBadge(selectedItem.reason)}
-                      <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
-                    </div>
-                    <p className="text-lg font-medium leading-relaxed">
-                      {selectedItem.prompt}
-                    </p>
-                  </div>
-
-                  {selectedItem.choices && (
-                    <div className="grid gap-3">
-                      {selectedItem.choices.map((choice) => {
-                        const isCorrect = choice.id === selectedItem.correctChoiceId;
-                        const isUserChoice = choice.id === selectedItem.userChoiceId;
-                        
-                        return (
-                          <div
-                            key={choice.id}
-                            className={cn(
-                              "flex items-center gap-3 rounded-lg border p-4 transition-all",
-                              isCorrect && "border-green-500 bg-green-50 dark:bg-green-950/20 ring-1 ring-green-500",
-                              isUserChoice && !isCorrect && "border-destructive bg-destructive/5 ring-1 ring-destructive",
-                              !isCorrect && !isUserChoice && "opacity-60"
-                            )}
-                          >
-                            <div className={cn(
-                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
-                              isCorrect && "bg-green-500 text-white border-green-500",
-                              isUserChoice && !isCorrect && "bg-destructive text-destructive-foreground border-destructive"
-                            )}>
-                              {choice.id.toUpperCase()}
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-sm font-medium">{choice.text}</span>
-                              {isCorrect && (
-                                <span className="text-[10px] font-bold uppercase text-green-600 dark:text-green-400">
-                                  Correct Answer
-                                </span>
-                              )}
-                              {isUserChoice && !isCorrect && (
-                                <span className="text-[10px] font-bold uppercase text-destructive">
-                                  Your Choice
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                  <QuestionBlock
+                    prompt={selectedItem.prompt}
+                    meta={
+                      <>
+                        {getReasonBadge(selectedItem.reason)}
+                        <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
+                      </>
+                    }
+                    choices={selectedItem.choices ?? []}
+                    userChoiceIdForReview={selectedItem.userChoiceId}
+                    correctChoiceId={selectedItem.correctChoiceId}
+                    showCorrectness={true}
+                    showLabels={true}
+                    disableSelection={true}
+                  />
 
                   {selectedItem.explanation && (
                     <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">

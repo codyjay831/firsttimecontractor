@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useReview } from "@/components/review/use-review";
 import { ReviewItem, ReviewPayload } from "@/lib/review/types";
+import { QuestionBlock } from "@/components/questions/question-block";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -295,35 +296,14 @@ export function ExamSession() {
           </SectionCard>
 
           <SectionCard title="Question">
-            <div className="flex flex-col gap-4">
-              <p className="text-base leading-relaxed font-medium">
-                {currentQuestion.prompt}
-              </p>
-              <div className="grid gap-3">
-                {currentQuestion.choices.map((choice) => {
-                  const isSelected = currentRecord.selectedChoiceId === choice.id;
-                  return (
-                    <button
-                      key={choice.id}
-                      onClick={() => handleChoiceSelect(choice.id)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg border p-4 text-left transition-all",
-                        !isSelected && "hover:bg-accent/50",
-                        isSelected && "border-primary bg-primary/5 ring-1 ring-primary"
-                      )}
-                    >
-                      <div className={cn(
-                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium transition-colors",
-                        isSelected && "bg-primary text-primary-foreground border-primary"
-                      )}>
-                        {choice.id.toUpperCase()}
-                      </div>
-                      <span className="text-sm font-medium">{choice.text}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            <QuestionBlock
+              prompt={currentQuestion.prompt}
+              choices={currentQuestion.choices}
+              selectedChoiceId={currentRecord.selectedChoiceId}
+              onSelectChoice={handleChoiceSelect}
+              disableSelection={isFinished}
+              showCorrectness={false}
+            />
           </SectionCard>
 
           <ActionRow>
