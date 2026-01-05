@@ -9,6 +9,7 @@ import {
   Layers,
   RotateCcw,
   ScrollText,
+  LayoutGrid,
   PanelLeftClose,
   PanelLeft,
 } from "lucide-react";
@@ -19,6 +20,11 @@ import { useLens } from "@/lib/lens/use-lens";
 import { buildLensHref } from "@/lib/lens/href";
 
 const navItems = [
+  {
+    label: "Study Hub",
+    href: "/study",
+    icon: LayoutGrid,
+  },
   {
     label: "Practice",
     href: "/practice",
