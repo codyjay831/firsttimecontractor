@@ -127,6 +127,7 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
           explanation: q.explanation,
           userChoiceId: record.selectedChoiceId,
           reason,
+          category: q.category,
         });
       }
     });

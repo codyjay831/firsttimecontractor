@@ -24,7 +24,17 @@ import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { QuestionBlock } from "@/components/questions/question-block";
-import { RotateCcw, CheckCircle2, Play } from "lucide-react";
+import { RotateCcw, CheckCircle2, Play, Target } from "lucide-react";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue,
+  SelectSeparator,
+  SelectLabel
+} from "@/components/ui/select";
+import { useMemo } from "react";
 
 type RetryRecord = {
   selectedChoiceId: string | null;
@@ -42,6 +52,18 @@ export function ReviewPageContent() {
 
   const [retryById, setRetryById] = useState<Record<string, RetryRecord>>({});
   const [retryingId, setRetryingId] = useState<string | null>(null);
+
+  // Weak areas selection state
+  const [practiceFilter, setPracticeFilter] = useState<string>("all");
+
+  const categories = useMemo(() => {
+    if (!payload) return [];
+    const cats = new Set<string>();
+    payload.items.forEach(item => {
+      cats.add(item.category || "Uncategorized");
+    });
+    return Array.from(cats).sort();
+  }, [payload]);
 
   const selectedItem = payload?.items.find(item => item.id === selectedItemId);
   const selectedIndex = payload?.items.findIndex(item => item.id === selectedItemId) ?? -1;
@@ -71,12 +93,26 @@ export function ReviewPageContent() {
   const handlePracticeThese = () => {
     if (!payload || payload.items.length === 0) return;
 
-    const questions = payload.items.map(item => ({
+    let itemsToPractice = payload.items;
+
+    if (practiceFilter === "incorrect") {
+      itemsToPractice = payload.items.filter(item => item.reason === "incorrect");
+    } else if (practiceFilter !== "all") {
+      // It's a category filter
+      itemsToPractice = payload.items.filter(item => 
+        (item.category || "Uncategorized") === practiceFilter
+      );
+    }
+
+    if (itemsToPractice.length === 0) return;
+
+    const questions = itemsToPractice.map(item => ({
       id: item.id,
       prompt: item.prompt,
       choices: item.choices ?? [],
       correctChoiceId: item.correctChoiceId ?? "",
       explanation: item.explanation ?? "",
+      category: item.category,
     }));
 
     setPracticeSeed({
@@ -85,25 +121,6 @@ export function ReviewPageContent() {
     });
 
     router.push("/practice");
-  };
-
-  const handleRetryIncorrect = () => {
-    if (incorrectItems.length === 0) return;
-    const firstIncorrect = incorrectItems[0];
-    setSelectedItemId(firstIncorrect.id);
-    setRetryingId(firstIncorrect.id);
-    
-    // Ensure retry record exists
-    if (!retryById[firstIncorrect.id]) {
-      setRetryById(prev => ({
-        ...prev,
-        [firstIncorrect.id]: {
-          selectedChoiceId: null,
-          status: "idle",
-          isCorrect: null,
-        }
-      }));
-    }
   };
 
   const startRetry = () => {
@@ -273,41 +290,67 @@ export function ReviewPageContent() {
         title={`${payload.source === "practice" ? "Practice" : "Exam"} Session Review`}
         description={`Completed on ${formatDate(payload.createdAt)}`}
       >
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Items to review:</span>
-            <span className="text-lg font-bold">{payload.items.length}</span>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Button 
-              variant="default" 
-              size="sm" 
-              onClick={handlePracticeThese}
-              disabled={!payload || payload.items.length === 0}
-              className="gap-2"
-            >
-              <Play className="h-4 w-4" />
-              Practice these
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleRetryIncorrect}
-              disabled={!hasIncorrect}
-              className="gap-2 border-destructive/20 hover:bg-destructive/5 text-destructive"
-            >
-              <RotateCcw className="h-4 w-4" />
-              Retry incorrect
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={handleClearAll}
-              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 gap-2"
-            >
-              <Trash2 className="h-4 w-4" />
-              Clear review
-            </Button>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Total Missed</span>
+                <span className="text-2xl font-bold tracking-tight">{payload.items.length}</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-destructive">Incorrect</span>
+                <span className="text-2xl font-bold tracking-tight text-destructive">{incorrectItems.length}</span>
+              </div>
+              <div className="h-8 w-px bg-border" />
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Categories</span>
+                <span className="text-2xl font-bold tracking-tight">{categories.length}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-2 mr-2">
+                <Target className="h-4 w-4 text-muted-foreground" />
+                <Select value={practiceFilter} onValueChange={setPracticeFilter}>
+                  <SelectTrigger size="sm" className="w-[180px]">
+                    <SelectValue placeholder="Practice mode" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Practice all ({payload.items.length})</SelectItem>
+                    {hasIncorrect && (
+                      <SelectItem value="incorrect">Incorrect only ({incorrectItems.length})</SelectItem>
+                    )}
+                    <SelectSeparator />
+                    <SelectLabel>By Category</SelectLabel>
+                    {categories.map(cat => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat} ({payload.items.filter(i => (i.category || "Uncategorized") === cat).length})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button 
+                variant="default" 
+                size="sm" 
+                onClick={handlePracticeThese}
+                disabled={!payload || payload.items.length === 0}
+                className="gap-2"
+              >
+                <Play className="h-4 w-4" />
+                Practice these
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleClearAll}
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                Clear
+              </Button>
+            </div>
           </div>
         </div>
       </SectionCard>

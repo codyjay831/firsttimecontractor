@@ -9,6 +9,7 @@ export type ReviewItem = {
   explanation?: string;
   userChoiceId?: string | null;
   reason: ReviewReason;
+  category?: string;
 };
 
 export type ReviewPayload = {

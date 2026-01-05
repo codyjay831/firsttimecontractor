@@ -179,6 +179,7 @@ export function ExamSession() {
           explanation: q.explanation,
           userChoiceId: selectedChoiceId,
           reason,
+          category: q.category,
         });
       }
     });
