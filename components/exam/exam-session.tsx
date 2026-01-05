@@ -27,6 +27,8 @@ type ExamQuestionRecord = {
   flagged: boolean;
 };
 
+type ExamView = "exam" | "summary" | "review";
+
 const EXAM_TIME_SECONDS = 30 * 60; // 30 minutes
 
 export function ExamSession() {
@@ -36,19 +38,19 @@ export function ExamSession() {
   
   // Basic State
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
+  const [view, setView] = useState<ExamView>("exam");
   const [secondsRemaining, setSecondsRemaining] = useState(EXAM_TIME_SECONDS);
   const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>({});
   const [showGrid, setShowGrid] = useState(false);
 
   // Timer logic
   useEffect(() => {
-    if (isFinished || secondsRemaining <= 0) return;
+    if (view !== "exam" || secondsRemaining <= 0) return;
 
     const interval = setInterval(() => {
       setSecondsRemaining((prev) => {
         if (prev <= 1) {
-          setIsFinished(true);
+          setView("summary");
           return 0;
         }
         return prev - 1;
@@ -56,7 +58,7 @@ export function ExamSession() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isFinished, secondsRemaining]);
+  }, [view, secondsRemaining]);
 
   // Derived state
   const currentQuestion = questions[currentIndex];
@@ -104,7 +106,7 @@ export function ExamSession() {
 
   // Handlers
   const handleChoiceSelect = (choiceId: string) => {
-    if (isFinished) return;
+    if (view !== "exam") return;
     setRecordsById(prev => ({
       ...prev,
       [currentQuestion.id]: {
@@ -137,12 +139,12 @@ export function ExamSession() {
   };
 
   const handleFinish = () => {
-    setIsFinished(true);
+    setView("summary");
   };
 
   const handleRestart = () => {
     setCurrentIndex(0);
-    setIsFinished(false);
+    setView("exam");
     setSecondsRemaining(EXAM_TIME_SECONDS);
     setRecordsById({});
     setShowGrid(false);
@@ -197,7 +199,7 @@ export function ExamSession() {
   };
 
   // Rendering logic
-  if (isFinished) {
+  if (view === "summary") {
     return (
       <div className="flex flex-col gap-6">
         <SectionCard title="Exam Complete">
@@ -263,28 +265,37 @@ export function ExamSession() {
         </SectionCard>
 
         <ActionRow>
-          <Button onClick={handleRestart} variant="outline" className="gap-2">
-            <RotateCcw className="h-4 w-4" />
-            Restart Exam
-          </Button>
-          {(summary.incorrectCount > 0 || summary.unansweredCount > 0 || summary.flaggedCount > 0) && (
-            <Button onClick={handleReviewMissed} className="gap-2">
-              <BookOpen className="h-4 w-4" />
-              Review missed & flagged
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={handleRestart} variant="outline" className="gap-2">
+              <RotateCcw className="h-4 w-4" />
+              Restart Exam
             </Button>
-          )}
+            
+            <Button onClick={() => { setView("review"); setCurrentIndex(0); }} variant="outline" className="gap-2">
+              <BookOpen className="h-4 w-4" />
+              Review Exam
+            </Button>
+
+            {(summary.incorrectCount > 0 || summary.unansweredCount > 0 || summary.flaggedCount > 0) && (
+              <Button onClick={handleReviewMissed} className="gap-2">
+                <BookOpen className="h-4 w-4" />
+                Review missed & flagged (New Tab)
+              </Button>
+            )}
+          </div>
         </ActionRow>
       </div>
     );
   }
 
+  // Review mode rendering is handled later in the main return block by checking view === "review"
+  // ... rest of the code ...
+
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-6 md:grid-cols-[1fr_240px]">
         <div className="flex flex-col gap-6">
-          <SectionCard 
-            title={`Question ${currentIndex + 1} of ${questions.length}`}
-          >
+          <SectionCard title={view === "review" ? `Reviewing Question ${currentIndex + 1} of ${questions.length}` : `Question ${currentIndex + 1} of ${questions.length}`}>
             <div className="space-y-2">
               <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
                 <div 
@@ -296,14 +307,25 @@ export function ExamSession() {
           </SectionCard>
 
           <SectionCard title="Question">
-            <QuestionBlock
-              prompt={currentQuestion.prompt}
-              choices={currentQuestion.choices}
-              selectedChoiceId={currentRecord.selectedChoiceId}
-              onSelectChoice={handleChoiceSelect}
-              disableSelection={isFinished}
-              showCorrectness={false}
-            />
+            <div className="space-y-6">
+              <QuestionBlock
+                prompt={currentQuestion.prompt}
+                choices={currentQuestion.choices}
+                selectedChoiceId={currentRecord.selectedChoiceId}
+                onSelectChoice={handleChoiceSelect}
+                disableSelection={view !== "exam"}
+                showCorrectness={view === "review"}
+                correctChoiceId={currentQuestion.correctChoiceId}
+                userChoiceIdForReview={currentRecord.selectedChoiceId}
+              />
+              
+              {view === "review" && currentQuestion.explanation && (
+                <div className="rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
+                  <p className="font-semibold mb-1">Explanation:</p>
+                  {currentQuestion.explanation}
+                </div>
+              )}
+            </div>
           </SectionCard>
 
           <ActionRow>
@@ -319,21 +341,30 @@ export function ExamSession() {
               </Button>
 
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={toggleFlag}
-                  className={cn(
-                    currentRecord.flagged && "text-amber-500 border-amber-200 bg-amber-50 dark:bg-amber-950/20"
-                  )}
-                  title={currentRecord.flagged ? "Unflag question" : "Flag for review"}
-                >
-                  {currentRecord.flagged ? (
-                    <Flag className="h-4 w-4 fill-current" />
-                  ) : (
-                    <FlagOff className="h-4 w-4" />
-                  )}
-                </Button>
+                {view === "review" ? (
+                  currentRecord.flagged && (
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-amber-50 text-amber-600 border border-amber-200 text-sm font-medium">
+                      <Flag className="h-4 w-4 fill-current" />
+                      Flagged
+                    </div>
+                  )
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={toggleFlag}
+                    className={cn(
+                      currentRecord.flagged && "text-amber-500 border-amber-200 bg-amber-50 dark:bg-amber-950/20"
+                    )}
+                    title={currentRecord.flagged ? "Unflag question" : "Flag for review"}
+                  >
+                    {currentRecord.flagged ? (
+                      <Flag className="h-4 w-4 fill-current" />
+                    ) : (
+                      <FlagOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                )}
 
                 <Button
                   variant="outline"
@@ -343,34 +374,67 @@ export function ExamSession() {
                   <LayoutGrid className="h-4 w-4" />
                 </Button>
 
-                {currentIndex === questions.length - 1 ? (
-                  <Button onClick={handleFinish} className="bg-green-600 hover:bg-green-700 text-white">
-                    Finish Exam
-                  </Button>
-                ) : (
-                  <Button onClick={handleNext} className="gap-2">
-                    Next
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                )}
+                <div className="flex items-center gap-2">
+                  {currentIndex === questions.length - 1 ? (
+                    view === "exam" ? (
+                      <Button onClick={handleFinish} className="bg-green-600 hover:bg-green-700 text-white">
+                        Finish Exam
+                      </Button>
+                    ) : (
+                      <Button onClick={() => setView("summary")} variant="secondary">
+                        Back to results
+                      </Button>
+                    )
+                  ) : (
+                    <>
+                      {view === "review" && (
+                         <Button onClick={() => setView("summary")} variant="ghost" className="hidden sm:flex">
+                          Back to results
+                        </Button>
+                      )}
+                      <Button onClick={handleNext} className="gap-2">
+                        Next
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </ActionRow>
         </div>
 
         <div className="flex flex-col gap-6">
-          <SectionCard title="Timer">
-            <div className="flex flex-col items-center justify-center py-2">
-              <div className={cn(
-                "flex items-center gap-2 text-3xl font-mono font-bold tracking-tighter",
-                secondsRemaining < 300 && "text-destructive"
-              )}>
-                <Timer className="h-6 w-6" />
-                {formatTime(secondsRemaining)}
+          {view === "exam" ? (
+            <SectionCard title="Timer">
+              <div className="flex flex-col items-center justify-center py-2">
+                <div className={cn(
+                  "flex items-center gap-2 text-3xl font-mono font-bold tracking-tighter",
+                  secondsRemaining < 300 && "text-destructive"
+                )}>
+                  <Timer className="h-6 w-6" />
+                  {formatTime(secondsRemaining)}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1 text-center">Time remaining</p>
               </div>
-              <p className="text-xs text-muted-foreground mt-1 text-center">Time remaining</p>
-            </div>
-          </SectionCard>
+            </SectionCard>
+          ) : (
+            <SectionCard title="Exam Review">
+              <div className="space-y-4">
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium text-muted-foreground">Score</p>
+                  <p className="text-2xl font-bold">{Math.round((summary.correctCount / summary.totalQuestions) * 100)}%</p>
+                </div>
+                <Button 
+                  className="w-full" 
+                  variant="outline"
+                  onClick={() => setView("summary")}
+                >
+                  Back to results
+                </Button>
+              </div>
+            </SectionCard>
+          )}
 
           <div className={cn("flex-col gap-6 hidden md:flex", showGrid && "flex absolute inset-0 z-50 bg-background p-6 md:relative md:p-0 md:bg-transparent md:z-auto")}>
              <SectionCard title="Navigation">
@@ -380,6 +444,11 @@ export function ExamSession() {
                   const isAnswered = record?.selectedChoiceId != null;
                   const isFlagged = record?.flagged;
                   const isCurrent = idx === currentIndex;
+                  
+                  // In review mode, we can show correctness in the grid if we want, 
+                  // but let's stick to the basics first.
+                  const isCorrect = isAnswered && record.selectedChoiceId === q.correctChoiceId;
+                  const isIncorrect = isAnswered && record.selectedChoiceId !== q.correctChoiceId;
 
                   return (
                     <button
@@ -391,7 +460,9 @@ export function ExamSession() {
                       className={cn(
                         "relative flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium transition-all border",
                         isCurrent && "border-primary bg-primary text-primary-foreground",
-                        !isCurrent && isAnswered && "bg-secondary/50 text-secondary-foreground border-transparent",
+                        !isCurrent && view === "review" && isCorrect && "bg-green-50 text-green-700 border-green-200",
+                        !isCurrent && view === "review" && isIncorrect && "bg-red-50 text-red-700 border-red-200",
+                        !isCurrent && view === "exam" && isAnswered && "bg-secondary/50 text-secondary-foreground border-transparent",
                         !isCurrent && !isAnswered && "bg-background text-muted-foreground border-border hover:bg-accent",
                         isFlagged && !isCurrent && "border-amber-400"
                       )}
@@ -405,13 +476,23 @@ export function ExamSession() {
                 })}
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <Button 
-                  variant="outline" 
-                  className="w-full text-xs h-8" 
-                  onClick={handleFinish}
-                >
-                  Finish Exam
-                </Button>
+                {view === "exam" ? (
+                  <Button 
+                    variant="outline" 
+                    className="w-full text-xs h-8" 
+                    onClick={handleFinish}
+                  >
+                    Finish Exam
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    className="w-full text-xs h-8" 
+                    onClick={() => setView("summary")}
+                  >
+                    Exit Review
+                  </Button>
+                )}
                 {showGrid && (
                    <Button 
                    variant="ghost" 
