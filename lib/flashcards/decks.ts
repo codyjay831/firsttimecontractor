@@ -11,86 +11,99 @@ export type FlashcardDeck = {
 export const DECKS: FlashcardDeck[] = [
   {
     id: "core",
-    title: "Core Construction",
-    description: "Essential knowledge for general contracting, including carpentry and structural basics.",
-    cards: SAMPLE_FLASHCARDS,
+    title: "Core Concepts",
+    description: "General construction fundamentals",
+    cards: SAMPLE_FLASHCARDS
   },
   {
-    id: "safety-legal",
-    title: "Safety & Legal",
-    description: "Focus on OSHA regulations, safety protocols, and construction law.",
+    id: "safety",
+    title: "Safety Basics",
+    description: "Jobsite safety and OSHA-style concepts",
     cards: [
       {
-        id: "sl_1",
-        front: "Who is responsible for providing PPE on a job site?",
-        back: "The employer.",
+        id: "s_1",
+        front: "What does OSHA stand for?",
+        back: "Occupational Safety and Health Administration",
         category: "Safety",
         difficulty: "easy"
       },
       {
-        id: "sl_2",
-        front: "What is the maximum height for a ladder before fall protection is required in some jurisdictions?",
-        back: "Typically 6 feet in construction, but always check OSHA 1926 subpart M.",
+        id: "s_2",
+        front: "What color is a typical fire extinguisher for electrical fires (Class C)?",
+        back: "Red (but labeled with a C symbol, usually in a blue circle)",
         category: "Safety",
         difficulty: "medium"
       },
       {
-        id: "sl_3",
-        front: "What is a 'Mechanic's Lien'?",
-        back: "A security interest in the title to property for the benefit of those who have supplied labor or materials.",
-        category: "Legal",
-        difficulty: "hard"
-      },
-      {
-        id: "sl_4",
-        front: "What does 'Indemnification' mean in a contract?",
-        back: "One party's promise to pay for the other party's loss or damage.",
-        category: "Legal",
-        difficulty: "hard"
-      },
-      {
-        id: "sl_5",
-        front: "How often should fire extinguishers be inspected?",
-        back: "Monthly for a visual check, and annually for a professional maintenance check.",
+        id: "s_3",
+        front: "What is the maximum height for a ladder before fall protection is required in some settings?",
+        back: "Varies, but often 6 feet in construction for general work.",
         category: "Safety",
         difficulty: "medium"
       },
       {
-        id: "sl_6",
-        front: "What is the purpose of a 'Toolbox Talk'?",
-        back: "Short, informal safety meetings held at the job site to discuss specific safety hazards and procedures.",
+        id: "s_4",
+        front: "What is a MSDS (now SDS)?",
+        back: "Safety Data Sheet - document containing information on the potential hazards of a chemical product.",
         category: "Safety",
         difficulty: "easy"
       },
       {
-        id: "sl_7",
-        front: "Define 'Negligence' in a legal context.",
-        back: "Failure to exercise the care that a reasonably prudent person would exercise in like circumstances.",
-        category: "Legal",
-        difficulty: "medium"
-      },
-      {
-        id: "sl_8",
-        front: "What is a 'Stop Work Order'?",
-        back: "An order issued by a building official or other authority to halt construction activity due to a violation.",
-        category: "Legal",
+        id: "s_5",
+        front: "What does GFCI stand for?",
+        back: "Ground Fault Circuit Interrupter",
+        category: "Safety",
         difficulty: "easy"
       },
       {
-        id: "sl_9",
-        front: "What are the three components of the 'Fire Triangle'?",
-        back: "Heat, Fuel, and Oxygen.",
+        id: "s_6",
+        front: "What is the 'Fatal Four' in construction safety?",
+        back: "Falls, Struck-By, Caught-In/Between, and Electrocutions.",
+        category: "Safety",
+        difficulty: "hard"
+      },
+      {
+        id: "s_7",
+        front: "What is the purpose of a lockout/tagout (LOTO) procedure?",
+        back: "To ensure that dangerous machines are properly shut off and not started up again prior to the completion of maintenance or repair work.",
+        category: "Safety",
+        difficulty: "hard"
+      },
+      {
+        id: "s_8",
+        front: "What type of protection is required when working with silica dust?",
+        back: "Respiratory protection (like an N95 or higher) and often water suppression or vacuum systems.",
         category: "Safety",
         difficulty: "medium"
       },
       {
-        id: "sl_10",
-        front: "What is 'Force Majeure'?",
-        back: "A contract clause that frees both parties from liability or obligation when an extraordinary event beyond their control occurs.",
-        category: "Legal",
+        id: "s_9",
+        front: "What is the 'Competent Person' in OSHA terms?",
+        back: "One who is capable of identifying existing and predictable hazards and has authorization to take prompt corrective measures to eliminate them.",
+        category: "Safety",
         difficulty: "hard"
+      },
+      {
+        id: "s_10",
+        front: "How often should power tools be inspected for damage?",
+        back: "Before each use.",
+        category: "Safety",
+        difficulty: "easy"
+      },
+      {
+        id: "s_11",
+        front: "What is the minimum distance a ladder should extend above a landing?",
+        back: "3 feet.",
+        category: "Safety",
+        difficulty: "medium"
+      },
+      {
+        id: "s_12",
+        front: "What does the 'A' in the PASS acronym for fire extinguisher use stand for?",
+        back: "Aim at the base of the fire.",
+        category: "Safety",
+        difficulty: "medium"
       }
-    ],
-  },
+    ]
+  }
 ];
-
