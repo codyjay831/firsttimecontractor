@@ -191,6 +191,26 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          Progress: {currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)
+        </div>
+        <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-green-600/80" />
+            {correctCount} Correct
+          </span>
+          <span className="flex items-center gap-1.5">
+            <XCircle className="h-3.5 w-3.5 text-destructive/80" />
+            {incorrectCount} Incorrect
+          </span>
+          <span className="flex items-center gap-1.5">
+            <SkipForward className="h-3.5 w-3.5 text-muted-foreground/80" />
+            {skippedCount} Skipped
+          </span>
+        </div>
+      </div>
+
       <SectionCard 
         title={`Question ${currentIndex + 1} of ${questions.length}`}
       >

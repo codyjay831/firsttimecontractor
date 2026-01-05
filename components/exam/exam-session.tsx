@@ -287,6 +287,22 @@ export function ExamSession() {
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          Progress: {currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)
+        </div>
+        <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            {summary.answeredCount} Answered
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Flag className="h-3.5 w-3.5" />
+            {summary.flaggedCount} Flagged
+          </span>
+        </div>
+      </div>
+
       <div className="grid gap-6 md:grid-cols-[1fr_240px]">
         <div className="flex flex-col gap-6">
           <SectionCard title={view === "review" ? `Reviewing Question ${currentIndex + 1} of ${questions.length}` : `Question ${currentIndex + 1} of ${questions.length}`}>
