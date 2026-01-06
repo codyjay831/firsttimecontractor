@@ -116,7 +116,11 @@ export function StudyPageContent() {
             <Package className="w-3.5 h-3.5" />
             Content Pack
           </label>
-          <Select value={activePackId} onValueChange={handlePackChange}>
+          <Select 
+            value={activePackId} 
+            onValueChange={handlePackChange}
+            disabled={packs.length === 1}
+          >
             <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Select pack" />
             </SelectTrigger>
@@ -139,7 +143,9 @@ export function StudyPageContent() {
             </SelectContent>
           </Select>
           <p className="text-[10px] text-muted-foreground px-1 italic">
-            Pack selection is per-tab (session only)
+            {packs.length === 1 
+              ? "Add more packs to enable switching" 
+              : "Pack selection is per-tab (session only)"}
           </p>
         </div>
       </div>

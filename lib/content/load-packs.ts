@@ -1,12 +1,10 @@
 import corePack from "../../content/packs/core.json";
-import demoPack from "../../content/packs/demo.json";
 import { ContentPack, FlashcardDeck } from "./pack-types";
 import { PracticeQuestion } from "../practice/types";
 import { validatePack } from "./validate-pack";
 
 const PACK_REGISTRY: Record<string, unknown> = {
   "core": corePack,
-  "demo": demoPack,
 };
 
 const SESSION_KEY = "ftc_active_pack_id";
@@ -42,9 +40,26 @@ for (const [id, pack] of Object.entries(PACK_REGISTRY)) {
   if (!validatePackShape(pack)) {
     throw new Error(`Critical: Content pack '${id}' failed runtime shape validation.`);
   }
+  
+  // Also run logical validation
+  const validation = validatePack(pack as ContentPack);
+  if (!validation.ok) {
+    console.error(`Content Pack "${id}" has logical errors:`, validation.errors);
+  }
 }
 
 export function getLastPackErrors(): string[] | null {
+  // Only show errors in development
+  if (process.env.NODE_ENV !== "development") {
+    return null;
+  }
+
+  // If we haven't loaded a pack yet, or to ensure we have current errors, 
+  // we can trigger a load of the active pack.
+  if (lastPackErrors === null) {
+    loadPack(getActivePackId());
+  }
+
   return lastPackErrors;
 }
 
@@ -71,6 +86,8 @@ export function setActivePackId(packId: string): void {
     return;
   }
   window.sessionStorage.setItem(SESSION_KEY, packId);
+  // Clear errors when changing packs so they are re-validated on next load/get
+  lastPackErrors = null;
 }
 
 export function loadPack(packId: string): ContentPack {
@@ -80,7 +97,12 @@ export function loadPack(packId: string): ContentPack {
   const validation = validatePack(contentPack);
   
   if (!validation.ok) {
-    lastPackErrors = validation.errors;
+    console.error(`Validation failed for pack "${packId}":`, validation.errors);
+    if (process.env.NODE_ENV === "development") {
+      lastPackErrors = validation.errors;
+    } else {
+      lastPackErrors = null;
+    }
   } else {
     lastPackErrors = null;
   }
@@ -100,17 +122,3 @@ export function getFlashcardDecksActive(): FlashcardDeck[] {
   return loadPack(getActivePackId()).flashcardDecks;
 }
 
-/** @deprecated Use getPracticeQuestionsActive */
-export function getPracticeQuestions(): PracticeQuestion[] {
-  return getPracticeQuestionsActive();
-}
-
-/** @deprecated Use getExamQuestionsActive */
-export function getExamQuestions(): PracticeQuestion[] {
-  return getExamQuestionsActive();
-}
-
-/** @deprecated Use getFlashcardDecksActive */
-export function getFlashcardDecks(): FlashcardDeck[] {
-  return getFlashcardDecksActive();
-}
