@@ -11,6 +11,7 @@ import { useReview } from "@/components/review/use-review";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { getActivePackId, setActivePackId, getLastPackErrors, getPackTotalQuestions, listPacks } from "@/lib/content/load-packs";
 import { getPackProgressStats, calculateReadinessScore } from "@/lib/content/progress";
+import { getSessionAnalytics } from "@/lib/analytics/answer-analytics";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
@@ -340,6 +341,59 @@ export function StudyPageContent() {
           </div>
         </div>
       </SectionCard>
+
+      {(() => {
+        const analytics = getSessionAnalytics();
+        if (analytics.totalAnswered === 0) return null;
+
+        const topWeakAreas = analytics.missedByCategory.slice(0, 3);
+        
+        return (
+          <SectionCard 
+            title="Weak areas (this session)" 
+            description="Categories where you have the lowest accuracy today."
+          >
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {topWeakAreas.map((area) => (
+                  <div key={area.category} className="p-3 bg-muted/30 rounded-lg border border-border/50 flex flex-col gap-2">
+                    <div className="text-xs font-semibold text-muted-foreground truncate" title={area.category}>
+                      {area.category}
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className={`text-2xl font-bold ${
+                        area.accuracy < 50 ? "text-destructive" : area.accuracy < 80 ? "text-amber-500" : "text-primary"
+                      }`}>
+                        {area.accuracy}%
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {area.correct}/{area.total} correct
+                      </span>
+                    </div>
+                    <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all duration-500 ${
+                          area.accuracy < 50 ? "bg-destructive" : area.accuracy < 80 ? "bg-amber-500" : "bg-primary"
+                        }`}
+                        style={{ width: `${area.accuracy}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex flex-wrap gap-2 mt-1">
+                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-full mb-1">Difficulty Breakdown</span>
+                {analytics.missedByDifficulty.map((diff) => (
+                  <Badge key={diff.difficulty} variant="outline" className="text-[10px] px-2 py-0.5">
+                    {diff.difficulty}: {diff.accuracy}%
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </SectionCard>
+        );
+      })()}
 
       {(hasReview || hasSeed) && (
         <div className="flex flex-col gap-4">

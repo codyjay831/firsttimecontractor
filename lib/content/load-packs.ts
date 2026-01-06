@@ -101,9 +101,17 @@ export function loadPack(packId: string): ContentPack {
   const pack = PACK_REGISTRY[packId] || PACK_REGISTRY["core"];
   const contentPack = JSON.parse(JSON.stringify(pack)) as ContentPack; // Deep clone to avoid mutating registry if needed, though registry is from JSON imports
 
-  // Inject packId into questions for progress tracking
-  contentPack.practiceQuestions.forEach(q => q.packId = contentPack.packId);
-  contentPack.examQuestions.forEach(q => q.packId = contentPack.packId);
+  // Inject packId into questions for progress tracking and apply defaults for analytics
+  contentPack.practiceQuestions.forEach(q => {
+    q.packId = contentPack.packId;
+    q.category = q.category || "General";
+    q.difficulty = q.difficulty || "medium";
+  });
+  contentPack.examQuestions.forEach(q => {
+    q.packId = contentPack.packId;
+    q.category = q.category || "General";
+    q.difficulty = q.difficulty || "medium";
+  });
 
   const validation = validatePack(contentPack);
   
