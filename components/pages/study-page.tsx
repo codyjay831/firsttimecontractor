@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle } from "lucide-react";
+import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle, Compass, CheckCircle2 } from "lucide-react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { Button } from "@/components/ui/button";
@@ -74,16 +74,37 @@ export function StudyPageContent() {
 
   const isLensEmpty = !lens.state && !lens.licenseType && !lens.trade;
   
-  const recommendedPacks = isLensEmpty ? [] : packs.filter(p => {
-    const { applicable } = p;
-    if (!applicable) return false;
-    
-    const stateMatch = lens.state && applicable.states?.includes(lens.state);
-    const licenseMatch = lens.licenseType && applicable.licenses?.includes(lens.licenseType);
-    const tradeMatch = lens.trade && applicable.trades?.includes(lens.trade);
-    
-    return stateMatch || licenseMatch || tradeMatch;
-  });
+  // Suggested path logic
+  const suggestedPath: { packId: string; title: string; reason: string }[] = [];
+  
+  if (lens.state === "CA") {
+    const pack = packs.find(p => p.packId === "core-ca") || 
+                 packs.find(p => p.packId.startsWith("core") && p.applicable?.states?.includes("CA"));
+    if (pack) {
+      suggestedPath.push({ packId: pack.packId, title: pack.title, reason: "Matches CA" });
+    }
+  }
+
+  if (lens.licenseType === "C10") {
+    const pack = packs.find(p => p.packId === "c10-ca") || 
+                 packs.find(p => p.applicable?.licenses?.includes("C10"));
+    if (pack) {
+      if (!suggestedPath.find(p => p.packId === pack.packId)) {
+        suggestedPath.push({ packId: pack.packId, title: pack.title, reason: "Matches C10" });
+      }
+    }
+  }
+
+  if (suggestedPath.length === 0) {
+    const defaultPack = packs.find(p => p.packId === activePackId) || packs.find(p => p.packId === "core") || packs[0];
+    if (defaultPack) {
+      suggestedPath.push({ 
+        packId: defaultPack.packId, 
+        title: defaultPack.title, 
+        reason: isLensEmpty ? "Start with Core" : "General starter pack" 
+      });
+    }
+  }
 
   const hasReview = (payload?.items?.length ?? 0) > 0;
   const hasSeed = !!seed;
@@ -229,40 +250,70 @@ export function StudyPageContent() {
         </div>
       )}
 
-      {recommendedPacks.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
-            Recommended for your lens
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {recommendedPacks.map((pack) => (
-              <SectionCard 
-                key={pack.packId}
-                title={pack.title}
-                description={pack.packId === activePackId ? "Currently active" : "This pack matches your current lens."}
+      <div className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1 flex items-center gap-2">
+          <Compass className="w-4 h-4" />
+          Recommended sequence
+        </h2>
+        <SectionCard 
+          title="Suggested path" 
+          description="Follow this ordered sequence of packs to prepare for your license."
+        >
+          <div className="flex flex-col gap-3">
+            {suggestedPath.map((step, idx) => (
+              <div 
+                key={step.packId} 
+                className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg transition-colors ${
+                  activePackId === step.packId 
+                    ? "bg-primary/5 border-primary/20" 
+                    : "bg-muted/30 border-border hover:bg-muted/50"
+                }`}
               >
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center justify-center p-6 bg-primary/5 rounded-lg">
-                    <Package className="w-10 h-10 text-primary opacity-80" />
+                <div className="flex items-center gap-4 mb-3 sm:mb-0">
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 font-bold text-sm ${
+                    activePackId === step.packId 
+                      ? "bg-primary text-primary-foreground" 
+                      : "bg-muted-foreground/20 text-muted-foreground"
+                  }`}>
+                    {idx + 1}
                   </div>
-                  <Button 
-                    className="w-full" 
-                    variant={pack.packId === activePackId ? "outline" : "default"}
-                    onClick={() => handlePackChange(pack.packId)}
-                    disabled={pack.packId === activePackId}
-                  >
-                    {pack.packId === activePackId ? "Active" : "Select pack"}
-                  </Button>
+                  <div>
+                    <div className="font-semibold flex items-center gap-2">
+                      {step.title}
+                      {activePackId === step.packId && (
+                        <Badge variant="secondary" className="text-[10px] h-4 px-1.5">Active</Badge>
+                      )}
+                    </div>
+                    <div className="text-xs text-muted-foreground">{step.reason}</div>
+                  </div>
                 </div>
-              </SectionCard>
+                
+                <div className="flex items-center gap-2 sm:ml-4">
+                  {activePackId === step.packId ? (
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-primary px-3 py-1.5">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Currently selected
+                    </div>
+                  ) : (
+                    <Button 
+                      size="sm" 
+                      onClick={() => handlePackChange(step.packId)}
+                      variant="outline"
+                      className="w-full sm:w-auto"
+                    >
+                      Select pack
+                    </Button>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
-          <div className="h-2" /> {/* Spacer */}
-        </div>
-      )}
+        </SectionCard>
+        <div className="h-2" /> {/* Spacer */}
+      </div>
       
       <div className="flex flex-col gap-4">
-        {(hasReview || hasSeed || recommendedPacks.length > 0) && (
+        {(hasReview || hasSeed || suggestedPath.length > 0) && (
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
             All Study Modes
           </h2>
