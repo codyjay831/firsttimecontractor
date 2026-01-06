@@ -72,6 +72,19 @@ export function StudyPageContent() {
   const packs = listPacks();
   const packErrors = getLastPackErrors();
 
+  const isLensEmpty = !lens.state && !lens.licenseType && !lens.trade;
+  
+  const recommendedPacks = isLensEmpty ? [] : packs.filter(p => {
+    const { applicable } = p;
+    if (!applicable) return false;
+    
+    const stateMatch = lens.state && applicable.states?.includes(lens.state);
+    const licenseMatch = lens.licenseType && applicable.licenses?.includes(lens.licenseType);
+    const tradeMatch = lens.trade && applicable.trades?.includes(lens.trade);
+    
+    return stateMatch || licenseMatch || tradeMatch;
+  });
+
   const hasReview = (payload?.items?.length ?? 0) > 0;
   const hasSeed = !!seed;
 
@@ -213,31 +226,67 @@ export function StudyPageContent() {
             )}
           </div>
           <div className="h-2" /> {/* Spacer */}
+        </div>
+      )}
+
+      {recommendedPacks.length > 0 && (
+        <div className="flex flex-col gap-4">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
-            All Study Modes
+            Recommended for your lens
           </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {recommendedPacks.map((pack) => (
+              <SectionCard 
+                key={pack.packId}
+                title={pack.title}
+                description={pack.packId === activePackId ? "Currently active" : "This pack matches your current lens."}
+              >
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-center p-6 bg-primary/5 rounded-lg">
+                    <Package className="w-10 h-10 text-primary opacity-80" />
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    variant={pack.packId === activePackId ? "outline" : "default"}
+                    onClick={() => handlePackChange(pack.packId)}
+                    disabled={pack.packId === activePackId}
+                  >
+                    {pack.packId === activePackId ? "Active" : "Select pack"}
+                  </Button>
+                </div>
+              </SectionCard>
+            ))}
+          </div>
+          <div className="h-2" /> {/* Spacer */}
         </div>
       )}
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {studyModes.map((mode) => (
-          <SectionCard 
-            key={mode.href} 
-            title={mode.title} 
-            description={mode.description}
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-center p-8 bg-muted/50 rounded-lg">
-                <mode.icon className="w-12 h-12 text-primary opacity-80" />
+      <div className="flex flex-col gap-4">
+        {(hasReview || hasSeed || recommendedPacks.length > 0) && (
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
+            All Study Modes
+          </h2>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {studyModes.map((mode) => (
+            <SectionCard 
+              key={mode.href} 
+              title={mode.title} 
+              description={mode.description}
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-center p-8 bg-muted/50 rounded-lg">
+                  <mode.icon className="w-12 h-12 text-primary opacity-80" />
+                </div>
+                <Button asChild className="w-full">
+                  <Link href={buildLensHref({ base: mode.href, lens })}>
+                    {mode.buttonText}
+                  </Link>
+                </Button>
               </div>
-              <Button asChild className="w-full">
-                <Link href={buildLensHref({ base: mode.href, lens })}>
-                  {mode.buttonText}
-                </Link>
-              </Button>
-            </div>
-          </SectionCard>
-        ))}
+            </SectionCard>
+          ))}
+        </div>
       </div>
     </div>
   );
