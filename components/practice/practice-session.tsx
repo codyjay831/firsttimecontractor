@@ -97,9 +97,9 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
         isCorrect: correct
       });
 
-      // Epic 17A: Record progress per pack
+      // Epic 17B: Record progress per pack with correctness
       if (currentQuestion.packId) {
-        recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id);
+        recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id, correct);
       }
     }
   };

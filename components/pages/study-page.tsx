@@ -9,8 +9,8 @@ import { useLens } from "@/lib/lens/use-lens";
 import { buildLensHref } from "@/lib/lens/href";
 import { useReview } from "@/components/review/use-review";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
-import { listPacks, getActivePackId, setActivePackId, getLastPackErrors, getPackTotalQuestions } from "@/lib/content/load-packs";
-import { getPackProgressStats } from "@/lib/content/progress";
+import { getActivePackId, setActivePackId, getLastPackErrors, getPackTotalQuestions, listPacks } from "@/lib/content/load-packs";
+import { getPackProgressStats, calculateReadinessScore } from "@/lib/content/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
@@ -109,6 +109,8 @@ export function StudyPageContent() {
 
   const hasReview = (payload?.items?.length ?? 0) > 0;
   const hasSeed = !!seed;
+
+  const readinessScore = calculateReadinessScore(packs);
 
   const studyModes = [
     {
@@ -211,6 +213,128 @@ export function StudyPageContent() {
           </div>
         </SectionCard>
       )}
+
+      <SectionCard 
+        title="Exam Readiness" 
+        description="Estimated based on your practice and exam accuracy."
+      >
+        <div className="flex flex-col gap-6 py-2">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="relative flex items-center justify-center">
+              <svg className="w-32 h-32 transform -rotate-90">
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="58"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  fill="transparent"
+                  className="text-muted/30"
+                />
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="58"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  fill="transparent"
+                  strokeDasharray={2 * Math.PI * 58}
+                  strokeDashoffset={2 * Math.PI * 58 * (1 - readinessScore / 100)}
+                  className="text-primary transition-all duration-1000 ease-out"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-3xl font-bold">{readinessScore}%</span>
+                <span className="text-[10px] uppercase font-semibold text-muted-foreground tracking-tighter">Ready</span>
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-medium">
+                    <span className="text-muted-foreground">Core Knowledge (40%)</span>
+                    <span>{(() => {
+                      const corePacks = packs.filter(p => p.packId.toLowerCase().includes("core"));
+                      let totalAcc = 0;
+                      let count = 0;
+                      corePacks.forEach(p => {
+                        const stats = getPackProgressStats(p.packId, getPackTotalQuestions(p.packId));
+                        if (stats.answeredCount > 0) {
+                          totalAcc += stats.accuracy;
+                          count++;
+                        }
+                      });
+                      return count > 0 ? Math.round(totalAcc / count) : 0;
+                    })()}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-primary/60 transition-all duration-500" 
+                      style={{ width: `${(() => {
+                        const corePacks = packs.filter(p => p.packId.toLowerCase().includes("core"));
+                        let totalAcc = 0;
+                        let count = 0;
+                        corePacks.forEach(p => {
+                          const stats = getPackProgressStats(p.packId, getPackTotalQuestions(p.packId));
+                          if (stats.answeredCount > 0) {
+                            totalAcc += stats.accuracy;
+                            count++;
+                          }
+                        });
+                        return count > 0 ? Math.round(totalAcc / count) : 0;
+                      })()}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-medium">
+                    <span className="text-muted-foreground">Trade Knowledge (60%)</span>
+                    <span>{(() => {
+                      const tradePacks = packs.filter(p => !p.packId.toLowerCase().includes("core"));
+                      let totalAcc = 0;
+                      let count = 0;
+                      tradePacks.forEach(p => {
+                        const stats = getPackProgressStats(p.packId, getPackTotalQuestions(p.packId));
+                        if (stats.answeredCount > 0) {
+                          totalAcc += stats.accuracy;
+                          count++;
+                        }
+                      });
+                      return count > 0 ? Math.round(totalAcc / count) : 0;
+                    })()}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-primary/60 transition-all duration-500" 
+                      style={{ width: `${(() => {
+                        const tradePacks = packs.filter(p => !p.packId.toLowerCase().includes("core"));
+                        let totalAcc = 0;
+                        let count = 0;
+                        tradePacks.forEach(p => {
+                          const stats = getPackProgressStats(p.packId, getPackTotalQuestions(p.packId));
+                          if (stats.answeredCount > 0) {
+                            totalAcc += stats.accuracy;
+                            count++;
+                          }
+                        });
+                        return count > 0 ? Math.round(totalAcc / count) : 0;
+                      })()}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3 bg-muted/30 rounded-md border border-border/50">
+                <p className="text-xs text-muted-foreground leading-relaxed italic">
+                  <strong>Note:</strong> This score is an advisory estimate based on your performance in Practice and Exam modes across both general contractor laws (Core) and trade-specific questions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </SectionCard>
 
       {(hasReview || hasSeed) && (
         <div className="flex flex-col gap-4">

@@ -22,7 +22,8 @@ import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionBlock } from "@/components/questions/question-block";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 import { PracticeQuestion } from "@/lib/practice/types";
-import { recordAnsweredQuestion } from "@/lib/content/progress";
+import { recordAnsweredQuestion, calculateReadinessScore } from "@/lib/content/progress";
+import { listPacks } from "@/lib/content/load-packs";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -147,9 +148,9 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
       }
     }));
 
-    // Epic 17A: Record progress per pack
+    // Epic 17B: Record progress per pack with correctness
     if (currentQuestion.packId) {
-      recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id);
+      recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id, choiceId === currentQuestion.correctChoiceId);
     }
   };
 
@@ -238,6 +239,8 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
   };
 
   if (view === "summary") {
+    const readinessScore = calculateReadinessScore(listPacks());
+
     return (
       <div className="flex flex-col gap-6">
         <SectionCard title="Exam Complete">
@@ -252,7 +255,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
           </div>
         </SectionCard>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SectionCard title="Score">
             <div className="text-3xl font-bold">
               {Math.round((summary.correctCount / summary.totalQuestions) * 100)}%
@@ -277,6 +280,14 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               {summary.answeredCount} answered, {summary.unansweredCount} missed
+            </p>
+          </SectionCard>
+          <SectionCard title="Exam Readiness">
+            <div className="text-3xl font-bold text-primary">
+              {readinessScore}%
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Estimated overall readiness
             </p>
           </SectionCard>
         </div>
