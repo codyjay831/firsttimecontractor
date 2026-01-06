@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { PracticeSession } from "@/components/practice/practice-session";
-import { SAMPLE_PRACTICE_QUESTIONS } from "@/lib/practice/sample-questions";
+import { getPracticeQuestions } from "@/lib/content/load-packs";
 import { PracticeQuestion } from "@/lib/practice/types";
 import { Button } from "@/components/ui/button";
 import { SectionCard } from "@/components/scaffold/section-card";
@@ -44,7 +44,7 @@ export function PracticePageContent() {
       return;
     }
 
-    let pool = [...SAMPLE_PRACTICE_QUESTIONS];
+    let pool = getPracticeQuestions();
     if (shuffle) {
       pool = fisherYatesShuffle(pool);
     }

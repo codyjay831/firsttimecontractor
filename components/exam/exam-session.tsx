@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { SAMPLE_EXAM_QUESTIONS } from "@/lib/exam/sample-exam-questions";
+import { getExamQuestions } from "@/lib/content/load-packs";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ const STORAGE_KEYS = {
 };
 
 export function ExamSession() {
-  const questions = SAMPLE_EXAM_QUESTIONS;
+  const questions = getExamQuestions();
   const router = useRouter();
   const { setPayload } = useReview();
   

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { FlashcardDeck } from "@/lib/flashcards/decks";
+import { FlashcardDeck } from "@/lib/content/pack-types";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { Button } from "@/components/ui/button";

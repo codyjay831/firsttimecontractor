@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { FlashcardsSession } from "@/components/flashcards/flashcards-session";
-import { DECKS } from "@/lib/flashcards/decks";
+import { getFlashcardDecks } from "@/lib/content/load-packs";
 import {
   Select,
   SelectContent,
@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/select";
 
 export function FlashcardsPageContent() {
-  const [selectedDeckId, setSelectedDeckId] = useState(DECKS[0].id);
+  const decks = getFlashcardDecks();
+  const [selectedDeckId, setSelectedDeckId] = useState(decks[0].id);
 
-  const selectedDeck = DECKS.find((d) => d.id === selectedDeckId) || DECKS[0];
+  const selectedDeck = decks.find((d) => d.id === selectedDeckId) || decks[0];
 
   return (
     <div className="flex flex-col gap-6">
@@ -28,7 +29,7 @@ export function FlashcardsPageContent() {
               <SelectValue placeholder="Select a deck" />
             </SelectTrigger>
             <SelectContent>
-              {DECKS.map((deck) => (
+              {decks.map((deck) => (
                 <SelectItem key={deck.id} value={deck.id}>
                   {deck.title}
                 </SelectItem>
