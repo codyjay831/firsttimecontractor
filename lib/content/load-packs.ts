@@ -48,11 +48,15 @@ export function getLastPackErrors(): string[] | null {
   return lastPackErrors;
 }
 
-export function listPacks(): { packId: string; title: string }[] {
-  return Object.entries(PACK_REGISTRY).map(([id, pack]) => ({
-    packId: id,
-    title: (pack as ContentPack).title,
-  }));
+export function listPacks(): (Pick<ContentPack, "packId" | "title" | "applicable">)[] {
+  return Object.entries(PACK_REGISTRY).map(([id, pack]) => {
+    const p = pack as ContentPack;
+    return {
+      packId: id,
+      title: p.title,
+      applicable: p.applicable,
+    };
+  });
 }
 
 export function getActivePackId(): string {

@@ -11,7 +11,40 @@ import { useReview } from "@/components/review/use-review";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { listPacks, getActivePackId, setActivePackId, getLastPackErrors } from "@/lib/content/load-packs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import { ResolvedLens } from "@/lib/lens/types";
+import { ContentPack } from "@/lib/content/pack-types";
+
+function getPackBadgeLabel(pack: Pick<ContentPack, "applicable">, lens: ResolvedLens): { label: string; variant: "default" | "secondary" | "outline" } | null {
+  const { applicable } = pack;
+  
+  // "General" if no applicable or empty
+  if (!applicable || 
+      (!applicable.states?.length && 
+       !applicable.licenses?.length && 
+       !applicable.trades?.length)) {
+    return { label: "General", variant: "outline" };
+  }
+
+  const matches: string[] = [];
+  if (lens.state && applicable.states?.includes(lens.state)) {
+    matches.push(lens.state);
+  }
+  if (lens.licenseType && applicable.licenses?.includes(lens.licenseType)) {
+    matches.push(lens.licenseType);
+  }
+  if (lens.trade && applicable.trades?.includes(lens.trade)) {
+    matches.push(lens.trade);
+  }
+
+  if (matches.length > 0) {
+    return { label: `Matches ${matches.join("/")}`, variant: "secondary" };
+  }
+
+  // If it has applicable metadata but none match, we still call it general for this UI
+  return { label: "General", variant: "outline" };
+}
 
 export function StudyPageContent() {
   const lens = useLens();
@@ -88,11 +121,21 @@ export function StudyPageContent() {
               <SelectValue placeholder="Select pack" />
             </SelectTrigger>
             <SelectContent>
-              {packs.map((p) => (
-                <SelectItem key={p.packId} value={p.packId}>
-                  {p.title}
-                </SelectItem>
-              ))}
+              {packs.map((p) => {
+                const badge = getPackBadgeLabel(p, lens);
+                return (
+                  <SelectItem key={p.packId} value={p.packId}>
+                    <div className="flex items-center justify-between w-full gap-4">
+                      <span>{p.title}</span>
+                      {badge && (
+                        <Badge variant={badge.variant} className="ml-auto text-[10px] px-1.5 py-0 h-4">
+                          {badge.label}
+                        </Badge>
+                      )}
+                    </div>
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
           <p className="text-[10px] text-muted-foreground px-1 italic">

@@ -2,6 +2,9 @@
   "packId": "demo-v1",
   "title": "Demo Content Pack",
   "version": "1.0.0",
+  "applicable": {
+    "licenses": ["C10"]
+  },
   "practiceQuestions": [
     {
       "id": "demo-q1",

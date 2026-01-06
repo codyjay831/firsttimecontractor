@@ -15,5 +15,10 @@ export interface ContentPack {
   practiceQuestions: PracticeQuestion[];
   examQuestions: PracticeQuestion[];
   flashcardDecks: FlashcardDeck[];
+  applicable?: {
+    states?: string[];
+    licenses?: string[];
+    trades?: string[];
+  };
 }
 
