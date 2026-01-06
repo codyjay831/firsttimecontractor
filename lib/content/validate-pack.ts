@@ -21,18 +21,26 @@ export function validatePack(pack: ContentPack): ValidationResult {
   
   const validateQuestions = (questions: PracticeQuestion[], type: string) => {
     questions.forEach((q, index) => {
-      const qId = q.id || `unnamed-${index}`;
+      const qId = q.id || `(missing id at index ${index})`;
       
-      if (questionIds.has(q.id)) {
+      if (!q.id) {
+        errors.push(`Question at index ${index} in ${type} is missing an ID`);
+      } else if (questionIds.has(q.id)) {
         errors.push(`Duplicate question ID found: "${q.id}" in ${type}`);
       }
-      questionIds.add(q.id);
+      if (q.id) questionIds.add(q.id);
 
       // Check choices and correctChoiceId
       if (!q.choices || !Array.isArray(q.choices)) {
         errors.push(`Question "${qId}" in ${type} is missing choices array`);
+      } else if (q.choices.length === 0) {
+        errors.push(`Question "${qId}" in ${type} has an empty choices array`);
       } else {
         const choiceIds = new Set(q.choices.map((c) => c.id));
+        if (choiceIds.size < q.choices.length) {
+          errors.push(`Question "${qId}" in ${type} has duplicate choice IDs`);
+        }
+        
         if (!q.correctChoiceId) {
           errors.push(`Question "${qId}" in ${type} is missing correctChoiceId`);
         } else if (!choiceIds.has(q.correctChoiceId)) {
@@ -48,19 +56,23 @@ export function validatePack(pack: ContentPack): ValidationResult {
   // 2. Check for duplicate deck IDs and duplicate flashcard IDs inside a deck
   const deckIds = new Set<string>();
   (pack.flashcardDecks || []).forEach((deck, deckIndex) => {
-    const dId = deck.id || `unnamed-deck-${deckIndex}`;
+    const dId = deck.id || `(missing id at index ${deckIndex})`;
     
-    if (deckIds.has(deck.id)) {
+    if (!deck.id) {
+      errors.push(`Deck at index ${deckIndex} is missing an ID`);
+    } else if (deckIds.has(deck.id)) {
       errors.push(`Duplicate deck ID found: "${deck.id}"`);
     }
-    deckIds.add(deck.id);
+    if (deck.id) deckIds.add(deck.id);
 
     const cardIds = new Set<string>();
-    (deck.cards || []).forEach((card) => {
-      if (cardIds.has(card.id)) {
+    (deck.cards || []).forEach((card, cardIndex) => {
+      if (!card.id) {
+        errors.push(`Flashcard at index ${cardIndex} in deck "${dId}" is missing an ID`);
+      } else if (cardIds.has(card.id)) {
         errors.push(`Duplicate flashcard ID "${card.id}" in deck "${dId}"`);
       }
-      cardIds.add(card.id);
+      if (card.id) cardIds.add(card.id);
     });
   });
 
