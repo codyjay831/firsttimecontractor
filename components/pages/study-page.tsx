@@ -39,7 +39,7 @@ function getPackBadgeLabel(pack: Pick<ContentPack, "applicable">, lens: Resolved
   }
 
   if (matches.length > 0) {
-    return { label: `Matches ${matches.join("/")}`, variant: "secondary" };
+    return { label: "Matches your lens", variant: "secondary" };
   }
 
   // If it has applicable metadata but none match, we still call it general for this UI

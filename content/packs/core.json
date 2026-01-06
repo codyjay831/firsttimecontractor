@@ -2,9 +2,6 @@
   "packId": "core-v1",
   "title": "Core Content Pack",
   "version": "1.0.0",
-  "applicable": {
-    "licenses": []
-  },
   "practiceQuestions": [
     {
       "id": "q1",
