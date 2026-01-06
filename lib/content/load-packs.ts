@@ -120,6 +120,10 @@ export function getPracticeQuestionsActive(): PracticeQuestion[] {
   return loadPack(getActivePackId()).practiceQuestions;
 }
 
+export function getPracticeQuestionsForPack(packId: string): PracticeQuestion[] {
+  return loadPack(packId).practiceQuestions;
+}
+
 export function getExamQuestionsActive(): PracticeQuestion[] {
   return loadPack(getActivePackId()).examQuestions;
 }
