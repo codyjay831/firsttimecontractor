@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { FlashcardsSession } from "@/components/flashcards/flashcards-session";
-import { getFlashcardDecks } from "@/lib/content/load-packs";
+import { getFlashcardDecksActive } from "@/lib/content/load-packs";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/select";
 
 export function FlashcardsPageContent() {
-  const decks = getFlashcardDecks();
-  const [selectedDeckId, setSelectedDeckId] = useState(decks[0].id);
+  const decks = getFlashcardDecksActive();
+  const [selectedDeckId, setSelectedDeckId] = useState(decks[0]?.id);
 
   const selectedDeck = decks.find((d) => d.id === selectedDeckId) || decks[0];
 

@@ -1,0 +1,50 @@
+{
+  "packId": "demo-v1",
+  "title": "Demo Content Pack",
+  "version": "1.0.0",
+  "practiceQuestions": [
+    {
+      "id": "demo-q1",
+      "prompt": "DEMO QUESTION: What is 1 + 1?",
+      "choices": [
+        { "id": "a", "text": "1" },
+        { "id": "b", "text": "2" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "1 + 1 is 2 in base 10.",
+      "category": "Math",
+      "difficulty": "easy"
+    }
+  ],
+  "examQuestions": [
+    {
+      "id": "demo-ex1",
+      "prompt": "DEMO EXAM: What is the capital of France?",
+      "choices": [
+        { "id": "a", "text": "London" },
+        { "id": "b", "text": "Paris" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Paris is the capital of France.",
+      "category": "Geography",
+      "difficulty": "easy"
+    }
+  ],
+  "flashcardDecks": [
+    {
+      "id": "demo-deck",
+      "title": "Demo Deck",
+      "description": "A simple demo deck",
+      "cards": [
+        {
+          "id": "demo-fc1",
+          "front": "DEMO: Hello",
+          "back": "World",
+          "category": "General",
+          "difficulty": "easy"
+        }
+      ]
+    }
+  ]
+}
+

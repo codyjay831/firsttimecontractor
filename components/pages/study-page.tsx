@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History } from "lucide-react";
+import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle } from "lucide-react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { Button } from "@/components/ui/button";
@@ -9,11 +9,35 @@ import { useLens } from "@/lib/lens/use-lens";
 import { buildLensHref } from "@/lib/lens/href";
 import { useReview } from "@/components/review/use-review";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
+import { listPacks, getActivePackId, setActivePackId, getLastPackErrors } from "@/lib/content/load-packs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState, useEffect } from "react";
 
 export function StudyPageContent() {
   const lens = useLens();
   const { payload } = useReview();
   const { seed } = usePracticeSeed();
+  const [activePackId, setActivePackIdState] = useState("core");
+
+  useEffect(() => {
+    // Avoid SSR hydration mismatch by setting state in useEffect
+    // Using setTimeout to avoid "cascading renders" lint error in some environments
+    const currentPackId = getActivePackId();
+    if (currentPackId !== "core") {
+      const timer = setTimeout(() => {
+        setActivePackIdState(currentPackId);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handlePackChange = (id: string) => {
+    setActivePackId(id);
+    setActivePackIdState(id);
+  };
+
+  const packs = listPacks();
+  const packErrors = getLastPackErrors();
 
   const hasReview = (payload?.items?.length ?? 0) > 0;
   const hasSeed = !!seed;
@@ -51,7 +75,52 @@ export function StudyPageContent() {
 
   return (
     <div className="flex flex-col gap-6">
-      <LensHeader title="Study" />
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <LensHeader title="Study" />
+        
+        <div className="flex flex-col gap-2 min-w-[200px]">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5 px-1">
+            <Package className="w-3.5 h-3.5" />
+            Content Pack
+          </label>
+          <Select value={activePackId} onValueChange={handlePackChange}>
+            <SelectTrigger className="w-full bg-background">
+              <SelectValue placeholder="Select pack" />
+            </SelectTrigger>
+            <SelectContent>
+              {packs.map((p) => (
+                <SelectItem key={p.packId} value={p.packId}>
+                  {p.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-[10px] text-muted-foreground px-1 italic">
+            Pack selection is per-tab (session only)
+          </p>
+        </div>
+      </div>
+
+      {packErrors && packErrors.length > 0 && (
+        <SectionCard
+          title="Content Pack Issues"
+          description={`Found ${packErrors.length} potential issues in the active content pack.`}
+        >
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2 p-3 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
+              <AlertTriangle className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-medium">Dev Warning: Invalid Content Logic</p>
+            </div>
+            <ul className="space-y-1.5 list-disc list-inside px-1">
+              {packErrors.map((error: string, idx: number) => (
+                <li key={idx} className="text-xs text-muted-foreground leading-relaxed">
+                  {error}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </SectionCard>
+      )}
 
       {(hasReview || hasSeed) && (
         <div className="flex flex-col gap-4">
@@ -124,4 +193,3 @@ export function StudyPageContent() {
     </div>
   );
 }
-
