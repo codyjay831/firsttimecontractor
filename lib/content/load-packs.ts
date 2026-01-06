@@ -128,6 +128,10 @@ export function getExamQuestionsActive(): PracticeQuestion[] {
   return loadPack(getActivePackId()).examQuestions;
 }
 
+export function getExamQuestionsForPack(packId: string): PracticeQuestion[] {
+  return loadPack(packId).examQuestions;
+}
+
 export function getFlashcardDecksActive(): FlashcardDeck[] {
   return loadPack(getActivePackId()).flashcardDecks;
 }

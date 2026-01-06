@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { getExamQuestionsActive } from "@/lib/content/load-packs";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,7 @@ import { useReview } from "@/components/review/use-review";
 import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionBlock } from "@/components/questions/question-block";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
+import { PracticeQuestion } from "@/lib/practice/types";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -29,8 +29,6 @@ type ExamQuestionRecord = {
 };
 
 type ExamView = "exam" | "summary" | "review";
-
-const EXAM_TIME_SECONDS = 30 * 60; // 30 minutes
 
 const STORAGE_KEYS = {
   CURRENT_INDEX: "exam_current_index",
@@ -40,19 +38,29 @@ const STORAGE_KEYS = {
   SHOW_GRID: "exam_show_grid",
 };
 
-export function ExamSession() {
-  const questions = getExamQuestionsActive();
+interface ExamSessionProps {
+  questions: PracticeQuestion[];
+  durationMinutes: number;
+  onRestart: () => void;
+}
+
+export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessionProps) {
   const router = useRouter();
   const { setPayload } = useReview();
+  
+  const totalSeconds = durationMinutes * 60;
   
   // Basic State
   const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
   const [view, setView] = useState<ExamView>(() => getSessionItem(STORAGE_KEYS.VIEW, "exam"));
-  const [secondsRemaining, setSecondsRemaining] = useState(() => getSessionItem(STORAGE_KEYS.SECONDS_REMAINING, EXAM_TIME_SECONDS));
+  const [secondsRemaining, setSecondsRemaining] = useState(() => getSessionItem(STORAGE_KEYS.SECONDS_REMAINING, totalSeconds));
   const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
   const [showGrid, setShowGrid] = useState(() => getSessionItem(STORAGE_KEYS.SHOW_GRID, false));
   const isInitialMount = useRef(true);
 
+  // If questions change (new exam started), reset local state if it's not the initial mount
+  // Actually, the parent should handle clearing storage before mounting a new ExamSession.
+  
   // Persist to sessionStorage on changes
   useEffect(() => {
     if (isInitialMount.current) {
@@ -166,19 +174,15 @@ export function ExamSession() {
   };
 
   const handleRestart = () => {
-    if (confirm("Are you sure you want to reset your exam session? All progress will be lost.")) {
-      setCurrentIndex(0);
-      setView("exam");
-      setSecondsRemaining(EXAM_TIME_SECONDS);
-      setRecordsById({});
-      setShowGrid(false);
-      
-      // Explicitly clear from storage
+    if (confirm("Are you sure you want to exit your exam session? All progress will be lost.")) {
+      // Clear from storage
       removeSessionItem(STORAGE_KEYS.CURRENT_INDEX);
       removeSessionItem(STORAGE_KEYS.VIEW);
       removeSessionItem(STORAGE_KEYS.SECONDS_REMAINING);
       removeSessionItem(STORAGE_KEYS.RECORDS);
       removeSessionItem(STORAGE_KEYS.SHOW_GRID);
+      
+      onRestart();
     }
   };
 
