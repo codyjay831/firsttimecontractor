@@ -1,10 +1,12 @@
 import corePack from "../../content/packs/core.json";
+import c10Pack from "../../content/packs/c10.json";
 import { ContentPack, FlashcardDeck } from "./pack-types";
 import { PracticeQuestion } from "../practice/types";
 import { validatePack } from "./validate-pack";
 
 const PACK_REGISTRY: Record<string, unknown> = {
   "core": corePack,
+  "c10": c10Pack,
 };
 
 const SESSION_KEY = "ftc_active_pack_id";

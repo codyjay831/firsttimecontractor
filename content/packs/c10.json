@@ -1,0 +1,393 @@
+{
+  "packId": "c10",
+  "title": "California C-10 (Electrical)",
+  "version": "1",
+  "applicable": {
+    "states": ["CA"],
+    "licenses": ["C10"]
+  },
+  "practiceQuestions": [
+    {
+      "id": "c10-p1",
+      "prompt": "What is the maximum number of #12 AWG THHN conductors allowed in a 1/2-inch EMT conduit according to the NEC?",
+      "choices": [
+        { "id": "a", "text": "6" },
+        { "id": "b", "text": "9" },
+        { "id": "c", "text": "12" },
+        { "id": "d", "text": "15" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "According to NEC Annex C, Table C.1, the maximum number of #12 AWG THHN conductors in 1/2-inch EMT is 9.",
+      "category": "NEC Calculations",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-p2",
+      "prompt": "In California, what is the maximum height for a wall-mounted light switch in a residential unit to comply with Title 24 accessibility requirements?",
+      "choices": [
+        { "id": "a", "text": "42 inches" },
+        { "id": "b", "text": "44 inches" },
+        { "id": "c", "text": "48 inches" },
+        { "id": "d", "text": "54 inches" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "To meet accessibility standards, switches should generally not exceed 48 inches above the floor.",
+      "category": "California Standards",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-p3",
+      "prompt": "Which type of GFCI protection is required for outdoor 15A and 20A receptacles?",
+      "choices": [
+        { "id": "a", "text": "Class A" },
+        { "id": "b", "text": "Class B" },
+        { "id": "c", "text": "Class C" },
+        { "id": "d", "text": "No GFCI required if they are weather-resistant" }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "Class A GFCIs are designed to trip when a ground fault exceeds 6mA, which is the standard for personnel protection.",
+      "category": "Safety & Grounding",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-p4",
+      "prompt": "What is the minimum working clearance depth required in front of a 120/240V electrical panel?",
+      "choices": [
+        { "id": "a", "text": "24 inches" },
+        { "id": "b", "text": "30 inches" },
+        { "id": "c", "text": "36 inches" },
+        { "id": "d", "text": "48 inches" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 110.26 requires a minimum depth of 3 feet (36 inches) for voltages to ground of 0-150V.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-p5",
+      "prompt": "When installing a 100A subpanel, what is the minimum size copper THWN conductor required for the feeders?",
+      "choices": [
+        { "id": "a", "text": "#4 AWG" },
+        { "id": "b", "text": "#3 AWG" },
+        { "id": "c", "text": "#2 AWG" },
+        { "id": "d", "text": "#1 AWG" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Using the 75°C column of Table 310.16, #3 AWG copper is rated for 100A.",
+      "category": "NEC Calculations",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-p6",
+      "prompt": "What color must the high-leg (wild leg) of a 4-wire delta-connected system be identified with?",
+      "choices": [
+        { "id": "a", "text": "Red" },
+        { "id": "b", "text": "Black" },
+        { "id": "c", "text": "Orange" },
+        { "id": "d", "text": "Blue" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 110.15 requires the high-leg of a 4-wire delta system to be identified by the color orange.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-p7",
+      "prompt": "How many 125V, 20A branch circuits are required for a dwelling unit's small appliance loads?",
+      "choices": [
+        { "id": "a", "text": "At least 1" },
+        { "id": "b", "text": "At least 2" },
+        { "id": "c", "text": "At least 3" },
+        { "id": "d", "text": "Determined by square footage" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "NEC 210.11(C)(1) requires at least two small appliance branch circuits for kitchens, dining areas, and pantries.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-p8",
+      "prompt": "What is the maximum distance between supports for 3/4-inch RMC (Rigid Metal Conduit)?",
+      "choices": [
+        { "id": "a", "text": "5 feet" },
+        { "id": "b", "text": "8 feet" },
+        { "id": "c", "text": "10 feet" },
+        { "id": "d", "text": "12 feet" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 344.30(A) generally requires RMC to be supported at intervals not exceeding 10 feet.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-p9",
+      "prompt": "Which of the following is an acceptable method for grounding a service?",
+      "choices": [
+        { "id": "a", "text": "Connecting to a metal underground gas pipe" },
+        { "id": "b", "text": "Connecting to a 10-foot metal underground water pipe" },
+        { "id": "c", "text": "Connecting to a plastic septic tank" },
+        { "id": "d", "text": "Connecting to a wooden fence post" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A metal underground water pipe in direct contact with the earth for 10 feet or more is a required grounding electrode.",
+      "category": "Grounding & Bonding",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-p10",
+      "prompt": "What is the multiplier for calculating the minimum volume of a 4-inch square box for a #12 AWG conductor?",
+      "choices": [
+        { "id": "a", "text": "2.00 cubic inches" },
+        { "id": "b", "text": "2.25 cubic inches" },
+        { "id": "c", "text": "2.50 cubic inches" },
+        { "id": "d", "text": "3.00 cubic inches" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Table 314.16(B) lists the volume allowance for #12 AWG as 2.25 cubic inches.",
+      "category": "NEC Calculations",
+      "difficulty": "hard"
+    }
+  ],
+  "examQuestions": [
+    {
+      "id": "c10-e1",
+      "prompt": "A 15HP 230V 3-phase motor has a full-load current of 42A. What is the minimum ampacity required for the branch-circuit conductors?",
+      "choices": [
+        { "id": "a", "text": "42.0A" },
+        { "id": "b", "text": "52.5A" },
+        { "id": "c", "text": "73.5A" },
+        { "id": "d", "text": "105.0A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Branch-circuit conductors for a single motor must have an ampacity of at least 125% of the motor's FLC. 42A * 1.25 = 52.5A.",
+      "category": "Motor Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "c10-e2",
+      "prompt": "What is the maximum percentage of fill allowed for a conduit with more than two conductors?",
+      "choices": [
+        { "id": "a", "text": "31%" },
+        { "id": "b", "text": "40%" },
+        { "id": "c", "text": "53%" },
+        { "id": "d", "text": "60%" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "NEC Chapter 9, Table 1 specifies 40% fill for three or more conductors.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e3",
+      "prompt": "A dwelling unit has a total calculated load of 45,000 VA. For a 120/240V single-phase service, what is the minimum service size?",
+      "choices": [
+        { "id": "a", "text": "100A" },
+        { "id": "b", "text": "150A" },
+        { "id": "c", "text": "200A" },
+        { "id": "d", "text": "225A" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "45,000 VA / 240V = 187.5A. The next standard service size is 200A.",
+      "category": "Service Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "c10-e4",
+      "prompt": "What is the maximum distance from a floor to the top of a receptacle in a residential living room to count towards the wall space requirements?",
+      "choices": [
+        { "id": "a", "text": "12 inches" },
+        { "id": "b", "text": "18 inches" },
+        { "id": "c", "text": "24 inches" },
+        { "id": "d", "text": "36 inches" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Receptacles must be installed so that no point along the floor line in any wall space is more than 6 feet from a receptacle. Usually they are within 18 inches of the floor.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e5",
+      "prompt": "Which of the following locations requires AFCI protection in a new residence?",
+      "choices": [
+        { "id": "a", "text": "Garage" },
+        { "id": "b", "text": "Bathroom" },
+        { "id": "c", "text": "Bedroom" },
+        { "id": "d", "text": "Kitchen (dedicated refrigerator outlet)" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 210.12 requires AFCI protection for all 120V, 15A and 20A branch circuits supplying outlets in family rooms, dining rooms, living rooms, parlors, libraries, dens, bedrooms, etc.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e6",
+      "prompt": "What is the minimum size grounding electrode conductor for a 200A service with 2/0 AWG copper service-entrance conductors?",
+      "choices": [
+        { "id": "a", "text": "#8 AWG copper" },
+        { "id": "b", "text": "#6 AWG copper" },
+        { "id": "c", "text": "#4 AWG copper" },
+        { "id": "d", "text": "#2 AWG copper" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC Table 250.66 requires a #4 AWG copper GEC for 2/0 AWG copper service conductors.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "c10-e7",
+      "prompt": "How many degrees of total bends are allowed between pull points in a run of conduit?",
+      "choices": [
+        { "id": "a", "text": "180 degrees" },
+        { "id": "b", "text": "270 degrees" },
+        { "id": "c", "text": "360 degrees" },
+        { "id": "d", "text": "450 degrees" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 358.26 (for EMT) and similar sections for other conduits limit the total number of bends to 360 degrees between pull points.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-e8",
+      "prompt": "Which type of conduit is specifically approved for direct burial without concrete encasement?",
+      "choices": [
+        { "id": "a", "text": "EMT" },
+        { "id": "b", "text": "Type UF cable" },
+        { "id": "c", "text": "Schedule 40 PVC" },
+        { "id": "d", "text": "FMC (Flexible Metal Conduit)" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Schedule 40 PVC is rated for direct burial.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-e9",
+      "prompt": "What is the minimum burial depth for Rigid Metal Conduit (RMC) under a residential driveway?",
+      "choices": [
+        { "id": "a", "text": "6 inches" },
+        { "id": "b", "text": "12 inches" },
+        { "id": "c", "text": "18 inches" },
+        { "id": "d", "text": "24 inches" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Table 300.5 requires a minimum of 18 inches for any conduit type under a residential driveway.",
+      "category": "NEC Requirements",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e10",
+      "prompt": "In a 3-phase, 4-wire Wye system, what is the voltage between any phase and the neutral if the phase-to-phase voltage is 480V?",
+      "choices": [
+        { "id": "a", "text": "120V" },
+        { "id": "b", "text": "208V" },
+        { "id": "c", "text": "240V" },
+        { "id": "d", "text": "277V" }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "480V / √3 (1.732) ≈ 277V.",
+      "category": "Electrical Theory",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e11",
+      "prompt": "What is the demand factor for the first 3,000 VA of a general lighting load for a dwelling unit?",
+      "choices": [
+        { "id": "a", "text": "50%" },
+        { "id": "b", "text": "100%" },
+        { "id": "c", "text": "35%" },
+        { "id": "d", "text": "25%" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Table 220.42 specifies 100% for the first 3,000 VA of residential lighting load.",
+      "category": "Service Calculations",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e12",
+      "prompt": "Which of the following is NOT a required grounding electrode if present at the building?",
+      "choices": [
+        { "id": "a", "text": "Concrete-encased electrode (Ufer ground)" },
+        { "id": "b", "text": "Metal underground water pipe" },
+        { "id": "c", "text": "Metal underground gas pipe" },
+        { "id": "d", "text": "Ground ring" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC 250.52(B)(1) prohibits using a metal underground gas piping system as a grounding electrode.",
+      "category": "Grounding & Bonding",
+      "difficulty": "medium"
+    },
+    {
+      "id": "c10-e13",
+      "prompt": "What is the maximum setting for a motor branch-circuit short-circuit and ground-fault protective device (Inverse Time Breaker) for a 3-phase squirrel-cage motor?",
+      "choices": [
+        { "id": "a", "text": "125%" },
+        { "id": "b", "text": "150%" },
+        { "id": "c", "text": "250%" },
+        { "id": "d", "text": "300%" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Table 430.52 specifies 250% for inverse time breakers for most motors.",
+      "category": "Motor Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "c10-e14",
+      "prompt": "A continuous load is one where the maximum current is expected to continue for how many hours or more?",
+      "choices": [
+        { "id": "a", "text": "1 hour" },
+        { "id": "b", "text": "2 hours" },
+        { "id": "c", "text": "3 hours" },
+        { "id": "d", "text": "8 hours" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "NEC Article 100 defines a continuous load as one expected to continue for 3 hours or more.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    },
+    {
+      "id": "c10-e15",
+      "prompt": "What is the required clear working space width in front of electrical equipment?",
+      "choices": [
+        { "id": "a", "text": "24 inches" },
+        { "id": "b", "text": "30 inches" },
+        { "id": "c", "text": "36 inches" },
+        { "id": "d", "text": "48 inches" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "NEC 110.26(A)(2) requires the width of the working space to be the width of the equipment or 30 inches, whichever is greater.",
+      "category": "NEC Requirements",
+      "difficulty": "easy"
+    }
+  ],
+  "flashcardDecks": [
+    {
+      "id": "c10-electrical-basics",
+      "title": "Electrical Basics",
+      "description": "Essential concepts for C-10 Electrical",
+      "cards": [
+        { "id": "c10-f1", "front": "What is Ohm's Law formula for Voltage?", "back": "V = I * R", "category": "Theory" },
+        { "id": "c10-f2", "front": "What does AWG stand for?", "back": "American Wire Gauge", "category": "General" },
+        { "id": "c10-f3", "front": "What is the standard residential voltage for lighting and receptacles?", "back": "120 Volts", "category": "Residential" },
+        { "id": "c10-f4", "front": "What is a GFCI?", "back": "Ground Fault Circuit Interrupter", "category": "Safety" },
+        { "id": "c10-f5", "front": "What color is the neutral wire in a standard 120V circuit?", "back": "White or Gray", "category": "NEC Requirements" },
+        { "id": "c10-f6", "front": "What is the purpose of a circuit breaker?", "back": "To protect the circuit from overcurrent and short circuits.", "category": "Safety" },
+        { "id": "c10-f7", "front": "What is the unit of measure for electrical power?", "back": "Watts", "category": "Theory" },
+        { "id": "c10-f8", "front": "What does EMT stand for?", "back": "Electrical Metallic Tubing", "category": "Conduit" },
+        { "id": "c10-f9", "front": "What is a junction box?", "back": "An enclosure where electrical connections are made.", "category": "General" },
+        { "id": "c10-f10", "front": "Define 'Inrush Current'.", "back": "The maximum, instantaneous input current drawn by an electrical device when first turned on.", "category": "Theory" },
+        { "id": "c10-f11", "front": "What is the purpose of bonding?", "back": "To ensure electrical continuity and the capacity to safely conduct any fault current.", "category": "Safety" },
+        { "id": "c10-f12", "front": "What is a 'Subpanel'?", "back": "A secondary electrical panel that receives its power from the main service panel.", "category": "Distribution" },
+        { "id": "c10-f13", "front": "What is the NEC?", "back": "National Electrical Code", "category": "Regulations" },
+        { "id": "c10-f14", "front": "What is a 'Busbar'?", "back": "A metallic bar that conducts electricity within a switchboard or panelboard.", "category": "Distribution" },
+        { "id": "c10-f15", "front": "What does THHN stand for?", "back": "Thermoplastic High Heat-resistant Nylon-coated", "category": "Wire" },
+        { "id": "c10-f16", "front": "What is the maximum number of degrees of bend allowed in a conduit run?", "back": "360 degrees", "category": "Conduit" },
+        { "id": "c10-f17", "front": "What is the standard frequency of AC power in the US?", "back": "60 Hertz (Hz)", "category": "Theory" },
+        { "id": "c10-f18", "front": "What is a 'Service Entrance'?", "back": "The point where the utility company's wires connect to the building's wiring system.", "category": "Distribution" },
+        { "id": "c10-f19", "front": "What is an AFCI?", "back": "Arc-Fault Circuit Interrupter", "category": "Safety" },
+        { "id": "c10-f20", "front": "What is the purpose of a ground rod?", "back": "To provide a direct path to earth for lightning strikes or surges.", "category": "Safety" }
+      ]
+    }
+  ]
+}
+
