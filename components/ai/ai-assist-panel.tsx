@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Sparkles, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { getExplanation } from "@/lib/ai/explain";
 import { PracticeQuestion } from "@/lib/practice/types";
 import { cn } from "@/lib/utils";

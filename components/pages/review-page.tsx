@@ -24,7 +24,7 @@ import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { QuestionBlock } from "@/components/questions/question-block";
-import { RotateCcw, CheckCircle2, Play, Target, Sparkles } from "lucide-react";
+import { RotateCcw, CheckCircle2, Play, Target } from "lucide-react";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 import { 
   Select, 
@@ -566,7 +566,7 @@ export function ReviewPageContent() {
                           
                           <AIAssistPanel 
                             question={selectedItem as unknown as PracticeQuestion} 
-                            userChoiceId={selectedItem.userChoiceId} 
+                            userChoiceId={selectedItem.userChoiceId ?? null} 
                           />
                         </div>
                       )}
