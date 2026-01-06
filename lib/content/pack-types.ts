@@ -15,6 +15,7 @@ export interface ContentPack {
   practiceQuestions: PracticeQuestion[];
   examQuestions: PracticeQuestion[];
   flashcardDecks: FlashcardDeck[];
+  prerequisites?: string[];
   applicable?: {
     states?: string[];
     licenses?: string[];

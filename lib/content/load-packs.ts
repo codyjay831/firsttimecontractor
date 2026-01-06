@@ -69,13 +69,14 @@ export function getLastPackErrors(): string[] | null {
   return lastPackErrors;
 }
 
-export function listPacks(): (Pick<ContentPack, "packId" | "title" | "applicable">)[] {
+export function listPacks(): (Pick<ContentPack, "packId" | "title" | "applicable" | "prerequisites">)[] {
   return Object.entries(PACK_REGISTRY).map(([id, pack]) => {
     const p = pack as ContentPack;
     return {
       packId: id,
       title: p.title,
       applicable: p.applicable,
+      prerequisites: p.prerequisites,
     };
   });
 }

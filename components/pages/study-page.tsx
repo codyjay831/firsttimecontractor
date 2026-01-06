@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle, Compass, CheckCircle2 } from "lucide-react";
+import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle, Compass, CheckCircle2, ArrowRight } from "lucide-react";
 import { LensHeader } from "@/components/lens/lens-header";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { Button } from "@/components/ui/button";
@@ -173,6 +173,11 @@ export function StudyPageContent() {
                         <span className="text-[10px] text-muted-foreground">
                           {stats.percent}% complete ({stats.answeredCount}/{stats.totalQuestions})
                         </span>
+                        {p.prerequisites && p.prerequisites.length > 0 && (
+                          <span className="text-[9px] text-amber-600 dark:text-amber-400 font-medium">
+                            Requires: {p.prerequisites.map(id => packs.find(pp => pp.packId === id)?.title || id).join(", ")}
+                          </span>
+                        )}
                       </div>
                       {badge && (
                         <Badge variant={badge.variant} className="ml-auto text-[10px] px-1.5 py-0 h-4">
@@ -417,6 +422,43 @@ export function StudyPageContent() {
                     </div>
                     <div className="text-xs text-muted-foreground mb-2">{step.reason}</div>
                     
+                    {/* Prerequisites Guidance */}
+                    {(() => {
+                      const pack = packs.find(p => p.packId === step.packId);
+                      if (!pack?.prerequisites?.length) return null;
+
+                      const uncompletedPrereqs = pack.prerequisites
+                        .map(id => ({ id, pack: packs.find(p => p.packId === id) }))
+                        .filter(item => {
+                          if (!item.pack) return false;
+                          const stats = getPackProgressStats(item.id, getPackTotalQuestions(item.id));
+                          return stats.percent < 80; // Threshold for "not yet progressed"
+                        });
+
+                      if (uncompletedPrereqs.length === 0) return null;
+
+                      return (
+                        <div className="flex flex-col gap-1.5 mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded text-[10px]">
+                          <div className="font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3" />
+                            Recommended before this pack:
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {uncompletedPrereqs.map(prereq => (
+                              <button
+                                key={prereq.id}
+                                onClick={() => handlePackChange(prereq.id)}
+                                className="flex items-center gap-1 text-primary hover:underline font-medium"
+                              >
+                                {prereq.pack?.title || prereq.id}
+                                <ArrowRight className="w-2.5 h-2.5" />
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     {/* Progress Bar for Suggested Path */}
                     {(() => {
                       const stats = getPackProgressStats(step.packId, getPackTotalQuestions(step.packId));
