@@ -51,6 +51,7 @@ export function ExamPageContent() {
   
   const [isStarted, setIsStarted] = useState(() => getSessionItem(STORAGE_KEYS.IS_STARTED, false));
   const [length, setLength] = useState("30");
+  const [timePreset, setTimePreset] = useState("fixed"); // "fixed" or "per-question"
   const [shuffle, setShuffle] = useState(true);
   const [selectedPackIds, setSelectedPackIds] = useState<string[]>([]);
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>(() => getSessionItem(STORAGE_KEYS.QUESTIONS, []));
@@ -117,9 +118,13 @@ export function ExamPageContent() {
     
     const numQuestions = parseInt(length);
     const selected = pool.slice(0, numQuestions);
-    const duration = parseInt(length); // Matches length for now, or we could have a separate duration select. 
-    // Requirement says "choose exam length (15/30/60)". This usually refers to question count and minutes often matches or is proportional.
-    // Let's assume duration is same as length for now or maybe 1:1 ratio.
+    
+    let duration = 30;
+    if (timePreset === "per-question") {
+      duration = Math.ceil(selected.length * 1.5); // 1.5 mins per question
+    } else {
+      duration = parseInt(length); // Fixed match (15/30/60)
+    }
     
     setSessionQuestions(selected);
     setDurationMinutes(duration);
@@ -215,17 +220,30 @@ export function ExamPageContent() {
                 )}
               </div>
 
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
-                <div className="space-y-2 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground">Exam Length</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end">
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">Number of Questions</div>
                   <Select value={length} onValueChange={setLength}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select length" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="15">15 Questions (15 mins)</SelectItem>
-                      <SelectItem value="30">30 Questions (30 mins)</SelectItem>
-                      <SelectItem value="60">60 Questions (60 mins)</SelectItem>
+                      <SelectItem value="15">15 Questions</SelectItem>
+                      <SelectItem value="30">30 Questions</SelectItem>
+                      <SelectItem value="60">60 Questions</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">Time Limit</div>
+                  <Select value={timePreset} onValueChange={setTimePreset}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fixed">Fixed ({length} mins)</SelectItem>
+                      <SelectItem value="per-question">Dynamic (1.5m / q)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -24,6 +24,8 @@ import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session
 import { PracticeQuestion } from "@/lib/practice/types";
 import { recordAnsweredQuestion, calculateReadinessScore } from "@/lib/content/progress";
 import { listPacks } from "@/lib/content/load-packs";
+import { CategoryPerformance, DifficultyPerformance } from "@/lib/analytics/answer-analytics";
+import { Badge } from "@/components/ui/badge";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -55,7 +57,10 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
   // Basic State
   const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
   const [view, setView] = useState<ExamView>(() => getSessionItem(STORAGE_KEYS.VIEW, "exam"));
-  const [secondsRemaining, setSecondsRemaining] = useState(() => getSessionItem(STORAGE_KEYS.SECONDS_REMAINING, totalSeconds));
+  const [secondsRemaining, setSecondsRemaining] = useState(() => {
+    const stored = getSessionItem<number | null>(STORAGE_KEYS.SECONDS_REMAINING, null);
+    return stored !== null ? stored : totalSeconds;
+  });
   const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
   const [showGrid, setShowGrid] = useState(() => getSessionItem(STORAGE_KEYS.SHOW_GRID, false));
   const isInitialMount = useRef(true);
@@ -116,16 +121,54 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
     let correctCount = 0;
     let incorrectCount = 0;
 
+    const categoryMap: Record<string, { correct: number; total: number }> = {};
+    const difficultyMap: Record<string, { correct: number; total: number }> = {};
+
     questions.forEach(q => {
       const record = recordsById[q.id];
-      if (record?.selectedChoiceId) {
-        if (record.selectedChoiceId === q.correctChoiceId) {
+      const isCorrect = record?.selectedChoiceId === q.correctChoiceId;
+      const isAnswered = record?.selectedChoiceId !== null;
+
+      if (isAnswered) {
+        if (isCorrect) {
           correctCount++;
         } else {
           incorrectCount++;
         }
       }
+
+      // Track categories and difficulties for this specific exam
+      const cat = q.category || "General";
+      const diff = q.difficulty || "medium";
+
+      categoryMap[cat] = categoryMap[cat] || { correct: 0, total: 0 };
+      categoryMap[cat].total++;
+      if (isCorrect) categoryMap[cat].correct++;
+
+      difficultyMap[diff] = difficultyMap[difficultyMap[diff] ? diff : diff] || { correct: 0, total: 0 };
+      difficultyMap[diff].total++;
+      if (isCorrect) difficultyMap[diff].correct++;
     });
+
+    const missedByCategory: CategoryPerformance[] = Object.entries(categoryMap)
+      .map(([category, stats]) => ({
+        category,
+        correct: stats.correct,
+        incorrect: stats.total - stats.correct,
+        total: stats.total,
+        accuracy: Math.round((stats.correct / stats.total) * 100),
+      }))
+      .sort((a, b) => a.accuracy - b.accuracy);
+
+    const missedByDifficulty: DifficultyPerformance[] = Object.entries(difficultyMap)
+      .map(([difficulty, stats]) => ({
+        difficulty,
+        correct: stats.correct,
+        incorrect: stats.total - stats.correct,
+        total: stats.total,
+        accuracy: Math.round((stats.correct / stats.total) * 100),
+      }))
+      .sort((a, b) => a.accuracy - b.accuracy);
 
     return {
       totalQuestions,
@@ -133,7 +176,9 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
       unansweredCount: totalQuestions - answeredCount,
       flaggedCount,
       correctCount,
-      incorrectCount
+      incorrectCount,
+      missedByCategory,
+      missedByDifficulty,
     };
   }, [recordsById, questions]);
 
@@ -257,8 +302,11 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SectionCard title="Score">
-            <div className="text-3xl font-bold">
-              {Math.round((summary.correctCount / summary.totalQuestions) * 100)}%
+            <div className="flex items-baseline gap-2">
+              <div className="text-3xl font-bold">
+                {Math.round((summary.correctCount / summary.totalQuestions) * 100)}%
+              </div>
+              <div className="text-xs font-medium text-muted-foreground">/ Target: 70%</div>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               {summary.correctCount} / {summary.totalQuestions} correct
@@ -291,6 +339,46 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
             </p>
           </SectionCard>
         </div>
+
+        <SectionCard title="Performance by Category">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {summary.missedByCategory.map((area) => (
+              <div key={area.category} className="p-3 bg-muted/30 rounded-lg border border-border/50 flex flex-col gap-2">
+                <div className="flex justify-between items-center gap-2">
+                  <div className="text-xs font-semibold text-muted-foreground truncate" title={area.category}>
+                    {area.category}
+                  </div>
+                  <div className="text-xs font-bold">
+                    {area.accuracy}%
+                  </div>
+                </div>
+                <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all duration-500 ${
+                      area.accuracy < 50 ? "bg-destructive" : area.accuracy < 70 ? "bg-amber-500" : "bg-primary"
+                    }`}
+                    style={{ width: `${area.accuracy}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-muted-foreground flex justify-between">
+                  <span>{area.correct} / {area.total} correct</span>
+                  {area.accuracy < 70 && <span className="text-amber-600 font-medium">Needs focus</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-6 pt-6 border-t border-border/50">
+            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Difficulty Breakdown</div>
+            <div className="flex flex-wrap gap-2">
+              {summary.missedByDifficulty.map((diff) => (
+                <Badge key={diff.difficulty} variant="outline" className="px-2 py-0.5">
+                  {diff.difficulty}: {diff.accuracy}% ({diff.correct}/{diff.total})
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </SectionCard>
 
         <SectionCard title="Details">
           <div className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
