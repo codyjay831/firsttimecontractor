@@ -1,0 +1,78 @@
+{
+  "packId": "core-ca",
+  "title": "California Core",
+  "version": "1.0.0",
+  "applicable": {
+    "states": ["CA"]
+  },
+  "practiceQuestions": [
+    {
+      "id": "ca-core-q1",
+      "prompt": "In California, what is the maximum amount a contractor can request as a down payment for a home improvement contract?",
+      "choices": [
+        { "id": "a", "text": "10% of the contract price or $1,000, whichever is less" },
+        { "id": "b", "text": "25% of the contract price" },
+        { "id": "c", "text": "$5,000" },
+        { "id": "d", "text": "There is no limit" }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "California law (B&P Code 7159) limits the down payment for home improvement projects to 10% of the contract price or $1,000, whichever is less.",
+      "category": "California Law",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ca-core-q2",
+      "prompt": "Which California agency is responsible for licensing and regulating the construction industry?",
+      "choices": [
+        { "id": "a", "text": "Department of Industrial Relations" },
+        { "id": "b", "text": "Contractors State License Board (CSLB)" },
+        { "id": "c", "text": "Secretary of State" },
+        { "id": "d", "text": "Division of Occupational Safety and Health" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The CSLB is the state agency that licenses and regulates contractors in California.",
+      "category": "Regulation",
+      "difficulty": "easy"
+    }
+  ],
+  "examQuestions": [
+    {
+      "id": "ca-core-ex1",
+      "prompt": "A California contractor must notify the CSLB of a change of address within how many days?",
+      "choices": [
+        { "id": "a", "text": "10 days" },
+        { "id": "b", "text": "30 days" },
+        { "id": "c", "text": "60 days" },
+        { "id": "d", "text": "90 days" }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "A licensee must notify the CSLB Registrar within 90 days of any change in address.",
+      "category": "California Law",
+      "difficulty": "medium"
+    }
+  ],
+  "flashcardDecks": [
+    {
+      "id": "ca-legal",
+      "title": "CA Legal Basics",
+      "description": "Essential California contracting law concepts",
+      "cards": [
+        {
+          "id": "ca-fc1",
+          "front": "What is the CSLB?",
+          "back": "Contractors State License Board - the regulatory body for contractors in CA.",
+          "category": "Legal",
+          "difficulty": "easy"
+        },
+        {
+          "id": "ca-fc2",
+          "front": "CA Down Payment Limit?",
+          "back": "10% or $1,000, whichever is less (for home improvement).",
+          "category": "Legal",
+          "difficulty": "medium"
+        }
+      ]
+    }
+  ]
+}
+

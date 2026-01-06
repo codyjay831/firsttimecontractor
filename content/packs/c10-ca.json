@@ -1,0 +1,79 @@
+{
+  "packId": "c10-ca",
+  "title": "Electrical — C-10 (California)",
+  "version": "1.0.0",
+  "applicable": {
+    "states": ["CA"],
+    "licenses": ["C10"]
+  },
+  "practiceQuestions": [
+    {
+      "id": "ca-c10-q1",
+      "prompt": "In California, a C-10 Electrical Contractor is authorized to:",
+      "choices": [
+        { "id": "a", "text": "Install and repair electrical wires, fixtures, and appliances" },
+        { "id": "b", "text": "Perform plumbing work only" },
+        { "id": "c", "text": "Build entire houses from scratch" },
+        { "id": "d", "text": "Only work on solar panels" }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "The C-10 license classification covers the installation, maintenance, and repair of electrical wiring and equipment.",
+      "category": "C-10 Scope",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ca-c10-q2",
+      "prompt": "Which code is primarily used for electrical installations in California?",
+      "choices": [
+        { "id": "a", "text": "California Building Code" },
+        { "id": "b", "text": "California Electrical Code (CEC)" },
+        { "id": "c", "text": "Uniform Mechanical Code" },
+        { "id": "d", "text": "California Fire Code" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Electrical work in California must comply with the California Electrical Code (CEC), which is based on the National Electrical Code (NEC).",
+      "category": "Codes",
+      "difficulty": "medium"
+    }
+  ],
+  "examQuestions": [
+    {
+      "id": "ca-c10-ex1",
+      "prompt": "What is the minimum working clearance in front of electrical equipment operating at 600 volts or less in CA?",
+      "choices": [
+        { "id": "a", "text": "2 feet" },
+        { "id": "b", "text": "3 feet" },
+        { "id": "c", "text": "4 feet" },
+        { "id": "d", "text": "5 feet" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The standard minimum clear working space in front of electrical equipment is 3 feet.",
+      "category": "Safety & Clearance",
+      "difficulty": "medium"
+    }
+  ],
+  "flashcardDecks": [
+    {
+      "id": "ca-c10-theory",
+      "title": "C-10 Electrical Theory",
+      "description": "Key electrical concepts for California C-10 exam",
+      "cards": [
+        {
+          "id": "ca-c10-fc1",
+          "front": "What does CEC stand for?",
+          "back": "California Electrical Code",
+          "category": "Codes",
+          "difficulty": "easy"
+        },
+        {
+          "id": "ca-c10-fc2",
+          "front": "C-10 License Name?",
+          "back": "Electrical Contractor",
+          "category": "Classification",
+          "difficulty": "easy"
+        }
+      ]
+    }
+  ]
+}
+
