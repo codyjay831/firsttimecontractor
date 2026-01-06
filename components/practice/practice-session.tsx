@@ -16,6 +16,7 @@ import { ChoiceList } from "@/components/questions/choice-list";
 import { PracticeQuestion } from "@/lib/practice/types";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 import { recordAnsweredQuestion } from "@/lib/content/progress";
+import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -317,6 +318,11 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
               <span className="font-semibold block mb-1">Explanation:</span>
               <p className="text-muted-foreground italic">{currentQuestion.explanation}</p>
             </div>
+            
+            <AIAssistPanel 
+              question={currentQuestion} 
+              userChoiceId={selectedChoiceId} 
+            />
           </div>
         </SectionCard>
       )}

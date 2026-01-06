@@ -24,7 +24,8 @@ import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { QuestionBlock } from "@/components/questions/question-block";
-import { RotateCcw, CheckCircle2, Play, Target } from "lucide-react";
+import { RotateCcw, CheckCircle2, Play, Target, Sparkles } from "lucide-react";
+import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 import { 
   Select, 
   SelectContent, 
@@ -35,6 +36,7 @@ import {
   SelectLabel
 } from "@/components/ui/select";
 import { useMemo } from "react";
+import { PracticeQuestion } from "@/lib/practice/types";
 
 type RetryRecord = {
   selectedChoiceId: string | null;
@@ -475,9 +477,16 @@ export function ReviewPageContent() {
                       />
 
                       {currentRetry?.status === "submitted" && selectedItem.explanation && (
-                        <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
-                          <span className="font-semibold block mb-1">Explanation:</span>
-                          <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                        <div className="flex flex-col gap-4">
+                          <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
+                            <span className="font-semibold block mb-1">Explanation:</span>
+                            <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                          </div>
+                          
+                          <AIAssistPanel 
+                            question={selectedItem as unknown as PracticeQuestion} 
+                            userChoiceId={currentRetry.selectedChoiceId} 
+                          />
                         </div>
                       )}
 
@@ -549,9 +558,16 @@ export function ReviewPageContent() {
                       />
 
                       {selectedItem.explanation && (
-                        <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
-                          <span className="font-semibold block mb-1">Explanation:</span>
-                          <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                        <div className="flex flex-col gap-4">
+                          <div className="rounded-md bg-muted p-4 text-sm leading-relaxed">
+                            <span className="font-semibold block mb-1">Explanation:</span>
+                            <p className="text-muted-foreground italic">{selectedItem.explanation}</p>
+                          </div>
+                          
+                          <AIAssistPanel 
+                            question={selectedItem as unknown as PracticeQuestion} 
+                            userChoiceId={selectedItem.userChoiceId} 
+                          />
                         </div>
                       )}
 

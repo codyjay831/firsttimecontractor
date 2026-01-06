@@ -26,6 +26,7 @@ import { recordAnsweredQuestion, calculateReadinessScore } from "@/lib/content/p
 import { listPacks } from "@/lib/content/load-packs";
 import { CategoryPerformance, DifficultyPerformance } from "@/lib/analytics/answer-analytics";
 import { Badge } from "@/components/ui/badge";
+import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -473,9 +474,16 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
               />
               
               {view === "review" && currentQuestion.explanation && (
-                <div className="rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
-                  <p className="font-semibold mb-1">Explanation:</p>
-                  {currentQuestion.explanation}
+                <div className="flex flex-col gap-4">
+                  <div className="rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
+                    <p className="font-semibold mb-1">Explanation:</p>
+                    {currentQuestion.explanation}
+                  </div>
+                  
+                  <AIAssistPanel 
+                    question={currentQuestion} 
+                    userChoiceId={currentRecord.selectedChoiceId} 
+                  />
                 </div>
               )}
             </div>
