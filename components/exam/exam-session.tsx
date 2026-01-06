@@ -22,6 +22,7 @@ import { ReviewItem, ReviewPayload } from "@/lib/review/types";
 import { QuestionBlock } from "@/components/questions/question-block";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 import { PracticeQuestion } from "@/lib/practice/types";
+import { recordAnsweredQuestion } from "@/lib/content/progress";
 
 type ExamQuestionRecord = {
   selectedChoiceId: string | null;
@@ -145,6 +146,11 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
         selectedChoiceId: choiceId
       }
     }));
+
+    // Epic 17A: Record progress per pack
+    if (currentQuestion.packId) {
+      recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id);
+    }
   };
 
   const toggleFlag = () => {

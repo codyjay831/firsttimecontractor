@@ -9,7 +9,8 @@ import { useLens } from "@/lib/lens/use-lens";
 import { buildLensHref } from "@/lib/lens/href";
 import { useReview } from "@/components/review/use-review";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
-import { listPacks, getActivePackId, setActivePackId, getLastPackErrors } from "@/lib/content/load-packs";
+import { listPacks, getActivePackId, setActivePackId, getLastPackErrors, getPackTotalQuestions } from "@/lib/content/load-packs";
+import { getPackProgressStats } from "@/lib/content/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
@@ -161,10 +162,16 @@ export function StudyPageContent() {
             <SelectContent>
               {packs.map((p) => {
                 const badge = getPackBadgeLabel(p, lens);
+                const stats = getPackProgressStats(p.packId, getPackTotalQuestions(p.packId));
                 return (
                   <SelectItem key={p.packId} value={p.packId}>
                     <div className="flex items-center justify-between w-full gap-4">
-                      <span>{p.title}</span>
+                      <div className="flex flex-col">
+                        <span>{p.title}</span>
+                        <span className="text-[10px] text-muted-foreground">
+                          {stats.percent}% complete ({stats.answeredCount}/{stats.totalQuestions})
+                        </span>
+                      </div>
                       {badge && (
                         <Badge variant={badge.variant} className="ml-auto text-[10px] px-1.5 py-0 h-4">
                           {badge.label}
@@ -284,7 +291,26 @@ export function StudyPageContent() {
                         <Badge variant="secondary" className="text-[10px] h-4 px-1.5">Active</Badge>
                       )}
                     </div>
-                    <div className="text-xs text-muted-foreground">{step.reason}</div>
+                    <div className="text-xs text-muted-foreground mb-2">{step.reason}</div>
+                    
+                    {/* Progress Bar for Suggested Path */}
+                    {(() => {
+                      const stats = getPackProgressStats(step.packId, getPackTotalQuestions(step.packId));
+                      return (
+                        <div className="flex flex-col gap-1.5 w-full sm:w-48">
+                          <div className="flex justify-between text-[10px] font-medium text-muted-foreground">
+                            <span>Progress</span>
+                            <span>{stats.percent}%</span>
+                          </div>
+                          <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-primary transition-all duration-500" 
+                              style={{ width: `${stats.percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
                 

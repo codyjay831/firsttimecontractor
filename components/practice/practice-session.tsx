@@ -15,6 +15,7 @@ import { QuestionPrompt } from "@/components/questions/question-prompt";
 import { ChoiceList } from "@/components/questions/choice-list";
 import { PracticeQuestion } from "@/lib/practice/types";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
+import { recordAnsweredQuestion } from "@/lib/content/progress";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -95,6 +96,11 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
         status: "submitted",
         isCorrect: correct
       });
+
+      // Epic 17A: Record progress per pack
+      if (currentQuestion.packId) {
+        recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id);
+      }
     }
   };
 

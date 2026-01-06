@@ -98,7 +98,11 @@ export function setActivePackId(packId: string): void {
 
 export function loadPack(packId: string): ContentPack {
   const pack = PACK_REGISTRY[packId] || PACK_REGISTRY["core"];
-  const contentPack = pack as ContentPack;
+  const contentPack = JSON.parse(JSON.stringify(pack)) as ContentPack; // Deep clone to avoid mutating registry if needed, though registry is from JSON imports
+
+  // Inject packId into questions for progress tracking
+  contentPack.practiceQuestions.forEach(q => q.packId = contentPack.packId);
+  contentPack.examQuestions.forEach(q => q.packId = contentPack.packId);
 
   const validation = validatePack(contentPack);
   
@@ -134,5 +138,10 @@ export function getExamQuestionsForPack(packId: string): PracticeQuestion[] {
 
 export function getFlashcardDecksActive(): FlashcardDeck[] {
   return loadPack(getActivePackId()).flashcardDecks;
+}
+
+export function getPackTotalQuestions(packId: string): number {
+  const pack = loadPack(packId);
+  return pack.practiceQuestions.length + pack.examQuestions.length;
 }
 

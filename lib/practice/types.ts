@@ -1,5 +1,6 @@
 export type PracticeQuestion = {
   id: string
+  packId?: string
   prompt: string
   choices: { id: string; text: string }[]
   correctChoiceId: string
