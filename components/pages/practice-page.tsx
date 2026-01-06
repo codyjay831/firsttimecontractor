@@ -18,7 +18,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { Shuffle, Play, RotateCcw, BookOpen, Package, Check } from "lucide-react";
+import { Shuffle, Play, RotateCcw, BookOpen, Package, Check, Percent } from "lucide-react";
 import { ActionRow } from "@/components/scaffold/action-row";
 import { EmptyState } from "@/components/scaffold/empty-state";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
@@ -42,6 +42,7 @@ export function PracticePageContent() {
   const [count, setCount] = useState("10");
   const [shuffle, setShuffle] = useState(false);
   const [selectedPackIds, setSelectedPackIds] = useState<string[]>([]);
+  const [packWeights, setPackWeights] = useState<Record<string, number>>({});
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
 
@@ -68,18 +69,47 @@ export function PracticePageContent() {
       });
     }
 
+    const selectedIds = Array.from(initialSelected);
     const timer = setTimeout(() => {
-      setSelectedPackIds(Array.from(initialSelected));
+      setSelectedPackIds(selectedIds);
+      // Initialize weights
+      const initialWeights: Record<string, number> = {};
+      const evenWeight = Math.floor(100 / selectedIds.length);
+      selectedIds.forEach((id, idx) => {
+        initialWeights[id] = idx === selectedIds.length - 1 ? 100 - (evenWeight * (selectedIds.length - 1)) : evenWeight;
+      });
+      setPackWeights(initialWeights);
     }, 0);
     return () => clearTimeout(timer);
   }, [lens, packs]);
 
   const togglePack = (packId: string) => {
-    setSelectedPackIds(prev => 
-      prev.includes(packId) 
+    setSelectedPackIds(prev => {
+      const next = prev.includes(packId) 
         ? prev.filter(id => id !== packId) 
-        : [...prev, packId]
-    );
+        : [...prev, packId];
+      
+      // Update weights automatically
+      if (next.length > 0) {
+        const evenWeight = Math.floor(100 / next.length);
+        const nextWeights: Record<string, number> = {};
+        next.forEach((id, idx) => {
+          nextWeights[id] = idx === next.length - 1 ? 100 - (evenWeight * (next.length - 1)) : evenWeight;
+        });
+        setPackWeights(nextWeights);
+      } else {
+        setPackWeights({});
+      }
+      
+      return next;
+    });
+  };
+
+  const setWeight = (packId: string, weight: number) => {
+    setPackWeights(prev => ({
+      ...prev,
+      [packId]: Math.max(0, Math.min(100, weight))
+    }));
   };
 
   const handleStart = () => {
@@ -90,25 +120,60 @@ export function PracticePageContent() {
       return;
     }
 
-    // Combine questions from selected packs
-    let combinedPool: PracticeQuestion[] = [];
-    selectedPackIds.forEach(id => {
-      combinedPool = [...combinedPool, ...getPracticeQuestionsForPack(id)];
-    });
-
-    // Deduplicate by ID (keep first occurrence)
+    const N = parseInt(count);
+    const selectedQuestions: PracticeQuestion[] = [];
     const seenIds = new Set<string>();
-    let pool = combinedPool.filter(q => {
-      if (seenIds.has(q.id)) return false;
-      seenIds.add(q.id);
-      return true;
+
+    // 1. Calculate proportions
+    const sumWeights = Object.values(packWeights).reduce((a, b) => a + b, 0) || 1;
+    const targets: Record<string, number> = {};
+    let runningSum = 0;
+    
+    selectedPackIds.forEach((id, idx) => {
+      if (idx === selectedPackIds.length - 1) {
+        targets[id] = N - runningSum;
+      } else {
+        const target = Math.round(N * (packWeights[id] / sumWeights));
+        targets[id] = target;
+        runningSum += target;
+      }
     });
 
-    if (shuffle) {
-      pool = fisherYatesShuffle(pool);
+    // 2. Select from each pack
+    selectedPackIds.forEach(id => {
+      const packPool = fisherYatesShuffle(getPracticeQuestionsForPack(id));
+      const targetCount = targets[id];
+      let added = 0;
+      
+      for (const q of packPool) {
+        if (added >= targetCount) break;
+        if (!seenIds.has(q.id)) {
+          selectedQuestions.push(q);
+          seenIds.add(q.id);
+          added++;
+        }
+      }
+    });
+
+    // 3. Fallback: If we have less than N (shortages or dedupes), fill from any remaining
+    if (selectedQuestions.length < N) {
+      const allPacksCombined = fisherYatesShuffle(selectedPackIds.flatMap(id => getPracticeQuestionsForPack(id)));
+      for (const q of allPacksCombined) {
+        if (selectedQuestions.length >= N) break;
+        if (!seenIds.has(q.id)) {
+          selectedQuestions.push(q);
+          seenIds.add(q.id);
+        }
+      }
     }
-    const selected = pool.slice(0, parseInt(count));
-    setSessionQuestions(selected);
+
+    // 4. Final shuffle if enabled
+    let finalPool = selectedQuestions;
+    if (shuffle) {
+      finalPool = fisherYatesShuffle(finalPool);
+    }
+
+    setSessionQuestions(finalPool);
     setIsStarted(true);
   };
 
@@ -165,29 +230,47 @@ export function PracticePageContent() {
                       );
 
                       return (
-                        <button
-                          key={p.packId}
-                          onClick={() => togglePack(p.packId)}
-                          className={`flex items-center justify-between p-3 rounded-md border text-sm transition-colors ${
-                            isSelected 
-                              ? "bg-primary/5 border-primary/50 text-primary font-medium" 
-                              : "bg-background border-input hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2 text-left">
-                            <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                              isSelected ? "bg-primary border-primary" : "bg-transparent border-input"
-                            }`}>
-                              {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
+                        <div key={p.packId} className="flex flex-col gap-1.5">
+                          <button
+                            onClick={() => togglePack(p.packId)}
+                            className={`flex items-center justify-between p-3 rounded-md border text-sm transition-colors ${
+                              isSelected 
+                                ? "bg-primary/5 border-primary/50 text-primary font-medium" 
+                                : "bg-background border-input hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 text-left">
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
+                                isSelected ? "bg-primary border-primary" : "bg-transparent border-input"
+                              }`}>
+                                {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
+                              </div>
+                              <div className="flex flex-col">
+                                <span>{p.title}</span>
+                                {isRecommended && (
+                                  <span className="text-[10px] text-primary/70 font-normal">Recommended</span>
+                                )}
+                              </div>
                             </div>
-                            <div className="flex flex-col">
-                              <span>{p.title}</span>
-                              {isRecommended && (
-                                <span className="text-[10px] text-primary/70 font-normal">Recommended</span>
-                              )}
+                          </button>
+                          
+                          {isSelected && (
+                            <div className="flex items-center gap-2 px-1">
+                              <div className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider shrink-0">
+                                <Percent className="w-2.5 h-2.5" />
+                                Weight
+                              </div>
+                              <input 
+                                type="number" 
+                                min="0" 
+                                max="100" 
+                                value={packWeights[p.packId] ?? 0}
+                                onChange={(e) => setWeight(p.packId, parseInt(e.target.value) || 0)}
+                                className="w-full h-7 text-xs bg-muted/30 border border-border rounded px-2 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                              />
                             </div>
-                          </div>
-                        </button>
+                          )}
+                        </div>
                       );
                     })}
                   </div>
