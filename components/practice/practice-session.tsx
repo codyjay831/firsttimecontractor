@@ -65,13 +65,7 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   const status = currentRecord?.status ?? "idle";
   const isCorrect = currentRecord?.isCorrect ?? null;
 
-  const [now, setNow] = useState(0);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setNow(Date.now());
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
+  const [now] = useState(() => Date.now());
 
   const { isDue, isNew } = useMemo(() => {
     const repetition = currentQuestion ? getQuestionRepetition(currentQuestion.id) : null;
