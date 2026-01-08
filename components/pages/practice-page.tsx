@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { PracticeSession } from "@/components/practice/practice-session";
 import { 
   listPacks, 
@@ -235,6 +236,7 @@ export function PracticePageContent() {
   return (
     <div className="flex flex-col gap-6">
       <LensHeader title="Practice" />
+      <LensPrompt />
       
       {!isStarted ? (
         <div className="space-y-6">

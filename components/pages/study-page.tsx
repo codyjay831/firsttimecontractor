@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { BookOpen, ClipboardCheck, Layers, RotateCcw, PlayCircle, History, Package, AlertTriangle, Compass, CheckCircle2, ArrowRight } from "lucide-react";
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { Button } from "@/components/ui/button";
 import { useLens } from "@/lib/lens/use-lens";
@@ -146,6 +147,7 @@ export function StudyPageContent() {
 
   return (
     <div className="flex flex-col gap-6">
+      <LensPrompt />
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <LensHeader title="Study" />
         

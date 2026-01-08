@@ -1,6 +1,7 @@
 "use client";
 
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { useLens } from "@/lib/lens/use-lens";
 import { ChevronDown, ExternalLink } from "lucide-react";
@@ -12,6 +13,7 @@ export function StateRulesPageContent() {
   return (
     <div className="flex flex-col gap-6">
       <LensHeader title="State rules" />
+      <LensPrompt />
 
       <SectionCard title={`Key rules for ${locationLabel}`}>
         <p className="text-sm text-muted-foreground">

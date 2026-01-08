@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { FlashcardsSession } from "@/components/flashcards/flashcards-session";
 import { getFlashcardDecksActive } from "@/lib/content/load-packs";
 import {
@@ -38,8 +39,8 @@ export function FlashcardsPageContent() {
           </Select>
         </div>
       </div>
+      <LensPrompt />
       <FlashcardsSession key={selectedDeckId} deck={selectedDeck} />
     </div>
   );
 }
-

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { ExamSession } from "@/components/exam/exam-session";
 import { 
   listPacks, 
@@ -166,6 +167,7 @@ export function ExamPageContent() {
   return (
     <div className="flex flex-col gap-6">
       <LensHeader title="Exam simulation" />
+      <LensPrompt />
       
       {!isStarted ? (
         <div className="space-y-6">

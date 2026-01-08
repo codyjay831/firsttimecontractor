@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LensHeader } from "@/components/lens/lens-header";
+import { LensPrompt } from "@/components/lens/lens-prompt";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { EmptyState } from "@/components/scaffold/empty-state";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -265,6 +266,7 @@ export function ReviewPageContent() {
     return (
       <div className="flex flex-col gap-6">
         <LensHeader title="Review mistakes" />
+        <LensPrompt />
         <SectionCard title="No Review Data">
           <EmptyState 
             icon={BookOpen}
@@ -287,6 +289,7 @@ export function ReviewPageContent() {
   return (
     <div className="flex flex-col gap-6">
       <LensHeader title="Review mistakes" />
+      <LensPrompt />
 
       <SectionCard 
         title={`${payload.source === "practice" ? "Practice" : "Exam"} Session Review`}
