@@ -48,16 +48,8 @@ export function PracticePageContent() {
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
 
-  const [allRepetition, setAllRepetition] = useState<GlobalRepetition>({});
-  const [now, setNow] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAllRepetition(getAllRepetitionMetadata());
-      setNow(Date.now());
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [isStarted, sessionKey]);
+  const [allRepetition] = useState(() => getAllRepetitionMetadata());
+  const [now] = useState(() => Date.now());
 
   const packStats = useMemo(() => {
     return packs.map(p => {
