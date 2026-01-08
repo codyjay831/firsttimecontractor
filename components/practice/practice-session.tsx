@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -65,13 +65,21 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   const status = currentRecord?.status ?? "idle";
   const isCorrect = currentRecord?.isCorrect ?? null;
 
+  const [now, setNow] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNow(Date.now());
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
   const { isDue, isNew } = useMemo(() => {
     const repetition = currentQuestion ? getQuestionRepetition(currentQuestion.id) : null;
     return {
-      isDue: !!(repetition && repetition.nextEligibleAt > 0 && repetition.nextEligibleAt <= Date.now()),
+      isDue: !!(repetition && repetition.nextEligibleAt > 0 && repetition.nextEligibleAt <= now),
       isNew: !repetition || (repetition.lastSeenAt === 0)
     };
-  }, [currentQuestion]);
+  }, [currentQuestion, now]);
 
   // Derived counts
   const records = Object.values(recordsById);

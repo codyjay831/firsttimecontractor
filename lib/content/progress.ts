@@ -10,7 +10,7 @@ export interface RepetitionMetadata {
   nextEligibleAt: number;
 }
 
-type GlobalRepetition = Record<string, RepetitionMetadata>;
+export type GlobalRepetition = Record<string, RepetitionMetadata>;
 
 interface PackProgress {
   correctQuestionIds: string[];

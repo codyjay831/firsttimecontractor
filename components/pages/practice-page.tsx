@@ -9,7 +9,7 @@ import {
   getPracticeQuestionsForPack 
 } from "@/lib/content/load-packs";
 import { PracticeQuestion } from "@/lib/practice/types";
-import { getAllRepetitionMetadata } from "@/lib/content/progress";
+import { getAllRepetitionMetadata, GlobalRepetition } from "@/lib/content/progress";
 import { Button } from "@/components/ui/button";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { 
@@ -48,10 +48,18 @@ export function PracticePageContent() {
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
 
-  const allRepetition = useMemo(() => getAllRepetitionMetadata(), [isStarted, sessionKey]);
+  const [allRepetition, setAllRepetition] = useState<GlobalRepetition>({});
+  const [now, setNow] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAllRepetition(getAllRepetitionMetadata());
+      setNow(Date.now());
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [isStarted, sessionKey]);
 
   const packStats = useMemo(() => {
-    const now = Date.now();
     return packs.map(p => {
       const packQuestions = getPracticeQuestionsForPack(p.packId);
       const dueCount = packQuestions.filter(q => {
@@ -61,7 +69,7 @@ export function PracticePageContent() {
       const newCount = packQuestions.filter(q => !allRepetition[q.id]).length;
       return { packId: p.packId, dueCount, newCount };
     });
-  }, [packs, allRepetition]);
+  }, [packs, allRepetition, now]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
