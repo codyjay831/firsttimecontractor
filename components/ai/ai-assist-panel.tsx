@@ -27,7 +27,7 @@ export function AIAssistPanel({ question, userChoiceId }: AIAssistPanelProps) {
     try {
       const result = await getExplanation({ question, userChoiceId });
       setExplanation(result);
-    } catch (error) {
+    } catch (_error) {
       setExplanation("Sorry, I couldn't generate an explanation at this time.");
     } finally {
       setLoading(false);

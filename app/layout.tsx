@@ -7,6 +7,7 @@ import { AppShell } from "@/components/app-shell";
 import { TopContextProvider } from "@/lib/top-context/provider";
 import { ReviewProvider } from "@/components/review/review-provider";
 import { PracticeSeedProvider } from "@/components/practice/practice-seed-provider";
+import { AuthProvider } from "@/components/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,13 +41,15 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="ftc-theme"
         >
-          <TopContextProvider>
-            <ReviewProvider>
-              <PracticeSeedProvider>
-                <AppShell>{children}</AppShell>
-              </PracticeSeedProvider>
-            </ReviewProvider>
-          </TopContextProvider>
+          <AuthProvider>
+            <TopContextProvider>
+              <ReviewProvider>
+                <PracticeSeedProvider>
+                  <AppShell>{children}</AppShell>
+                </PracticeSeedProvider>
+              </ReviewProvider>
+            </TopContextProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

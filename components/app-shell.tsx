@@ -2,10 +2,12 @@
 
 import { TopBar } from "@/components/top-bar";
 import { LeftNav } from "@/components/left-nav";
+import { SyncManager } from "@/components/auth/sync-manager";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col">
+      <SyncManager />
       <TopBar />
       <div className="flex flex-1 overflow-hidden">
         <LeftNav />

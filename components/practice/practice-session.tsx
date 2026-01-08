@@ -17,6 +17,7 @@ import { PracticeQuestion } from "@/lib/practice/types";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
 import { recordAnsweredQuestion } from "@/lib/content/progress";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
+import { useSession } from "next-auth/react";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -33,6 +34,7 @@ const STORAGE_KEYS = {
 export function PracticeSession({ questions }: { questions: PracticeQuestion[] }) {
   const router = useRouter();
   const { setPayload } = useReview();
+  const { status: authStatus } = useSession();
   
   const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
   const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
@@ -100,7 +102,12 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
 
       // Epic 17B: Record progress per pack with correctness
       if (currentQuestion.packId) {
-        recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id, correct);
+        recordAnsweredQuestion(
+          currentQuestion.packId, 
+          currentQuestion.id, 
+          correct,
+          authStatus === "authenticated"
+        );
       }
     }
   };

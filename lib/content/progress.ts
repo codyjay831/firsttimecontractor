@@ -1,4 +1,5 @@
 import { getSessionItem, setSessionItem } from "../session-storage";
+import { saveQuestionProgress } from "./sync";
 
 const PROGRESS_STORAGE_KEY = "content_pack_progress";
 
@@ -24,7 +25,7 @@ export function getPackProgress(packId: string): PackProgress {
  * Records a question as answered for a specific content pack.
  * If packId is provided, it's recorded there.
  */
-export function recordAnsweredQuestion(packId: string, questionId: string, isCorrect: boolean): void {
+export function recordAnsweredQuestion(packId: string, questionId: string, isCorrect: boolean, isAuthenticated: boolean = false): void {
   const globalProgress = getSessionItem<GlobalProgress>(PROGRESS_STORAGE_KEY, {});
   const packProgress = globalProgress[packId] || { correctQuestionIds: [], incorrectQuestionIds: [] };
 
@@ -40,6 +41,13 @@ export function recordAnsweredQuestion(packId: string, questionId: string, isCor
 
   globalProgress[packId] = packProgress;
   setSessionItem(PROGRESS_STORAGE_KEY, globalProgress);
+
+  // Sync to DB if authenticated
+  if (isAuthenticated) {
+    saveQuestionProgress(packId, questionId, isCorrect).catch(err => {
+      console.error("Failed to sync progress to DB:", err);
+    });
+  }
 }
 
 /**

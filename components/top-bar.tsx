@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TopContextSelector } from "@/components/top-context-selector";
 import { TopBarLensInfo } from "@/components/top-bar-lens-info";
+import { UserAccountControl } from "@/components/auth/user-account-control";
 
 export function TopBar() {
   return (
@@ -21,6 +22,8 @@ export function TopBar() {
       </div>
       <div className="flex items-center gap-4">
         <TopBarLensInfo />
+        <div className="h-6 w-px bg-border mx-1" />
+        <UserAccountControl />
         <ThemeToggle />
       </div>
     </header>

@@ -24,6 +24,7 @@ import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session
 import { PracticeQuestion } from "@/lib/practice/types";
 import { recordAnsweredQuestion, calculateReadinessScore } from "@/lib/content/progress";
 import { listPacks } from "@/lib/content/load-packs";
+import { useSession } from "next-auth/react";
 import { CategoryPerformance, DifficultyPerformance } from "@/lib/analytics/answer-analytics";
 import { Badge } from "@/components/ui/badge";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
@@ -52,6 +53,7 @@ interface ExamSessionProps {
 export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessionProps) {
   const router = useRouter();
   const { setPayload } = useReview();
+  const { status: authStatus } = useSession();
   
   const totalSeconds = durationMinutes * 60;
   
@@ -196,7 +198,12 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
 
     // Epic 17B: Record progress per pack with correctness
     if (currentQuestion.packId) {
-      recordAnsweredQuestion(currentQuestion.packId, currentQuestion.id, choiceId === currentQuestion.correctChoiceId);
+      recordAnsweredQuestion(
+        currentQuestion.packId, 
+        currentQuestion.id, 
+        choiceId === currentQuestion.correctChoiceId,
+        authStatus === "authenticated"
+      );
     }
   };
 
