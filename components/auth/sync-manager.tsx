@@ -28,7 +28,9 @@ export function SyncManager() {
         return () => clearTimeout(timer);
       }
     } else if (status === "unauthenticated" && hasSynced) {
-      setHasSynced(false);
+      // Use microtask or timeout to avoid synchronous setState warning
+      const timer = setTimeout(() => setHasSynced(false), 0);
+      return () => clearTimeout(timer);
     }
   }, [status, hasSynced]);
 

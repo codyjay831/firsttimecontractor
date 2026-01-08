@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 
 export function UserAccountControl() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
