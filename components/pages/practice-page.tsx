@@ -9,6 +9,7 @@ import {
   getPracticeQuestionsForPack 
 } from "@/lib/content/load-packs";
 import { PracticeQuestion } from "@/lib/practice/types";
+import { getAllRepetitionMetadata } from "@/lib/content/progress";
 import { Button } from "@/components/ui/button";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { 
@@ -23,7 +24,8 @@ import { ActionRow } from "@/components/scaffold/action-row";
 import { EmptyState } from "@/components/scaffold/empty-state";
 import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { useLens } from "@/lib/lens/use-lens";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { Badge } from "@/components/ui/badge";
 
 function fisherYatesShuffle<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -45,6 +47,21 @@ export function PracticePageContent() {
   const [packWeights, setPackWeights] = useState<Record<string, number>>({});
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
+
+  const allRepetition = useMemo(() => getAllRepetitionMetadata(), [isStarted, sessionKey]);
+
+  const packStats = useMemo(() => {
+    const now = Date.now();
+    return packs.map(p => {
+      const packQuestions = getPracticeQuestionsForPack(p.packId);
+      const dueCount = packQuestions.filter(q => {
+        const meta = allRepetition[q.id];
+        return meta && meta.nextEligibleAt > 0 && meta.nextEligibleAt <= now;
+      }).length;
+      const newCount = packQuestions.filter(q => !allRepetition[q.id]).length;
+      return { packId: p.packId, dueCount, newCount };
+    });
+  }, [packs, allRepetition]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -140,14 +157,47 @@ export function PracticePageContent() {
     });
 
     // 2. Select from each pack
+    const allRepetition = getAllRepetitionMetadata();
+    const now = Date.now();
+
     selectedPackIds.forEach(id => {
-      const packPool = fisherYatesShuffle(getPracticeQuestionsForPack(id));
+      const packPool = getPracticeQuestionsForPack(id);
       const targetCount = targets[id];
       let added = 0;
       
-      for (const q of packPool) {
+      // 2a. Prioritize due questions (eligible and seen before)
+      const dueQuestions = fisherYatesShuffle(packPool.filter(q => {
+        const meta = allRepetition[q.id];
+        return meta && meta.nextEligibleAt <= now;
+      }));
+
+      for (const q of dueQuestions) {
         if (added >= targetCount) break;
         if (!seenIds.has(q.id)) {
+          selectedQuestions.push(q);
+          seenIds.add(q.id);
+          added++;
+        }
+      }
+
+      // 2b. Then new questions (never seen)
+      if (added < targetCount) {
+        const newQuestions = fisherYatesShuffle(packPool.filter(q => !allRepetition[q.id]));
+        for (const q of newQuestions) {
+          if (added >= targetCount) break;
+          if (!seenIds.has(q.id)) {
+            selectedQuestions.push(q);
+            seenIds.add(q.id);
+            added++;
+          }
+        }
+      }
+
+      // 2c. Finally, fill with the rest (even if not due)
+      if (added < targetCount) {
+        const remainingPool = fisherYatesShuffle(packPool.filter(q => !seenIds.has(q.id)));
+        for (const q of remainingPool) {
+          if (added >= targetCount) break;
           selectedQuestions.push(q);
           seenIds.add(q.id);
           added++;
@@ -229,6 +279,10 @@ export function PracticePageContent() {
                         (lens.trade && p.applicable?.trades?.includes(lens.trade))
                       );
 
+                      const stats = packStats.find(s => s.packId === p.packId);
+                      const dueCount = stats?.dueCount ?? 0;
+                      const newCount = stats?.newCount ?? 0;
+
                       return (
                         <div key={p.packId} className="flex flex-col gap-1.5">
                           <button
@@ -246,7 +300,19 @@ export function PracticePageContent() {
                                 {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
                               </div>
                               <div className="flex flex-col">
-                                <span>{p.title}</span>
+                                <div className="flex items-center gap-2">
+                                  <span>{p.title}</span>
+                                  {dueCount > 0 && (
+                                    <Badge variant="secondary" className="h-4 px-1 text-[9px] bg-orange-100 text-orange-700 hover:bg-orange-100 border-none">
+                                      {dueCount} Due
+                                    </Badge>
+                                  )}
+                                  {newCount > 0 && dueCount === 0 && (
+                                    <Badge variant="secondary" className="h-4 px-1 text-[9px] bg-blue-100 text-blue-700 hover:bg-blue-100 border-none">
+                                      New
+                                    </Badge>
+                                  )}
+                                </div>
                                 {isRecommended && (
                                   <span className="text-[10px] text-primary/70 font-normal">Recommended</span>
                                 )}

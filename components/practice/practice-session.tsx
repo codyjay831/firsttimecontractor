@@ -15,7 +15,7 @@ import { QuestionPrompt } from "@/components/questions/question-prompt";
 import { ChoiceList } from "@/components/questions/choice-list";
 import { PracticeQuestion } from "@/lib/practice/types";
 import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session-storage";
-import { recordAnsweredQuestion } from "@/lib/content/progress";
+import { recordAnsweredQuestion, getQuestionRepetition } from "@/lib/content/progress";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 import { useSession } from "next-auth/react";
 
@@ -64,6 +64,14 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   const selectedChoiceId = currentRecord?.selectedChoiceId ?? null;
   const status = currentRecord?.status ?? "idle";
   const isCorrect = currentRecord?.isCorrect ?? null;
+
+  const { isDue, isNew } = useMemo(() => {
+    const repetition = currentQuestion ? getQuestionRepetition(currentQuestion.id) : null;
+    return {
+      isDue: !!(repetition && repetition.nextEligibleAt > 0 && repetition.nextEligibleAt <= Date.now()),
+      isNew: !repetition || (repetition.lastSeenAt === 0)
+    };
+  }, [currentQuestion]);
 
   // Derived counts
   const records = Object.values(recordsById);
@@ -278,6 +286,16 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
                   currentQuestion.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
                 )}>
                   {currentQuestion.difficulty}
+                </Badge>
+              )}
+              {isDue && (
+                <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider bg-orange-100 text-orange-700 hover:bg-orange-100 border-none">
+                  Due for review
+                </Badge>
+              )}
+              {isNew && (
+                <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider bg-blue-100 text-blue-700 hover:bg-blue-100 border-none">
+                  New
                 </Badge>
               )}
               <Badge variant="outline" className="font-normal text-xs uppercase tracking-wider ml-auto">

@@ -2,6 +2,15 @@ import { getSessionItem, setSessionItem } from "../session-storage";
 import { saveQuestionProgress } from "./sync";
 
 const PROGRESS_STORAGE_KEY = "content_pack_progress";
+const REPETITION_STORAGE_KEY = "question_repetition_metadata";
+
+export interface RepetitionMetadata {
+  lastSeenAt: number;
+  timesIncorrect: number;
+  nextEligibleAt: number;
+}
+
+type GlobalRepetition = Record<string, RepetitionMetadata>;
 
 interface PackProgress {
   correctQuestionIds: string[];
@@ -41,6 +50,28 @@ export function recordAnsweredQuestion(packId: string, questionId: string, isCor
 
   globalProgress[packId] = packProgress;
   setSessionItem(PROGRESS_STORAGE_KEY, globalProgress);
+
+  // Record repetition metadata
+  const globalRepetition = getSessionItem<GlobalRepetition>(REPETITION_STORAGE_KEY, {});
+  const meta = globalRepetition[questionId] || {
+    lastSeenAt: 0,
+    timesIncorrect: 0,
+    nextEligibleAt: 0,
+  };
+
+  meta.lastSeenAt = Date.now();
+  if (!isCorrect) {
+    meta.timesIncorrect++;
+    // If incorrect, resurface soon (e.g., in 10 minutes or next session)
+    meta.nextEligibleAt = Date.now() + (10 * 60 * 1000);
+  } else {
+    // If correct, push out further (e.g., 24 hours)
+    // Basic v1: constant 24h interval for correct answers
+    meta.nextEligibleAt = Date.now() + (24 * 60 * 60 * 1000);
+  }
+
+  globalRepetition[questionId] = meta;
+  setSessionItem(REPETITION_STORAGE_KEY, globalRepetition);
 
   // Sync to DB if authenticated
   if (isAuthenticated) {
@@ -117,5 +148,24 @@ export function calculateReadinessScore(allPacks: { packId: string }[]) {
 
   const score = (coreAccuracy * 0.4) + (tradeAccuracy * 0.6);
   return Math.round(score * 100);
+}
+
+/**
+ * Retrieves repetition metadata for a specific question.
+ */
+export function getQuestionRepetition(questionId: string): RepetitionMetadata {
+  const globalRepetition = getSessionItem<GlobalRepetition>(REPETITION_STORAGE_KEY, {});
+  return globalRepetition[questionId] || {
+    lastSeenAt: 0,
+    timesIncorrect: 0,
+    nextEligibleAt: 0,
+  };
+}
+
+/**
+ * Retrieves all repetition metadata.
+ */
+export function getAllRepetitionMetadata(): GlobalRepetition {
+  return getSessionItem<GlobalRepetition>(REPETITION_STORAGE_KEY, {});
 }
 
