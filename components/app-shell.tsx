@@ -11,7 +11,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <TopBar />
       <div className="flex flex-1 overflow-hidden">
         <LeftNav />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="relative z-0 flex-1 overflow-auto p-6">{children}</main>
       </div>
     </div>
   );

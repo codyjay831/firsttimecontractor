@@ -60,7 +60,7 @@ export function LeftNav() {
   return (
     <aside
       className={cn(
-        "flex h-full flex-col border-r border-border bg-sidebar transition-all duration-200",
+        "relative z-50 flex h-full flex-col border-r border-border bg-sidebar transition-all duration-200",
         collapsed ? "w-14" : "w-56"
       )}
     >

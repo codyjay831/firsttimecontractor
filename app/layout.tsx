@@ -19,6 +19,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { TutorProvider } from "@/lib/ai/tutor-context";
+
 export const metadata: Metadata = {
   title: "Firsttimecontractor",
   description: "Contractor exam prep application",
@@ -42,13 +44,15 @@ export default function RootLayout({
           storageKey="ftc-theme"
         >
           <AuthProvider>
-            <TopContextProvider>
-              <ReviewProvider>
-                <PracticeSeedProvider>
-                  <AppShell>{children}</AppShell>
-                </PracticeSeedProvider>
-              </ReviewProvider>
-            </TopContextProvider>
+            <TutorProvider>
+              <TopContextProvider>
+                <ReviewProvider>
+                  <PracticeSeedProvider>
+                    <AppShell>{children}</AppShell>
+                  </PracticeSeedProvider>
+                </ReviewProvider>
+              </TopContextProvider>
+            </TutorProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
