@@ -49,10 +49,19 @@ export function PracticePageContent() {
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
 
-  const [allRepetition] = useState(() => getAllRepetitionMetadata());
-  const [now] = useState(() => Date.now());
+  const [allRepetition, setAllRepetition] = useState<GlobalRepetition>({});
+  const [now, setNow] = useState(0);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setAllRepetition(getAllRepetitionMetadata());
+    setNow(Date.now());
+    setIsHydrated(true);
+  }, []);
 
   const packStats = useMemo(() => {
+    if (!isHydrated) return packs.map(p => ({ packId: p.packId, dueCount: 0, newCount: 0 }));
+    
     return packs.map(p => {
       const packQuestions = getPracticeQuestionsForPack(p.packId);
       const dueCount = packQuestions.filter(q => {

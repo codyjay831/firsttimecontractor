@@ -112,6 +112,11 @@ export function loadPack(packId: string): ContentPack {
     q.category = q.category || "General";
     q.difficulty = q.difficulty || "medium";
   });
+  contentPack.flashcardDecks.forEach(deck => {
+    deck.cards.forEach(card => {
+      card.difficulty = card.difficulty || "medium";
+    });
+  });
 
   const validation = validatePack(contentPack);
   

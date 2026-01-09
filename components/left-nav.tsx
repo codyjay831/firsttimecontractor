@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BookOpen,
@@ -17,7 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLens } from "@/lib/lens/use-lens";
-import { buildLensHref } from "@/lib/lens/href";
+import { buildLensHref, lensFromPathname } from "@/lib/lens/href";
 
 const navItems = [
   {
@@ -55,7 +54,47 @@ const navItems = [
 export function LeftNav() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
-  const lens = useLens();
+  const selectorLens = useLens();
+
+  // Ref-based navigation guard (more reliable than state for rapid clicks)
+  const isNavigatingRef = React.useRef(false);
+  const pendingHrefRef = React.useRef<string | null>(null);
+
+  // Prefer lens from pathname to prevent nav jumping when selector changes
+  const pathnameLens = lensFromPathname(pathname);
+  const lens = pathnameLens ?? selectorLens;
+
+  // Reset navigation lock when route commits (page load)
+  React.useEffect(() => {
+    isNavigatingRef.current = false;
+    pendingHrefRef.current = null;
+  }, [pathname]);
+
+  const handleNavClick = (href: string) => {
+    // Single-flight: ignore clicks while navigating
+    if (isNavigatingRef.current) {
+      if (process.env.NODE_ENV === "development") {
+        console.log("[nav] Ignoring click - navigation in progress to:", pendingHrefRef.current);
+      }
+      return;
+    }
+
+    // Don't navigate if already on this route
+    if (pathname.toLowerCase() === href.toLowerCase()) {
+      return;
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("[nav] Starting navigation:", { from: pathname, to: href });
+    }
+
+    isNavigatingRef.current = true;
+    pendingHrefRef.current = href;
+
+    // Use hard navigation to bypass App Router issues
+    // This is a workaround for RSC navigation not committing
+    window.location.href = href;
+  };
 
   return (
     <aside
@@ -81,13 +120,15 @@ export function LeftNav() {
       <nav className="flex flex-1 flex-col gap-1 p-2">
         {navItems.map((item) => {
           const href = buildLensHref({ base: item.href, lens });
-          const isActive = pathname === href || pathname === item.href;
+          const pathLower = pathname.toLowerCase();
+          const isActive = pathLower === href.toLowerCase() || pathLower === item.href.toLowerCase();
           return (
-            <Link
+            <button
               key={item.href}
-              href={href}
+              type="button"
+              onClick={() => handleNavClick(href)}
               className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors text-left",
                 "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
@@ -98,7 +139,7 @@ export function LeftNav() {
             >
               <item.icon className="h-4 w-4 shrink-0" />
               {!collapsed && <span>{item.label}</span>}
-            </Link>
+            </button>
           );
         })}
       </nav>

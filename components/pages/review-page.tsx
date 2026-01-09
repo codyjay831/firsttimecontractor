@@ -34,7 +34,8 @@ import {
   SelectTrigger, 
   SelectValue,
   SelectSeparator,
-  SelectLabel
+  SelectLabel,
+  SelectGroup
 } from "@/components/ui/select";
 import { useMemo } from "react";
 import { PracticeQuestion } from "@/lib/practice/types";
@@ -116,6 +117,7 @@ export function ReviewPageContent() {
       correctChoiceId: item.correctChoiceId ?? "",
       explanation: item.explanation ?? "",
       category: item.category,
+      difficulty: item.difficulty ?? "medium",
     }));
 
     setPracticeSeed({
@@ -326,12 +328,14 @@ export function ReviewPageContent() {
                       <SelectItem value="incorrect">Incorrect only ({incorrectItems.length})</SelectItem>
                     )}
                     <SelectSeparator />
-                    <SelectLabel>By Category</SelectLabel>
-                    {categories.map(cat => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat} ({payload.items.filter(i => (i.category || "Uncategorized") === cat).length})
-                      </SelectItem>
-                    ))}
+                    <SelectGroup>
+                      <SelectLabel>By Category</SelectLabel>
+                      {categories.map(cat => (
+                        <SelectItem key={cat} value={cat}>
+                          {cat} ({payload.items.filter(i => (i.category || "Uncategorized") === cat).length})
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
@@ -533,8 +537,18 @@ export function ReviewPageContent() {
                   ) : (
                     <div className="flex flex-col gap-6">
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           {getReasonBadge(selectedItem.reason)}
+                          {selectedItem.difficulty && (
+                            <Badge variant="outline" className={cn(
+                              "font-normal text-xs uppercase tracking-wider",
+                              selectedItem.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
+                              selectedItem.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
+                              selectedItem.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
+                            )}>
+                              {selectedItem.difficulty}
+                            </Badge>
+                          )}
                           <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
                         </div>
                         {selectedItem.choices && selectedItem.correctChoiceId && (

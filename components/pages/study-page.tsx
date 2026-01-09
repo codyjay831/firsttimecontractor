@@ -54,6 +54,8 @@ export function StudyPageContent() {
   const { payload } = useReview();
   const { seed } = usePracticeSeed();
   const [activePackId, setActivePackIdState] = useState("core");
+  const [readinessScore, setReadinessScore] = useState(0);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     // Avoid SSR hydration mismatch by setting state in useEffect
@@ -65,6 +67,13 @@ export function StudyPageContent() {
       }, 0);
       return () => clearTimeout(timer);
     }
+  }, []);
+
+  // Calculate readiness score after hydration to avoid mismatch
+  useEffect(() => {
+    const packs = listPacks();
+    setReadinessScore(calculateReadinessScore(packs));
+    setIsHydrated(true);
   }, []);
 
   const handlePackChange = (id: string) => {
@@ -111,8 +120,6 @@ export function StudyPageContent() {
 
   const hasReview = (payload?.items?.length ?? 0) > 0;
   const hasSeed = !!seed;
-
-  const readinessScore = calculateReadinessScore(packs);
 
   const studyModes = [
     {
@@ -174,7 +181,7 @@ export function StudyPageContent() {
                       <div className="flex flex-col">
                         <span>{p.title}</span>
                         <span className="text-[10px] text-muted-foreground">
-                          {stats.percent}% complete ({stats.answeredCount}/{stats.totalQuestions})
+                          {isHydrated ? stats.percent : 0}% complete ({isHydrated ? stats.answeredCount : 0}/{stats.totalQuestions})
                         </span>
                         {p.prerequisites && p.prerequisites.length > 0 && (
                           <span className="text-[9px] text-amber-600 dark:text-amber-400 font-medium">
@@ -201,7 +208,7 @@ export function StudyPageContent() {
         </div>
       </div>
 
-      {packErrors && packErrors.length > 0 && (
+      {isHydrated && packErrors && packErrors.length > 0 && (
         <SectionCard
           title="Content Pack Issues"
           description={`Found ${packErrors.length} potential issues in the active content pack.`}
@@ -262,7 +269,7 @@ export function StudyPageContent() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs font-medium">
                     <span className="text-muted-foreground">Core Knowledge (40%)</span>
-                    <span>{(() => {
+                    <span>{isHydrated ? (() => {
                       const corePacks = packs.filter(p => p.packId.toLowerCase().includes("core"));
                       let totalAcc = 0;
                       let count = 0;
@@ -274,12 +281,12 @@ export function StudyPageContent() {
                         }
                       });
                       return count > 0 ? Math.round(totalAcc / count) : 0;
-                    })()}%</span>
+                    })() : 0}%</span>
                   </div>
                   <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-primary/60 transition-all duration-500" 
-                      style={{ width: `${(() => {
+                      style={{ width: `${isHydrated ? (() => {
                         const corePacks = packs.filter(p => p.packId.toLowerCase().includes("core"));
                         let totalAcc = 0;
                         let count = 0;
@@ -291,7 +298,7 @@ export function StudyPageContent() {
                           }
                         });
                         return count > 0 ? Math.round(totalAcc / count) : 0;
-                      })()}%` }}
+                      })() : 0}%` }}
                     />
                   </div>
                 </div>
@@ -299,7 +306,7 @@ export function StudyPageContent() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs font-medium">
                     <span className="text-muted-foreground">Trade Knowledge (60%)</span>
-                    <span>{(() => {
+                    <span>{isHydrated ? (() => {
                       const tradePacks = packs.filter(p => !p.packId.toLowerCase().includes("core"));
                       let totalAcc = 0;
                       let count = 0;
@@ -311,12 +318,12 @@ export function StudyPageContent() {
                         }
                       });
                       return count > 0 ? Math.round(totalAcc / count) : 0;
-                    })()}%</span>
+                    })() : 0}%</span>
                   </div>
                   <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-primary/60 transition-all duration-500" 
-                      style={{ width: `${(() => {
+                      style={{ width: `${isHydrated ? (() => {
                         const tradePacks = packs.filter(p => !p.packId.toLowerCase().includes("core"));
                         let totalAcc = 0;
                         let count = 0;
@@ -328,7 +335,7 @@ export function StudyPageContent() {
                           }
                         });
                         return count > 0 ? Math.round(totalAcc / count) : 0;
-                      })()}%` }}
+                      })() : 0}%` }}
                     />
                   </div>
                 </div>
@@ -346,7 +353,8 @@ export function StudyPageContent() {
 
       {(() => {
         const analytics = getSessionAnalytics();
-        if (analytics.totalAnswered === 0) return null;
+
+        if (!isHydrated || analytics.totalAnswered === 0) return null;
 
         const topWeakAreas = analytics.missedByCategory.slice(0, 3);
         
@@ -397,7 +405,7 @@ export function StudyPageContent() {
         );
       })()}
 
-      {(hasReview || hasSeed) && (
+      {isHydrated && (hasReview || hasSeed) && (
         <div className="flex flex-col gap-4">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
             Continue Actions
@@ -522,12 +530,12 @@ export function StudyPageContent() {
                         <div className="flex flex-col gap-1.5 w-full sm:w-48">
                           <div className="flex justify-between text-[10px] font-medium text-muted-foreground">
                             <span>Progress</span>
-                            <span>{stats.percent}%</span>
+                            <span>{isHydrated ? stats.percent : 0}%</span>
                           </div>
                           <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                             <div 
                               className="h-full bg-primary transition-all duration-500" 
-                              style={{ width: `${stats.percent}%` }}
+                              style={{ width: `${isHydrated ? stats.percent : 0}%` }}
                             />
                           </div>
                         </div>

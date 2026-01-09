@@ -36,18 +36,28 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   const { setPayload } = useReview();
   const { status: authStatus } = useSession();
   
-  const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
-  const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
-  const isInitialMount = useRef(true);
+  // Use safe defaults for SSR, then hydrate from storage after mount
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>({});
+  const isHydrated = useRef(false);
 
-  // Persist to sessionStorage on changes
+  // Load from storage after mount (hydration-safe)
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
+    if (!isHydrated.current) {
+      const storedIndex = getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0);
+      const storedRecords = getSessionItem<Record<string, QuestionSessionRecord>>(STORAGE_KEYS.RECORDS, {});
+      setCurrentIndex(storedIndex);
+      setRecordsById(storedRecords);
+      isHydrated.current = true;
     }
-    setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
-    setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
+  }, []);
+
+  // Persist to sessionStorage on changes (skip until hydrated)
+  useEffect(() => {
+    if (isHydrated.current) {
+      setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
+      setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
+    }
   }, [currentIndex, recordsById]);
 
   const isFinished = currentIndex >= questions.length;
@@ -173,6 +183,7 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
           userChoiceId: record.selectedChoiceId,
           reason,
           category: q.category,
+          difficulty: q.difficulty,
         });
       }
     });

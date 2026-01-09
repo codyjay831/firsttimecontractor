@@ -10,6 +10,7 @@ export type ReviewItem = {
   userChoiceId?: string | null;
   reason: ReviewReason;
   category?: string;
+  difficulty?: "easy" | "medium" | "hard";
 };
 
 export type ReviewPayload = {

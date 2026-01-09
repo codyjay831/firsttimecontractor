@@ -3,6 +3,6 @@ export type Flashcard = {
   front: string;
   back: string;
   category?: string;
-  difficulty?: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "hard";
 };
 

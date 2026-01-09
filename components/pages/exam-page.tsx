@@ -50,13 +50,28 @@ export function ExamPageContent() {
   const lens = useLens();
   const packs = listPacks();
   
-  const [isStarted, setIsStarted] = useState(() => getSessionItem(STORAGE_KEYS.IS_STARTED, false));
+  const [isStarted, setIsStarted] = useState(false);
   const [length, setLength] = useState("30");
   const [timePreset, setTimePreset] = useState("fixed"); // "fixed" or "per-question"
   const [shuffle, setShuffle] = useState(true);
   const [selectedPackIds, setSelectedPackIds] = useState<string[]>([]);
-  const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>(() => getSessionItem(STORAGE_KEYS.QUESTIONS, []));
-  const [durationMinutes, setDurationMinutes] = useState(() => getSessionItem(STORAGE_KEYS.DURATION, 30));
+  const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
+  const [durationMinutes, setDurationMinutes] = useState(30);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    // Sync with session storage on mount
+    const savedIsStarted = getSessionItem(STORAGE_KEYS.IS_STARTED, false);
+    const savedQuestions = getSessionItem(STORAGE_KEYS.QUESTIONS, []);
+    const savedDuration = getSessionItem(STORAGE_KEYS.DURATION, 30);
+    
+    if (savedIsStarted) {
+      setIsStarted(true);
+      setSessionQuestions(savedQuestions);
+      setDurationMinutes(savedDuration);
+    }
+    setHasHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

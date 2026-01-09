@@ -4,6 +4,7 @@ export type QuestionLike = {
   id: string;
   prompt: string;
   choices: Choice[];
+  difficulty?: "easy" | "medium" | "hard";
 };
 
 export type ChoiceListProps = {

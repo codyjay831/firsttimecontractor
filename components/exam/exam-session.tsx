@@ -57,31 +57,42 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
   
   const totalSeconds = durationMinutes * 60;
   
-  // Basic State
-  const [currentIndex, setCurrentIndex] = useState(() => getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0));
-  const [view, setView] = useState<ExamView>(() => getSessionItem(STORAGE_KEYS.VIEW, "exam"));
-  const [secondsRemaining, setSecondsRemaining] = useState(() => {
-    const stored = getSessionItem<number | null>(STORAGE_KEYS.SECONDS_REMAINING, null);
-    return stored !== null ? stored : totalSeconds;
-  });
-  const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>(() => getSessionItem(STORAGE_KEYS.RECORDS, {}));
-  const [showGrid, setShowGrid] = useState(() => getSessionItem(STORAGE_KEYS.SHOW_GRID, false));
-  const isInitialMount = useRef(true);
+  // Basic State - initialized with safe defaults for SSR
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [view, setView] = useState<ExamView>("exam");
+  const [secondsRemaining, setSecondsRemaining] = useState(totalSeconds);
+  const [recordsById, setRecordsById] = useState<Record<string, ExamQuestionRecord>>({});
+  const [showGrid, setShowGrid] = useState(false);
+  const isHydrated = useRef(false);
 
-  // If questions change (new exam started), reset local state if it's not the initial mount
-  // Actually, the parent should handle clearing storage before mounting a new ExamSession.
-  
-  // Persist to sessionStorage on changes
+  // Load from sessionStorage after mount (hydration-safe)
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
+    if (!isHydrated.current) {
+      const storedIndex = getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0);
+      const storedView = getSessionItem<ExamView>(STORAGE_KEYS.VIEW, "exam");
+      const storedSeconds = getSessionItem<number | null>(STORAGE_KEYS.SECONDS_REMAINING, null);
+      const storedRecords = getSessionItem<Record<string, ExamQuestionRecord>>(STORAGE_KEYS.RECORDS, {});
+      const storedShowGrid = getSessionItem(STORAGE_KEYS.SHOW_GRID, false);
+
+      setCurrentIndex(storedIndex);
+      setView(storedView);
+      if (storedSeconds !== null) setSecondsRemaining(storedSeconds);
+      setRecordsById(storedRecords);
+      setShowGrid(storedShowGrid);
+      
+      isHydrated.current = true;
     }
-    setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
-    setSessionItem(STORAGE_KEYS.VIEW, view);
-    setSessionItem(STORAGE_KEYS.SECONDS_REMAINING, secondsRemaining);
-    setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
-    setSessionItem(STORAGE_KEYS.SHOW_GRID, showGrid);
+  }, []);
+
+  // Persist to sessionStorage on changes (skip until hydrated)
+  useEffect(() => {
+    if (isHydrated.current) {
+      setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
+      setSessionItem(STORAGE_KEYS.VIEW, view);
+      setSessionItem(STORAGE_KEYS.SECONDS_REMAINING, secondsRemaining);
+      setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
+      setSessionItem(STORAGE_KEYS.SHOW_GRID, showGrid);
+    }
   }, [currentIndex, view, secondsRemaining, recordsById, showGrid]);
 
   // Timer logic
@@ -276,6 +287,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
           userChoiceId: selectedChoiceId,
           reason,
           category: q.category,
+          difficulty: q.difficulty,
         });
       }
     });
@@ -292,7 +304,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
   };
 
   if (view === "summary") {
-    const readinessScore = calculateReadinessScore(listPacks());
+    const readinessScore = isHydrated ? calculateReadinessScore(listPacks()) : 0;
 
     return (
       <div className="flex flex-col gap-6">

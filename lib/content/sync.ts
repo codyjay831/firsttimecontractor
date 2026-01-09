@@ -2,7 +2,6 @@
 
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 
 interface PackProgressData {
   correctQuestionIds: string[];
@@ -12,8 +11,17 @@ interface PackProgressData {
 type GlobalProgress = Record<string, PackProgressData>;
 
 export async function syncProgress(localProgress: GlobalProgress) {
+  if (process.env.NODE_ENV === "development") {
+    console.log("[syncProgress] START", { packCount: Object.keys(localProgress).length });
+  }
+
   const session = await auth();
-  if (!session?.user?.id) return { success: false, error: "Not authenticated" };
+  if (!session?.user?.id) {
+    if (process.env.NODE_ENV === "development") {
+      console.log("[syncProgress] END - not authenticated");
+    }
+    return { success: false, error: "Not authenticated" };
+  }
 
   const userId = session.user.id;
 
@@ -60,7 +68,10 @@ export async function syncProgress(localProgress: GlobalProgress) {
     }
   }
 
-  revalidatePath("/");
+  // Removed revalidatePath("/") to prevent full-page re-render loops
+  if (process.env.NODE_ENV === "development") {
+    console.log("[syncProgress] END - success");
+  }
   return { success: true };
 }
 

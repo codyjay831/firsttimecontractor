@@ -13,9 +13,33 @@ import {
 export function TopContextSelector() {
   const { state, licenseType, trade, setState, setLicenseType, setTrade } = useTopContext();
 
+  const handleStateChange = (v: string) => {
+    const newValue = v === "none" ? null : v;
+    if (process.env.NODE_ENV === "development") {
+      console.log("[TopContextSelector] setState:", { from: state, to: newValue });
+    }
+    setState(newValue);
+  };
+
+  const handleLicenseChange = (v: string) => {
+    const newValue = v === "none" ? null : v;
+    if (process.env.NODE_ENV === "development") {
+      console.log("[TopContextSelector] setLicenseType:", { from: licenseType, to: newValue });
+    }
+    setLicenseType(newValue);
+  };
+
+  const handleTradeChange = (v: string) => {
+    const newValue = v === "none" ? null : v;
+    if (process.env.NODE_ENV === "development") {
+      console.log("[TopContextSelector] setTrade:", { from: trade, to: newValue });
+    }
+    setTrade(newValue);
+  };
+
   return (
     <div className="flex items-center gap-2">
-      <Select value={state || "none"} onValueChange={(v) => setState(v === "none" ? null : v)}>
+      <Select value={state || "none"} onValueChange={handleStateChange}>
         <SelectTrigger className="h-8 w-[130px]">
           <SelectValue placeholder="State" />
         </SelectTrigger>
@@ -29,7 +53,7 @@ export function TopContextSelector() {
         </SelectContent>
       </Select>
 
-      <Select value={licenseType || "none"} onValueChange={(v) => setLicenseType(v === "none" ? null : v)}>
+      <Select value={licenseType || "none"} onValueChange={handleLicenseChange}>
         <SelectTrigger className="h-8 w-[180px]">
           <SelectValue placeholder="License Type" />
         </SelectTrigger>
@@ -43,7 +67,7 @@ export function TopContextSelector() {
         </SelectContent>
       </Select>
 
-      <Select value={trade || "none"} onValueChange={(v) => setTrade(v === "none" ? null : v)}>
+      <Select value={trade || "none"} onValueChange={handleTradeChange}>
         <SelectTrigger className="h-8 w-[150px]">
           <SelectValue placeholder="Trade" />
         </SelectTrigger>

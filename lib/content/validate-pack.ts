@@ -47,6 +47,11 @@ export function validatePack(pack: ContentPack): ValidationResult {
           errors.push(`Question "${qId}" in ${type} has correctChoiceId "${q.correctChoiceId}" which does not match any choice IDs`);
         }
       }
+
+      // Check difficulty if present
+      if (q.difficulty && !["easy", "medium", "hard"].includes(q.difficulty)) {
+        errors.push(`Question "${qId}" in ${type} has invalid difficulty: "${q.difficulty}"`);
+      }
     });
   };
 

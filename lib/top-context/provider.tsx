@@ -33,11 +33,33 @@ export function TopContextProvider({ children }: { children: React.ReactNode }) 
     saveContext(state);
   }, [state]);
 
+  // Debug: log when context state changes
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("[TopContextProvider] State updated:", state);
+    }
+  }, [state]);
+
   const value = useMemo(() => ({
     ...state,
-    setState: (newState: State) => setInternalState(prev => ({ ...prev, state: newState })),
-    setLicenseType: (newType: LicenseType) => setInternalState(prev => ({ ...prev, licenseType: newType })),
-    setTrade: (newTrade: Trade) => setInternalState(prev => ({ ...prev, trade: newTrade })),
+    setState: (newState: State) => {
+      if (process.env.NODE_ENV === "development") {
+        console.log("[TopContextProvider] setState called:", newState);
+      }
+      setInternalState(prev => ({ ...prev, state: newState }));
+    },
+    setLicenseType: (newType: LicenseType) => {
+      if (process.env.NODE_ENV === "development") {
+        console.log("[TopContextProvider] setLicenseType called:", newType);
+      }
+      setInternalState(prev => ({ ...prev, licenseType: newType }));
+    },
+    setTrade: (newTrade: Trade) => {
+      if (process.env.NODE_ENV === "development") {
+        console.log("[TopContextProvider] setTrade called:", newTrade);
+      }
+      setInternalState(prev => ({ ...prev, trade: newTrade }));
+    },
   }), [state]);
 
   return (

@@ -6,6 +6,6 @@ export type PracticeQuestion = {
   correctChoiceId: string
   explanation: string
   category?: string
-  difficulty?: "easy" | "medium" | "hard"
+  difficulty: "easy" | "medium" | "hard"
 }
 

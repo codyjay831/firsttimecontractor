@@ -1,0 +1,108 @@
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936324707,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936324711,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":0,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936324708,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":0,"isHydrated":false},"timestamp":1767936324712,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936324924,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936324927,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936324925,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936324927,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936324929,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936324929,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936324931,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936324931,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325001,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325001,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325004,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325004,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325008,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325008,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325012,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325012,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325051,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325051,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325053,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325054,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325056,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325057,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325059,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325059,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325150,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325150,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325153,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325153,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325155,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936325155,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936325157,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936325158,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936368062,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936368065,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":0,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936368063,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":0,"isHydrated":false},"timestamp":1767936368065,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368327,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936368328,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936368330,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368330,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368332,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936368333,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368335,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936368336,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368386,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368386,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368389,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368389,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368392,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368392,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368395,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368395,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368439,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368440,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368444,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368444,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368449,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368449,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368455,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368455,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368543,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368544,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368547,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368548,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368551,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936368551,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936368553,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936368554,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936368890,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":0,"isServer":true},"timestamp":1767936368892,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":0,"isHydrated":false},"timestamp":1767936368892,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":0,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936368890,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369105,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936369106,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369107,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936369108,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369109,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":false,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":0},"timestamp":1767936369110,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369111,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":false},"timestamp":1767936369112,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369161,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369161,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369164,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369164,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369167,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369167,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369170,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369170,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369209,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369210,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369212,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369213,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369216,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369216,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369219,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369219,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369308,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369308,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369311,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369311,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369315,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:87","message":"Hydration check","data":{"isHydrated":true,"totalAnswered":8,"hasReview":false,"hasSeed":false,"readinessScore":8},"timestamp":1767936369315,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"answer-analytics.ts:93","message":"getSessionAnalytics result","data":{"totalAnswered":8,"isServer":false},"timestamp":1767936369318,"sessionId":"debug-session","hypothesisId":"A"}
+{"location":"study-page.tsx:357","message":"Weak areas IIFE","data":{"totalAnswered":8,"isHydrated":true},"timestamp":1767936369318,"sessionId":"debug-session","hypothesisId":"A"}
