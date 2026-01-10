@@ -34,6 +34,216 @@
       "explanation": "Electrical work in California must comply with the California Electrical Code (CEC), which is based on the National Electrical Code (NEC).",
       "category": "Codes",
       "difficulty": "medium"
+    },
+    {
+      "id": "ca-c10-q3",
+      "prompt": "Scenario: You are installing a 400A service for a residential home with a large solar PV system and a battery backup. The inverter is grid-tied and can export 10kW. According to CEC 705.12, what is the maximum sum of the breakers for power sources (utility + solar) that can be installed on a 400A busbar if the breakers are at opposite ends?",
+      "choices": [
+        { "id": "a", "text": "400A" },
+        { "id": "b", "text": "480A" },
+        { "id": "c", "text": "500A" },
+        { "id": "d", "text": "800A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The 120% rule (CEC 705.12) allows the sum of power source breakers to be 120% of the busbar rating if the main breaker and solar breaker are at opposite ends. 400A * 1.2 = 480A. If they were not at opposite ends, the sum would be limited to 100%.",
+      "category": "Solar & Storage",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q4",
+      "prompt": "Scenario: You are running six #10 THHN copper current-carrying conductors in a single 3/4\" EMT conduit. The ambient temperature is 110°F. What is the allowable ampacity of each conductor after derating? (Base ampacity for #10 THHN is 40A; 110°F factor is 0.87; 4-6 conductors factor is 80%).",
+      "choices": [
+        { "id": "a", "text": "24.5A" },
+        { "id": "b", "text": "27.8A" },
+        { "id": "c", "text": "32.0A" },
+        { "id": "d", "text": "40.0A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "First, apply the adjustment for number of conductors (40A * 0.8 = 32A). Then apply the temperature correction (32A * 0.87 = 27.84A). Per the NEC/CEC, you must derate from the 90°C column for THHN.",
+      "category": "Load Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q5",
+      "prompt": "Scenario: In a commercial kitchen, you are installing a specialized oven that requires a 480V, 3-phase connection. The oven nameplate says 45kVA. What is the minimum size for the circuit breaker?",
+      "choices": [
+        { "id": "a", "text": "60A" },
+        { "id": "b", "text": "70A" },
+        { "id": "c", "text": "80A" },
+        { "id": "d", "text": "100A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Amps = 45000 / (480 * 1.732) = 54.1A. For a continuous load, multiply by 125%: 54.1 * 1.25 = 67.6A. The next standard breaker size is 70A.",
+      "category": "Load Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q6",
+      "prompt": "Scenario: A 'Separately Derived System' (like a transformer) is installed in a building. Where must the grounding electrode conductor (GEC) be connected?",
+      "choices": [
+        { "id": "a", "text": "At any point between the source and the first disconnecting means." },
+        { "id": "b", "text": "Only at the transformer enclosure." },
+        { "id": "c", "text": "Only at the main service panel." },
+        { "id": "d", "text": "To the nearest cold water pipe only." }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "CEC 250.30 requires the bonding jump and GEC to be connected at the source of the separately derived system, or at the first system disconnecting means, but not both. This ensures a clear path for fault current without creating parallel paths.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q7",
+      "prompt": "Scenario: You are installing an EV charger (Level 2) that draws 48A. What is the minimum size of the branch circuit and the required conductor size (assuming 75°C terminals and THHN wire)?",
+      "choices": [
+        { "id": "a", "text": "50A circuit, #8 AWG" },
+        { "id": "b", "text": "60A circuit, #6 AWG" },
+        { "id": "c", "text": "60A circuit, #4 AWG" },
+        { "id": "d", "text": "70A circuit, #6 AWG" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "EV chargers are considered continuous loads (CEC 625.41). 48A * 125% = 60A. A 60A circuit requires a conductor rated for at least 60A at 75°C. #6 copper is rated for 65A at 75°C.",
+      "category": "EV Infrastructure",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q8",
+      "prompt": "Scenario: When installing a service lateral in a trench, what is the minimum cover requirement for conductors rated 0-1000V under a residential driveway?",
+      "choices": [
+        { "id": "a", "text": "6 inches" },
+        { "id": "b", "text": "12 inches" },
+        { "id": "c", "text": "18 inches" },
+        { "id": "d", "text": "24 inches" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Table 300.5 in the CEC specifies cover requirements. For 0-1000V under a residential driveway, the minimum depth is 18 inches. This depth is required to protect the conduit or cable from the mechanical stress of vehicles.",
+      "category": "Underground Installations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q9",
+      "prompt": "Scenario: A multi-family dwelling has 20 units, each with a 10kW electric range. Using the demand factor table (CEC 220.55), what is the calculated load for all 20 ranges?",
+      "choices": [
+        { "id": "a", "text": "200kW" },
+        { "id": "b", "text": "45kW" },
+        { "id": "c", "text": "35kW" },
+        { "id": "d", "text": "25kW" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Table 220.55 Column C shows that for 20 units with ranges not exceeding 12kW, the demand load is 35kW. The NEC/CEC recognizes that not all ranges will be used at full capacity simultaneously.",
+      "category": "Load Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q10",
+      "prompt": "Scenario: Which of the following is REQUIRED for a 'Bonding Jumper' used to connect the equipment grounding conductor to a metal box?",
+      "choices": [
+        { "id": "a", "text": "It must be at least #12 AWG regardless of the circuit size." },
+        { "id": "b", "text": "It must be sized based on the overcurrent protection device (Table 250.122)." },
+        { "id": "c", "text": "It must be green with a yellow stripe only." },
+        { "id": "d", "text": "It must be at least 12 inches long." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Bonding jumpers are part of the equipment grounding system and must be sized according to the rating of the fuse or breaker protecting the circuit (CEC 250.102). Using an undersized jumper can result in it melting during a high-current fault.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q11",
+      "prompt": "Scenario: You are installing a pool pump motor. What is the maximum distance a GFCI-protected receptacle for the pump can be from the inside wall of the pool?",
+      "choices": [
+        { "id": "a", "text": "5 feet" },
+        { "id": "b", "text": "6 feet" },
+        { "id": "c", "text": "10 feet" },
+        { "id": "d", "text": "20 feet" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "CEC 680.21 requires pool pump motors to be located at least 10 feet from the pool wall unless specially protected. Receptacles for the pump must be between 6 and 10 feet from the pool and must be GFCI protected.",
+      "category": "Special Occupancies",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q12",
+      "prompt": "Scenario: A 'High Leg' Delta system (240/120V) has one phase that measures 208V to ground. Which phase is this traditionally, and how must it be identified?",
+      "choices": [
+        { "id": "a", "text": "Phase A, identified with red tape." },
+        { "id": "b", "text": "Phase B, identified with orange tape or other effective means." },
+        { "id": "c", "text": "Phase C, identified with blue tape." },
+        { "id": "d", "text": "Any phase, as long as it's labeled 'HIGH'." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 110.15 requires the high leg to be Phase B in most equipment and must be identified by an orange finish. This prevents accidentally connecting 120V loads to the 208V leg, which would destroy the equipment.",
+      "category": "Distribution Systems",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q13",
+      "prompt": "Scenario: You are installing a subpanel in a detached garage. What is the minimum number of grounding electrodes required at the detached structure?",
+      "choices": [
+        { "id": "a", "text": "None, if an equipment grounding conductor is run from the main panel." },
+        { "id": "b", "text": "One ground rod." },
+        { "id": "c", "text": "Two ground rods, spaced at least 6 feet apart." },
+        { "id": "d", "text": "A connection to the metal water pipe only." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "CEC 250.32 requires a detached structure to have its own grounding electrode system. While one rod is the minimum, if it doesn't meet the 25-ohm resistance test, a second rod is required. In practice, two rods are almost always required.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q14",
+      "prompt": "Scenario: A motor has a full-load current (FLC) of 20A. What is the maximum setting for a 'Time-Delay Fuse' used for short-circuit and ground-fault protection (CEC 430.52)?",
+      "choices": [
+        { "id": "a", "text": "25A" },
+        { "id": "b", "text": "35A" },
+        { "id": "c", "text": "45A" },
+        { "id": "d", "text": "50A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "For many motors, the maximum time-delay fuse is 175% of the FLC. 20A * 1.75 = 35A. This allows for the high starting current (inrush) of the motor without blowing the fuse.",
+      "category": "Motors & Controllers",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q15",
+      "prompt": "Scenario: You are calculating the 'Voltage Drop' for a 120V circuit that is 150 feet long with a 15A load using #12 copper (resistance of 2.0 ohms per 1000ft). Is the voltage drop within the recommended 3% limit?",
+      "choices": [
+        { "id": "a", "text": "Yes, the drop is 2.7V." },
+        { "id": "b", "text": "No, the drop is 9.0V." },
+        { "id": "c", "text": "No, the drop is 5.4V." },
+        { "id": "d", "text": "Yes, the drop is 1.8V." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Voltage Drop = 2 * 150 * 2.0 * 15 / 1000 = 9.0V. For 120V, 3% is 3.6V. Since 9.0V > 3.6V, the voltage drop is too high. This requires increasing the conductor size to reduce resistance.",
+      "category": "Load Calculations",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q16",
+      "prompt": "Scenario: A 'Class 1' remote-control circuit is being installed. What is the maximum overcurrent protection for a #18 AWG conductor?",
+      "choices": [
+        { "id": "a", "text": "5A" },
+        { "id": "b", "text": "7A" },
+        { "id": "c", "text": "10A" },
+        { "id": "d", "text": "15A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 725.43 specifies that for Class 1 circuits, #18 AWG conductors must be protected at not more than 7 amperes. Class 1 circuits have higher power levels than Class 2 and require more robust wiring.",
+      "category": "Low Voltage",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-q17",
+      "prompt": "Scenario: You are installing a 100A subpanel. The calculated load is 85A. You use #2 AWG aluminum wire (rated for 90A at 75°C). What size aluminum equipment grounding conductor (EGC) is required?",
+      "choices": [
+        { "id": "a", "text": "#8 AWG" },
+        { "id": "b", "text": "#6 AWG" },
+        { "id": "c", "text": "#4 AWG" },
+        { "id": "d", "text": "#2 AWG" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Based on Table 250.122, for a 100A overcurrent device, the minimum aluminum EGC is #6 AWG. Sizing the EGC correctly ensures it can safely carry fault current back to the source to trip the breaker.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
     }
   ],
   "examQuestions": [
@@ -50,6 +260,146 @@
       "explanation": "The standard minimum clear working space in front of electrical equipment is 3 feet.",
       "category": "Safety & Clearance",
       "difficulty": "medium"
+    },
+    {
+      "id": "ca-c10-ex2",
+      "prompt": "Scenario: A 'Working Space' width of how many inches is required in front of a 120/240V panelboard?",
+      "choices": [
+        { "id": "a", "text": "24 inches" },
+        { "id": "b", "text": "30 inches" },
+        { "id": "c", "text": "36 inches" },
+        { "id": "d", "text": "Width of the equipment plus 6 inches." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 110.26 requires a minimum width of 30 inches or the width of the equipment, whichever is greater. This ensures an electrician has enough room to safely stand and work on the equipment.",
+      "category": "Safety & Clearance",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex3",
+      "prompt": "Scenario: In a dwelling unit, a 20A branch circuit for a bathroom must serve:",
+      "choices": [
+        { "id": "a", "text": "Only the bathroom receptacles." },
+        { "id": "b", "text": "The bathroom receptacles and the lighting in that bathroom." },
+        { "id": "c", "text": "Receptacles in multiple bathrooms, but no other loads." },
+        { "id": "d", "text": "Both A and C are options." }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "CEC 210.11(C)(3) allows a 20A circuit to either serve all bathroom receptacles in multiple bathrooms (no other loads) OR serve all loads (lighting, fans, etc.) in a single bathroom only.",
+      "category": "Residential Wiring",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex4",
+      "prompt": "Scenario: What is the maximum number of 'Standard Bends' (90 degrees) allowed in a single run of conduit between pull points?",
+      "choices": [
+        { "id": "a", "text": "Two (180 degrees)" },
+        { "id": "b", "text": "Three (270 degrees)" },
+        { "id": "c", "text": "Four (360 degrees)" },
+        { "id": "d", "text": "Five (450 degrees)" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "CEC 358.26 limits the total number of bends to 360 degrees between pull points. Too many bends increase the friction and tension during wire pulling, which can damage the conductor insulation.",
+      "category": "Conduit & Raceway",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex5",
+      "prompt": "Scenario: A 'Grounded Conductor' (Neutral) is required to be identified by which color?",
+      "choices": [
+        { "id": "a", "text": "Green" },
+        { "id": "b", "text": "White or gray" },
+        { "id": "c", "text": "Black" },
+        { "id": "d", "text": "Red" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 200.6 requires grounded conductors to be identified by a continuous white or gray outer finish. Green is reserved for grounding (EGC). Using the wrong color can lead to dangerous wiring errors.",
+      "category": "Wiring Methods",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex6",
+      "prompt": "Scenario: Which of the following is NOT a permitted use for 'Type NM' (Romex) cable?",
+      "choices": [
+        { "id": "a", "text": "In residential wood-framed walls." },
+        { "id": "b", "text": "In the attic of a 3-story apartment building." },
+        { "id": "c", "text": "Exposed in a commercial parking garage." },
+        { "id": "d", "text": "Inside a PVC conduit in a dry location." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Type NM cable cannot be used where it is subject to excessive moisture or physical damage, such as in a commercial parking garage. It is primarily for residential and certain commercial applications in dry locations.",
+      "category": "Wiring Methods",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex7",
+      "prompt": "Scenario: A 'Metal Underground Water Pipe' used as a grounding electrode must have at least how many feet of contact with the earth?",
+      "choices": [
+        { "id": "a", "text": "5 feet" },
+        { "id": "b", "text": "8 feet" },
+        { "id": "c", "text": "10 feet" },
+        { "id": "d", "text": "20 feet" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "CEC 250.52(A)(1) requires at least 10 feet of the metal pipe to be in direct contact with the earth to qualify as an electrode. It must also be supplemented by an additional electrode, like a ground rod.",
+      "category": "Grounding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex8",
+      "prompt": "Scenario: What is the minimum rating for a 'Main Service Disconnect' in a new single-family home in California?",
+      "choices": [
+        { "id": "a", "text": "60A" },
+        { "id": "b", "text": "100A" },
+        { "id": "c", "text": "150A" },
+        { "id": "d", "text": "200A" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 230.79(C) requires the service disconnect for a single-family dwelling to be at least 100 amperes, 3-wire. While many modern homes use 200A services, 100A is the legal minimum.",
+      "category": "Service Equipment",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex9",
+      "prompt": "Scenario: An 'Emergency System' (like exit signs and emergency lights) must be able to provide power within how many seconds of a utility power failure?",
+      "choices": [
+        { "id": "a", "text": "10 seconds" },
+        { "id": "b", "text": "30 seconds" },
+        { "id": "c", "text": "60 seconds" },
+        { "id": "d", "text": "2 minutes" }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "CEC 700.12 requires emergency systems to be automatically stressed and able to supply the required load within 10 seconds of the loss of normal power. This ensures occupants are not left in the dark.",
+      "category": "Special Systems",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex10",
+      "prompt": "Scenario: When using 'Liquidtight Flexible Metal Conduit' (LFMC), what is the maximum distance allowed between supports?",
+      "choices": [
+        { "id": "a", "text": "3 feet" },
+        { "id": "b", "text": "4.5 feet" },
+        { "id": "c", "text": "6 feet" },
+        { "id": "d", "text": "10 feet" }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CEC 350.30 requires LFMC to be securely fastened in place at intervals not exceeding 4.5 feet and within 12 inches of every box or fitting. This prevents excessive sagging and stress on the conduit.",
+      "category": "Conduit & Raceway",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-c10-ex11",
+      "prompt": "Scenario: A 'Tamper-Resistant' (TR) receptacle is required in which of the following locations?",
+      "choices": [
+        { "id": "a", "text": "All residential dwelling units." },
+        { "id": "b", "text": "Only in child care facilities." },
+        { "id": "c", "text": "Commercial kitchens only." },
+        { "id": "d", "text": "Outdoors only." }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "CEC 406.12 requires all 125-volt, 15- and 20-ampere receptacles in dwelling units to be tamper-resistant. This is a safety feature designed to prevent children from inserting objects into the slots.",
+      "category": "Residential Wiring",
+      "difficulty": "hard"
     }
   ],
   "flashcardDecks": [

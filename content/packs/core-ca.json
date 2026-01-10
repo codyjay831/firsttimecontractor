@@ -33,6 +33,146 @@
       "explanation": "The CSLB is the state agency that licenses and regulates contractors in California.",
       "category": "Regulation",
       "difficulty": "easy"
+    },
+    {
+      "id": "ca-core-q3",
+      "prompt": "Scenario: A California contractor is performing a home improvement project for $25,000. They have collected a $1,000 down payment. The first phase of work is 50% complete. What is the maximum additional amount the contractor can request at this stage according to B&P Code 7159?",
+      "choices": [
+        { "id": "a", "text": "Any amount agreed upon in the contract." },
+        { "id": "b", "text": "Only the value of the work actually performed, less the down payment." },
+        { "id": "c", "text": "$12,500 (half of the contract price)." },
+        { "id": "d", "text": "$5,000." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Under CA home improvement law, payments cannot exceed the value of the work performed plus the down payment. Requesting payment for work not yet completed is a violation of the Business and Professions Code. This rule protects homeowners from contractors who abandon projects after receiving excessive front-loaded payments.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q4",
+      "prompt": "Scenario: A contractor's license in California is suspended due to an unsatisfied judgment. Can the contractor still perform work as a subcontractor under another contractor's license?",
+      "choices": [
+        { "id": "a", "text": "Yes, as long as they are not the prime contractor." },
+        { "id": "b", "text": "No, an individual with a suspended license cannot act as a contractor in any capacity." },
+        { "id": "c", "text": "Yes, but only for projects under $500." },
+        { "id": "d", "text": "Yes, if the prime contractor assumes all liability." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A person whose license is suspended or revoked cannot work in the construction industry in any capacity that requires a license. This includes working as a subcontractor or even as a consultant on a project. Violating this can lead to further disciplinary action and criminal charges.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q5",
+      "prompt": "Scenario: A California contractor wishes to advertise their services on social media. What must be included in the advertisement according to CSLB rules?",
+      "choices": [
+        { "id": "a", "text": "The contractor's phone number and business address." },
+        { "id": "b", "text": "The contractor's license number." },
+        { "id": "c", "text": "A list of all classifications held." },
+        { "id": "d", "text": "The contractor's bond number." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P Code 7030.5 requires all licensed contractors to include their license number in all forms of advertising. This includes business cards, social media posts, vehicle signs, and websites. Failure to do so can result in a citation and fine from the CSLB.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q6",
+      "prompt": "Scenario: A California contractor fails to provide a 'Notice to Owner' (Preliminary Notice) within 20 days of starting work. What is the consequence regarding their lien rights?",
+      "choices": [
+        { "id": "a", "text": "They lose all lien rights for the entire project." },
+        { "id": "b", "text": "They can still file a lien for the work performed after the notice is eventually served, plus work from the preceding 20 days." },
+        { "id": "c", "text": "They only lose the right to sue for breach of contract." },
+        { "id": "d", "text": "Lien rights are unaffected if they are the prime contractor." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "If a Preliminary Notice is served late, the claimant only loses lien rights for work performed more than 20 days prior to the service of the notice. This is why it is critical to serve the notice as early as possible. While some exceptions apply to prime contractors, it is best practice for all parties to serve it.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q7",
+      "prompt": "Scenario: A California contractor is found to have 'aided and abetted' an unlicensed person in performing work that requires a license. What is the likely disciplinary action?",
+      "choices": [
+        { "id": "a", "text": "A warning letter and a small fine." },
+        { "id": "b", "text": "Mandatory 10 hours of continuing education." },
+        { "id": "c", "text": "Suspension or revocation of the contractor's license." },
+        { "id": "d", "text": "No action, as long as the work was performed correctly." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Lending a license to an unlicensed person or helping them evade the law is a serious violation (B&P 7114). It is grounds for significant disciplinary action, including the permanent loss of the license. The CSLB takes a zero-tolerance approach to aiding unlicensed activity.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q8",
+      "prompt": "Scenario: A homeowner cancels a home improvement contract within the 3-day 'Right to Cancel' period in California. How many days does the contractor have to return any down payment?",
+      "choices": [
+        { "id": "a", "text": "3 days." },
+        { "id": "b", "text": "10 days." },
+        { "id": "c", "text": "20 days." },
+        { "id": "d", "text": "30 days." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Upon cancellation within the legal 3-day (or 5-day for seniors) window, the contractor must return any money or property traded in within 10 days. The contractor must also notify the homeowner of when any materials left on site will be picked up. Failure to return the deposit is a violation of the home improvement contract statutes.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q9",
+      "prompt": "Scenario: A California contractor has 5 employees. They have decided to self-insure for Workers' Compensation. Is this allowed?",
+      "choices": [
+        { "id": "a", "text": "Yes, if they have a net worth of at least $1 million." },
+        { "id": "b", "text": "No, self-insurance is generally only available to very large employers or through state-approved groups." },
+        { "id": "c", "text": "Yes, as long as they notify the CSLB." },
+        { "id": "d", "text": "Yes, if the employees agree to it in writing." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "To self-insure in California, an employer must obtain a certificate from the Department of Industrial Relations, which requires significant financial security. Small contractors must purchase a policy from a licensed insurer or the State Compensation Insurance Fund. Operating without it is a crime and leads to automatic license suspension.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q10",
+      "prompt": "Scenario: A contractor is issued a citation by the CSLB. How many days do they have to contest the citation before it becomes a final order?",
+      "choices": [
+        { "id": "a", "text": "5 working days." },
+        { "id": "b", "text": "15 working days." },
+        { "id": "c", "text": "30 calendar days." },
+        { "id": "d", "text": "60 calendar days." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A licensee has 15 working days from the date the citation is served to notify the Registrar in writing that they wish to contest the matter. If not contested within this window, the citation becomes a final order and the fine must be paid. Failure to comply with a final order results in license suspension.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q11",
+      "prompt": "Scenario: Which of the following is a mandatory element of a California Home Improvement Contract?",
+      "choices": [
+        { "id": "a", "text": "A list of all subcontractors to be used." },
+        { "id": "b", "text": "A notice stating the contractor carries commercial general liability insurance." },
+        { "id": "c", "text": "The contractor's personal cell phone number." },
+        { "id": "d", "text": "A guarantee that the project will be finished on time." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P Code 7159 requires a specific notice regarding whether or not the contractor carries General Liability Insurance. It must also include the 'Check the Status of Your Contractor' notice and information about the 3-day right to cancel. Missing these elements can make the contract unenforceable.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-q12",
+      "prompt": "Scenario: A contractor finishes a project on June 1st. The owner files a notice of completion on June 5th. What is the deadline for the contractor to file a mechanic's lien?",
+      "choices": [
+        { "id": "a", "text": "30 days from June 1st." },
+        { "id": "b", "text": "60 days from June 5th." },
+        { "id": "c", "text": "90 days from June 5th." },
+        { "id": "d", "text": "1 year from June 1st." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "When a valid Notice of Completion is recorded, the time for a prime contractor to file a lien is shortened to 60 days. For subcontractors, it is shortened to 30 days. If no notice of completion is filed, the period is 90 days for all parties.",
+      "category": "California Law",
+      "difficulty": "hard"
     }
   ],
   "examQuestions": [
@@ -49,6 +189,146 @@
       "explanation": "A licensee must notify the CSLB Registrar within 90 days of any change in address.",
       "category": "California Law",
       "difficulty": "medium"
+    },
+    {
+      "id": "ca-core-ex2",
+      "prompt": "Scenario: A California contractor's 'Qualifying Individual' (RME or RMO) leaves the company. Within how many days must the CSLB be notified?",
+      "choices": [
+        { "id": "a", "text": "10 days." },
+        { "id": "b", "text": "30 days." },
+        { "id": "c", "text": "90 days." },
+        { "id": "d", "text": "180 days." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The CSLB must be notified in writing within 30 days when the qualifier disassociates from the license. The company then has 90 days to replace the qualifier or face automatic suspension of the license. This ensures every licensed entity is under the supervision of a qualified individual.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex3",
+      "prompt": "Scenario: What is the maximum fine for a contractor who fails to provide workers' compensation insurance for their employees in California?",
+      "choices": [
+        { "id": "a", "text": "$500." },
+        { "id": "b", "text": "$2,000 per employee." },
+        { "id": "c", "text": "$10,000, plus potential jail time." },
+        { "id": "d", "text": "There is no fine, just a license suspension." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Failure to secure workers' compensation is a misdemeanor in CA, punishable by a fine of up to $10,000 and/or one year in county jail. Additionally, the CSLB will issue a stop order and suspend the license immediately. The financial and legal risks of being uninsured are massive.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex4",
+      "prompt": "Scenario: Under California Law, 'Abandonment' of a project without legal excuse is defined as:",
+      "choices": [
+        { "id": "a", "text": "Not showing up for two consecutive days." },
+        { "id": "b", "text": "Failure to complete a project for the price stated in the contract." },
+        { "id": "c", "text": "Stopping work for more than 15 days without notifying the owner." },
+        { "id": "d", "text": "Permanent cessation of work without a valid reason." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7107 defines abandonment as a failure to complete a project for the price agreed upon, or failing to complete it at all without a legal excuse (like non-payment). This is a serious cause for discipline. It also includes taking more money than the value of work performed.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex5",
+      "prompt": "Scenario: A California contractor is working on a public works project. They must pay 'Prevailing Wage'. Where can they find the correct wage rates?",
+      "choices": [
+        { "id": "a", "text": "From the CSLB website." },
+        { "id": "b", "text": "From the Department of Industrial Relations (DIR)." },
+        { "id": "c", "text": "From the local building department." },
+        { "id": "d", "text": "By asking the union representative." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The Director of the DIR determines the prevailing wage rates for each craft and locality. Contractors on public works projects are legally required to pay these rates and submit certified payroll records. Failure to do so leads to heavy penalties and debarment from public work.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex6",
+      "prompt": "Scenario: A homeowner files a complaint with the CSLB for poor workmanship. The CSLB offers 'Arbitration'. When is arbitration mandatory for the contractor?",
+      "choices": [
+        { "id": "a", "text": "Always, if the CSLB recommends it." },
+        { "id": "b", "text": "If the damages are between $5,000 and $15,000." },
+        { "id": "c", "text": "If the damages are less than $5,000." },
+        { "id": "d", "text": "Only if the contractor signs a voluntary agreement." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The CSLB has a mandatory arbitration program for disputes where damages are between $5,000 and $15,000. For smaller amounts, it is often handled through a simpler process. For larger amounts, voluntary arbitration or civil litigation is the norm.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex7",
+      "prompt": "Scenario: A California contractor wants to use a name for their business that is different from the name on their license. What must they do?",
+      "choices": [
+        { "id": "a", "text": "Nothing, as long as it's not misleading." },
+        { "id": "b", "text": "File a Fictitious Business Name (FBN) statement and notify the CSLB to add the DBA to the license." },
+        { "id": "c", "text": "Just register the name with the Secretary of State." },
+        { "id": "d", "text": "Contractors cannot use DBAs in California." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7083 requires licensees to notify the Registrar of any change in business name. Using an unregistered 'Doing Business As' (DBA) name is a violation. The name on the license must match the name used in advertising and contracts.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex8",
+      "prompt": "Scenario: In California, a 'Joint Venture' license is:",
+      "choices": [
+        { "id": "a", "text": "A temporary license for two already licensed entities to work together on a specific project." },
+        { "id": "b", "text": "A license for a husband and wife team." },
+        { "id": "c", "text": "A license that combines plumbing and electrical classifications." },
+        { "id": "d", "text": "An automatic license granted to any partnership." }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "A Joint Venture license is issued to two or more entities that each hold a valid, active license. It allows them to bid and perform work together. The JV license itself must be applied for and issued by the CSLB before bidding as a JV.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex9",
+      "prompt": "Scenario: Which of the following is true regarding a 'B-General Building Contractor' in California?",
+      "choices": [
+        { "id": "a", "text": "They can take a prime contract for any single trade project (like just roofing)." },
+        { "id": "b", "text": "They must use at least two unrelated building trades or crafts on every project." },
+        { "id": "c", "text": "They are not allowed to perform any structural framing themselves." },
+        { "id": "d", "text": "They can only work on commercial projects." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A General Building contractor's principal business is in projects involving two or more unrelated trades. They cannot take a prime contract for a single-trade project unless they also hold that specific specialty license, or if the single trade is framing or carpentry.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex10",
+      "prompt": "Scenario: A contractor is performing 'asbestos-related work' in California. At what square footage of asbestos-containing material does the contractor need a special asbestos certification?",
+      "choices": [
+        { "id": "a", "text": "10 square feet." },
+        { "id": "b", "text": "50 square feet." },
+        { "id": "c", "text": "100 square feet." },
+        { "id": "d", "text": "Any amount requires certification." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "B&P 7058.5 requires contractors to be certified for asbestos-related work if they are handling 100 square feet or more of asbestos-containing material. They must also be registered with DOSH (Cal/OSHA). Handling asbestos without proper certification is a major safety violation.",
+      "category": "California Law",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ca-core-ex11",
+      "prompt": "Scenario: A California contractor's license is 'inactive'. What can the contractor do?",
+      "choices": [
+        { "id": "a", "text": "Bid on projects but not start them." },
+        { "id": "b", "text": "Perform projects under $500." },
+        { "id": "c", "text": "Renew the license every four years instead of every two." },
+        { "id": "d", "text": "Nothing; they cannot contract for or perform any work requiring a license." }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "An inactive license allows a contractor to keep their license number while not actively contracting. However, they cannot bid, contract, or perform any work. The benefit is that they don't have to maintain a bond or insurance while the license is inactive.",
+      "category": "California Law",
+      "difficulty": "hard"
     }
   ],
   "flashcardDecks": [

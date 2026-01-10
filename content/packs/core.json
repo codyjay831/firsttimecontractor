@@ -72,6 +72,146 @@
       "explanation": "The specifications (specs) provide detailed written instructions on material quality and execution standards.",
       "category": "Project Management",
       "difficulty": "medium"
+    },
+    {
+      "id": "q6",
+      "prompt": "Scenario: A contractor is managing a project where the owner has requested a significant change in the structural layout after the foundation has been poured. The contractor knows this will delay the project by 4 weeks and increase costs by 15%. What should the contractor do first?",
+      "choices": [
+        { "id": "a", "text": "Immediately stop work and wait for a formal change order." },
+        { "id": "b", "text": "Verbally agree to the changes and proceed to keep the project moving." },
+        { "id": "c", "text": "Submit a written change order proposal outlining the cost and schedule impacts for the owner's signature." },
+        { "id": "d", "text": "Advise the owner that the change is impossible at this stage." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "A written change order is the only way to legally modify the contract terms for price and time. This ensures both parties are aware of the impacts before work proceeds. Proceeding without written approval (verbal or otherwise) exposes the contractor to the risk of not being paid for the extra work.",
+      "category": "Project Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q7",
+      "prompt": "Scenario: During a project, a subcontractor discovers a differing site condition that was not identified in the original plans. The subcontractor immediately notifies the general contractor. How should the general contractor proceed?",
+      "choices": [
+        { "id": "a", "text": "Tell the subcontractor to handle it within their existing budget." },
+        { "id": "b", "text": "Provide written notice to the owner within the timeframe specified in the contract." },
+        { "id": "c", "text": "Wait until the end of the project to reconcile all additional costs." },
+        { "id": "d", "text": "Ignore the notice unless it impacts the critical path." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Most construction contracts require immediate written notice when a differing site condition is found. Failure to provide timely notice can waive the right to seek additional compensation or time. Waiting until the end of the project is a common mistake that leads to denied claims.",
+      "category": "Legal & Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q8",
+      "prompt": "Scenario: A contractor's income statement shows a high gross profit but the cash flow statement shows a negative cash balance for the same period. What is the most likely cause?",
+      "choices": [
+        { "id": "a", "text": "The contractor is overbilling on projects." },
+        { "id": "b", "text": "High accounts receivable and slow-paying clients." },
+        { "id": "c", "text": "The contractor has too many fixed costs." },
+        { "id": "d", "text": "Underestimating the cost of materials." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Profit is recognized when work is performed, but cash only arrives when invoices are paid. High accounts receivable mean the contractor has earned the money but hasn't received the cash yet. Overbilling would actually improve cash flow in the short term.",
+      "category": "Financial Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q9",
+      "prompt": "Scenario: Which of the following is an example of 'consequential damages' in a construction contract dispute?",
+      "choices": [
+        { "id": "a", "text": "The cost to repair defective workmanship." },
+        { "id": "b", "text": "The cost of extra materials due to a design error." },
+        { "id": "c", "text": "Lost rental income due to a project completion delay." },
+        { "id": "d", "text": "The price of a change order for additional scope." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Consequential damages are indirect losses that result from a breach, such as lost profits or income. Direct damages are the immediate costs of the breach, like repair costs. Many contracts include a waiver of consequential damages to limit liability.",
+      "category": "Legal & Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q10",
+      "prompt": "Scenario: A contractor is using the 'percentage of completion' method for accounting. If a project is 50% complete, but only 40% of the contract price has been billed, what is the impact on the balance sheet?",
+      "choices": [
+        { "id": "a", "text": "It appears as a liability (overbilling)." },
+        { "id": "b", "text": "It appears as an asset (costs in excess of billings)." },
+        { "id": "c", "text": "It has no impact on the balance sheet." },
+        { "id": "d", "text": "It appears as a decrease in equity." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "When work performed (50%) exceeds billings (40%), the contractor has an asset called 'costs in excess of billings'. This represents earned revenue that hasn't been invoiced yet. Conversely, billing more than the work performed creates a liability.",
+      "category": "Financial Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q11",
+      "prompt": "Scenario: A project schedule has a task with 5 days of 'free float' and 10 days of 'total float'. If this task is delayed by 7 days, what happens to the project?",
+      "choices": [
+        { "id": "a", "text": "The project completion date is delayed by 2 days." },
+        { "id": "b", "text": "The project completion date is not delayed, but the next dependent task is delayed by 2 days." },
+        { "id": "c", "text": "The project completion date is delayed by 7 days." },
+        { "id": "d", "text": "Neither the project nor the next task is delayed." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Free float is the time a task can be delayed without affecting the next task; total float is the time it can be delayed without affecting the project completion. Since the 7-day delay exceeds the 5-day free float but is less than the 10-day total float, only the successor task is impacted.",
+      "category": "Project Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q12",
+      "prompt": "Scenario: A contractor's liability insurance policy is on a 'claims-made' basis. The policy expires on December 31, 2024. An incident occurs on November 15, 2024, but the claim is not filed until January 10, 2025. Is the claim covered?",
+      "choices": [
+        { "id": "a", "text": "Yes, because the incident occurred while the policy was active." },
+        { "id": "b", "text": "No, unless the contractor has a 'tail' or extended reporting period." },
+        { "id": "c", "text": "Yes, because claims-made policies cover all historical incidents." },
+        { "id": "d", "text": "No, because it was not a 'per-occurrence' policy." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A claims-made policy only covers claims that are actually made and reported during the policy period. To cover a claim reported after the policy expires, the contractor needs an extended reporting period (tail). An 'occurrence' policy would have covered this based on the incident date.",
+      "category": "Insurance",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q13",
+      "prompt": "Scenario: Which of the following best describes 'Subrogation' in the context of construction insurance?",
+      "choices": [
+        { "id": "a", "text": "The process of adding a subcontractor as an 'additional insured'." },
+        { "id": "b", "text": "The insurance company's right to pursue a third party that caused a loss paid by the policy." },
+        { "id": "c", "text": "The requirement to provide a certificate of insurance before starting work." },
+        { "id": "d", "text": "The limit of liability for a single occurrence." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Subrogation allows an insurer to 'step into the shoes' of the insured to recover costs from a negligent party after paying a claim. Many contracts include a 'waiver of subrogation' to prevent insurance companies from suing the project parties.",
+      "category": "Insurance",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q14",
+      "prompt": "Scenario: In a 'Lump Sum' contract, the contractor discovers that the estimated quantity for a specific material was significantly lower than what is actually required to complete the work as shown on the drawings. Who is responsible for the additional cost?",
+      "choices": [
+        { "id": "a", "text": "The owner, via a change order." },
+        { "id": "b", "text": "The architect, for a design error." },
+        { "id": "c", "text": "The contractor." },
+        { "id": "d", "text": "The supplier, for an incorrect quote." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "In a lump sum contract, the contractor agrees to complete the scope for a fixed price and assumes the risk of quantity estimation. Unless the drawings themselves were incorrect (not just the contractor's estimate), the contractor must bear the cost.",
+      "category": "Contracts",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q15",
+      "prompt": "Scenario: A contractor is calculating their 'Liquidity Ratio' (Current Ratio). If they have $100,000 in cash, $50,000 in accounts receivable, $30,000 in inventory, and $120,000 in accounts payable, what is their ratio?",
+      "choices": [
+        { "id": "a", "text": "0.83" },
+        { "id": "b", "text": "1.25" },
+        { "id": "c", "text": "1.50" },
+        { "id": "d", "text": "2.00" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "The Current Ratio is Current Assets divided by Current Liabilities. Here, Assets = $100k + $50k + $30k = $180k. Liabilities = $120k. $180,000 / $120,000 = 1.5. A ratio above 1.0 is generally considered healthy.",
+      "category": "Financial Management",
+      "difficulty": "hard"
     }
   ],
   "examQuestions": [
@@ -284,6 +424,76 @@
       "explanation": "OSHA is the federal agency responsible for ensuring safe and healthful working conditions.",
       "category": "Safety",
       "difficulty": "easy"
+    },
+    {
+      "id": "ex16",
+      "prompt": "Scenario: A 'Performance Bond' is typically set at what percentage of the contract price?",
+      "choices": [
+        { "id": "a", "text": "10%" },
+        { "id": "b", "text": "25%" },
+        { "id": "c", "text": "50%" },
+        { "id": "d", "text": "100%" }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "Performance bonds are almost always for 100% of the contract amount to ensure the project is completed even if the contractor defaults. This protects the owner from the full cost of finding a replacement contractor.",
+      "category": "Bidding & Bonding",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ex17",
+      "prompt": "Scenario: Under the 'Miller Act', what is the primary protection for subcontractors on federal construction projects?",
+      "choices": [
+        { "id": "a", "text": "The right to file a mechanic's lien against federal property." },
+        { "id": "b", "text": "The requirement for a payment bond from the prime contractor." },
+        { "id": "c", "text": "Guaranteed payment from the federal government." },
+        { "id": "d", "text": "Mandatory arbitration for all disputes." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Subcontractors cannot file liens against federal property, so the Miller Act requires prime contractors to provide a payment bond. This bond serves as the security for subcontractors to ensure they get paid for labor and materials.",
+      "category": "Legal & Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ex18",
+      "prompt": "Scenario: A contractor is analyzing a 'Balance Sheet'. Which of the following is considered a 'Long-Term Liability'?",
+      "choices": [
+        { "id": "a", "text": "Accounts payable to a material supplier." },
+        { "id": "b", "text": "Accrued payroll taxes." },
+        { "id": "c", "text": "The portion of a vehicle loan due in 3 years." },
+        { "id": "d", "text": "Retainage held by the owner." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Long-term liabilities are debts due more than one year in the future. Accounts payable and accrued taxes are current liabilities because they are due within a year. Retainage is usually an asset (for the contractor).",
+      "category": "Financial Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ex19",
+      "prompt": "Scenario: Which of the following scheduling methods is best suited for projects with repetitive tasks, such as high-rise building floors?",
+      "choices": [
+        { "id": "a", "text": "Gantt Chart" },
+        { "id": "b", "text": "Critical Path Method (CPM)" },
+        { "id": "c", "text": "Line of Balance (LOB)" },
+        { "id": "d", "text": "PERT Chart" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Line of Balance (LOB) is a management control technique for repetitive processes, allowing managers to see if resources are being used efficiently across identical units. While CPM is common, LOB is specifically designed for repetitive workflows.",
+      "category": "Project Management",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ex20",
+      "prompt": "Scenario: A contractor's worker is injured while using a tool that was improperly modified by the contractor. How does this impact the Workers' Compensation claim and potential liability?",
+      "choices": [
+        { "id": "a", "text": "The claim is denied because the injury was the contractor's fault." },
+        { "id": "b", "text": "The claim is paid, but the contractor may face increased premiums and potential OSHA fines or 'serious and willful' penalties." },
+        { "id": "c", "text": "The worker must sue the contractor in civil court instead of filing for Workers' Comp." },
+        { "id": "d", "text": "The tool manufacturer is solely responsible for the injury." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Workers' Comp is a no-fault system, so the claim is paid regardless of negligence. However, if the employer's intentional actions caused the injury, the employer will face regulatory penalties and potentially higher benefit costs.",
+      "category": "Insurance",
+      "difficulty": "hard"
     }
   ],
   "flashcardDecks": [
