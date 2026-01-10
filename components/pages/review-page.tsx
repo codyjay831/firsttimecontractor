@@ -461,6 +461,8 @@ export function ReviewPageContent() {
                     <div className="flex flex-col gap-6">
                       <QuestionBlock
                         prompt={selectedItem.prompt}
+                        difficulty={selectedItem.difficulty}
+                        showDifficulty={true}
                         meta={
                           <>
                             <Badge variant="outline" className="gap-1.5 py-0.5">
@@ -539,16 +541,6 @@ export function ReviewPageContent() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-wrap items-center gap-2">
                           {getReasonBadge(selectedItem.reason)}
-                          {selectedItem.difficulty && (
-                            <Badge variant="outline" className={cn(
-                              "font-normal text-xs uppercase tracking-wider",
-                              selectedItem.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
-                              selectedItem.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
-                              selectedItem.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
-                            )}>
-                              {selectedItem.difficulty}
-                            </Badge>
-                          )}
                           <span className="text-xs text-muted-foreground">ID: {selectedItem.id}</span>
                         </div>
                         {selectedItem.choices && selectedItem.correctChoiceId && (
@@ -566,6 +558,8 @@ export function ReviewPageContent() {
 
                       <QuestionBlock
                         prompt={selectedItem.prompt}
+                        difficulty={selectedItem.difficulty}
+                        showDifficulty={true}
                         choices={selectedItem.choices ?? []}
                         userChoiceIdForReview={selectedItem.userChoiceId}
                         correctChoiceId={selectedItem.correctChoiceId}

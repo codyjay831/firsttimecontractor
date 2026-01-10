@@ -8,12 +8,25 @@ import { ChoiceListProps } from "./types";
 type QuestionBlockProps = {
   prompt: string;
   meta?: React.ReactNode;
+  difficulty?: "easy" | "medium" | "hard";
+  showDifficulty?: boolean;
 } & ChoiceListProps;
 
-export function QuestionBlock({ prompt, meta, ...choiceListProps }: QuestionBlockProps) {
+export function QuestionBlock({ 
+  prompt, 
+  meta, 
+  difficulty,
+  showDifficulty,
+  ...choiceListProps 
+}: QuestionBlockProps) {
   return (
     <div className="flex flex-col gap-6">
-      <QuestionPrompt prompt={prompt} meta={meta} />
+      <QuestionPrompt 
+        prompt={prompt} 
+        meta={meta} 
+        difficulty={difficulty}
+        showDifficulty={showDifficulty}
+      />
       <ChoiceList {...choiceListProps} />
     </div>
   );

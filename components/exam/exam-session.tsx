@@ -26,7 +26,6 @@ import { recordAnsweredQuestion, calculateReadinessScore } from "@/lib/content/p
 import { listPacks } from "@/lib/content/load-packs";
 import { useSession } from "next-auth/react";
 import { CategoryPerformance, DifficultyPerformance } from "@/lib/analytics/answer-analytics";
-import { Badge } from "@/components/ui/badge";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 
 type ExamQuestionRecord = {
@@ -387,17 +386,6 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
               </div>
             ))}
           </div>
-          
-          <div className="mt-6 pt-6 border-t border-border/50">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Difficulty Breakdown</div>
-            <div className="flex flex-wrap gap-2">
-              {summary.missedByDifficulty.map((diff) => (
-                <Badge key={diff.difficulty} variant="outline" className="px-2 py-0.5">
-                  {diff.difficulty}: {diff.accuracy}% ({diff.correct}/{diff.total})
-                </Badge>
-              ))}
-            </div>
-          </div>
         </SectionCard>
 
         <SectionCard title="Details">
@@ -482,6 +470,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
             <div className="space-y-6">
               <QuestionBlock
                 prompt={currentQuestion.prompt}
+                showDifficulty={false}
                 choices={currentQuestion.choices}
                 selectedChoiceId={currentRecord.selectedChoiceId}
                 onSelectChoice={handleChoiceSelect}

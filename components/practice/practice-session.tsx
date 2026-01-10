@@ -284,21 +284,13 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
       <SectionCard title="Question">
         <QuestionPrompt
           prompt={currentQuestion.prompt}
+          difficulty={currentQuestion.difficulty}
+          showDifficulty={true}
           meta={
             <>
               {currentQuestion.category && (
                 <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider">
                   {currentQuestion.category}
-                </Badge>
-              )}
-              {currentQuestion.difficulty && (
-                <Badge variant="outline" className={cn(
-                  "font-normal text-xs uppercase tracking-wider",
-                  currentQuestion.difficulty === "easy" && "text-green-600 border-green-200 bg-green-50 dark:bg-green-950/20",
-                  currentQuestion.difficulty === "medium" && "text-amber-600 border-amber-200 bg-amber-50 dark:bg-amber-950/20",
-                  currentQuestion.difficulty === "hard" && "text-destructive border-destructive/20 bg-destructive/5"
-                )}>
-                  {currentQuestion.difficulty}
                 </Badge>
               )}
               {isDue && (
