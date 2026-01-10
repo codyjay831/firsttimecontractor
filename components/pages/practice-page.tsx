@@ -54,9 +54,11 @@ export function PracticePageContent() {
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setAllRepetition(getAllRepetitionMetadata());
-    setNow(Date.now());
-    setIsHydrated(true);
+    window.requestAnimationFrame(() => {
+      setAllRepetition(getAllRepetitionMetadata());
+      setNow(Date.now());
+      setIsHydrated(true);
+    });
   }, []);
 
   const packStats = useMemo(() => {
@@ -71,7 +73,7 @@ export function PracticePageContent() {
       const newCount = packQuestions.filter(q => !allRepetition[q.id]).length;
       return { packId: p.packId, dueCount, newCount };
     });
-  }, [packs, allRepetition, now]);
+  }, [packs, allRepetition, now, isHydrated]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

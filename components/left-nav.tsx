@@ -93,7 +93,7 @@ export function LeftNav() {
 
     // Use hard navigation to bypass App Router issues
     // This is a workaround for RSC navigation not committing
-    window.location.href = href;
+    window.location.assign(href);
   };
 
   return (

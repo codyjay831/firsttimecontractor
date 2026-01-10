@@ -46,9 +46,11 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
     if (!isHydrated.current) {
       const storedIndex = getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0);
       const storedRecords = getSessionItem<Record<string, QuestionSessionRecord>>(STORAGE_KEYS.RECORDS, {});
-      setCurrentIndex(storedIndex);
-      setRecordsById(storedRecords);
-      isHydrated.current = true;
+      window.requestAnimationFrame(() => {
+        setCurrentIndex(storedIndex);
+        setRecordsById(storedRecords);
+        isHydrated.current = true;
+      });
     }
   }, []);
 

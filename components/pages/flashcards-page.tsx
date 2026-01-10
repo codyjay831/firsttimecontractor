@@ -17,7 +17,9 @@ export function FlashcardsPageContent() {
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
-    setMounted(true);
+    window.requestAnimationFrame(() => {
+      setMounted(true);
+    });
   }, []);
 
   // Use the default "core" pack for SSR to match what getActivePackId() returns on server
@@ -27,7 +29,9 @@ export function FlashcardsPageContent() {
   // Sync selectedDeckId once mounted
   useEffect(() => {
     if (mounted && !selectedDeckId) {
-      setSelectedDeckId(decks[0]?.id);
+      window.requestAnimationFrame(() => {
+        setSelectedDeckId(decks[0]?.id);
+      });
     }
   }, [mounted, decks, selectedDeckId]);
 

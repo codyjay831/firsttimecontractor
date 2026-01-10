@@ -29,9 +29,11 @@ export function TutorProvider({ children }: { children: React.ReactNode }) {
     if (!isHydrated.current) {
       const storedEnabled = getSessionItem(STORAGE_KEYS.TUTOR_ENABLED, false);
       const storedDepth = getSessionItem<ExplanationDepth>(STORAGE_KEYS.TUTOR_DEPTH, "standard");
-      setTutorEnabled(storedEnabled);
-      setDepth(storedDepth);
-      isHydrated.current = true;
+      window.requestAnimationFrame(() => {
+        setTutorEnabled(storedEnabled);
+        setDepth(storedDepth);
+        isHydrated.current = true;
+      });
     }
   }, []);
 

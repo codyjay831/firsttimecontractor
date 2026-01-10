@@ -57,7 +57,6 @@ export function ExamPageContent() {
   const [selectedPackIds, setSelectedPackIds] = useState<string[]>([]);
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [durationMinutes, setDurationMinutes] = useState(30);
-  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
     // Sync with session storage on mount
@@ -66,11 +65,12 @@ export function ExamPageContent() {
     const savedDuration = getSessionItem(STORAGE_KEYS.DURATION, 30);
     
     if (savedIsStarted) {
-      setIsStarted(true);
-      setSessionQuestions(savedQuestions);
-      setDurationMinutes(savedDuration);
+      window.requestAnimationFrame(() => {
+        setIsStarted(true);
+        setSessionQuestions(savedQuestions);
+        setDurationMinutes(savedDuration);
+      });
     }
-    setHasHydrated(true);
   }, []);
 
   useEffect(() => {
