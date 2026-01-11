@@ -40,9 +40,7 @@ export function saveContext(context: TopContextState) {
 }
 
 export function clearContext() {
-  if (typeof window === "undefined") return;
-
-  try {
+  if (typeof window === "undefined") return;  try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {
     console.error("Failed to clear context from localStorage:", error);

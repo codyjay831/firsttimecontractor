@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SectionCard } from "@/components/scaffold/section-card";
 import { ActionRow } from "@/components/scaffold/action-row";
@@ -18,6 +18,9 @@ import { getSessionItem, setSessionItem, removeSessionItem } from "@/lib/session
 import { recordAnsweredQuestion, getQuestionRepetition } from "@/lib/content/progress";
 import { AIAssistPanel } from "@/components/ai/ai-assist-panel";
 import { useSession } from "next-auth/react";
+import { HardModeSuggestion } from "./hard-mode-suggestion";
+import { getSessionAnalytics } from "@/lib/analytics/answer-analytics";
+import { getPracticeQuestionsForPack, listPacks } from "@/lib/content/load-packs";
 
 type QuestionSessionRecord = {
   selectedChoiceId: string | null;
@@ -31,7 +34,12 @@ const STORAGE_KEYS = {
   RECORDS: "practice_records",
 };
 
-export function PracticeSession({ questions }: { questions: PracticeQuestion[] }) {
+interface PracticeSessionProps {
+  questions: PracticeQuestion[];
+  onAcceptHardMode?: () => void;
+}
+
+export function PracticeSession({ questions, onAcceptHardMode }: PracticeSessionProps) {
   const router = useRouter();
   const { setPayload } = useReview();
   const { status: authStatus } = useSession();
@@ -39,28 +47,29 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   // Use safe defaults for SSR, then hydrate from storage after mount
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recordsById, setRecordsById] = useState<Record<string, QuestionSessionRecord>>({});
-  const isHydrated = useRef(false);
+  const [suggestionDismissed, setSuggestionDismissed] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Load from storage after mount (hydration-safe)
   useEffect(() => {
-    if (!isHydrated.current) {
+    if (!isHydrated) {
       const storedIndex = getSessionItem(STORAGE_KEYS.CURRENT_INDEX, 0);
       const storedRecords = getSessionItem<Record<string, QuestionSessionRecord>>(STORAGE_KEYS.RECORDS, {});
       window.requestAnimationFrame(() => {
         setCurrentIndex(storedIndex);
         setRecordsById(storedRecords);
-        isHydrated.current = true;
+        setIsHydrated(true);
       });
     }
   }, []);
 
   // Persist to sessionStorage on changes (skip until hydrated)
   useEffect(() => {
-    if (isHydrated.current) {
+    if (isHydrated) {
       setSessionItem(STORAGE_KEYS.CURRENT_INDEX, currentIndex);
       setSessionItem(STORAGE_KEYS.RECORDS, recordsById);
     }
-  }, [currentIndex, recordsById]);
+  }, [currentIndex, recordsById, isHydrated]);
 
   const isFinished = currentIndex >= questions.length;
   const currentQuestion = !isFinished ? questions[currentIndex] : null;
@@ -93,6 +102,24 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
   const incorrectCount = records.filter(r => r.status === "submitted" && r.isCorrect === false).length;
   const answeredCount = correctCount + incorrectCount;
   const skippedCount = records.filter(r => r.wasSkipped && r.status !== "submitted").length;
+
+  const shouldSuggestHardMode = useMemo(() => {
+    if (!isHydrated || suggestionDismissed || !isFinished) return false;
+
+    const analytics = getSessionAnalytics();
+    const mediumStats = analytics.missedByDifficulty.find(d => d.difficulty === "medium");
+    const hardStats = analytics.missedByDifficulty.find(d => d.difficulty === "hard");
+
+    const triggerA = !!(mediumStats && mediumStats.accuracy >= 75 && mediumStats.total >= 5);
+    const triggerC = !!(hardStats && hardStats.accuracy >= 60 && hardStats.total >= 5);
+
+    if (!triggerA && !triggerC) return false;
+
+    // Safety check: HARD questions must be available in at least one pack
+    return listPacks().some(p => 
+      getPracticeQuestionsForPack(p.packId).some(q => q.difficulty === "hard")
+    );
+  }, [suggestionDismissed, isFinished, isHydrated]);
 
   const updateRecord = (questionId: string, updates: Partial<QuestionSessionRecord>) => {
     setRecordsById(prev => ({
@@ -227,6 +254,12 @@ export function PracticeSession({ questions }: { questions: PracticeQuestion[] }
             <div className="text-3xl font-bold text-destructive">{incorrectCount}</div>
           </SectionCard>
         </div>
+
+        <HardModeSuggestion 
+          visible={shouldSuggestHardMode}
+          onAccept={() => onAcceptHardMode?.()}
+          onDismiss={() => setSuggestionDismissed(true)}
+        />
 
         <ActionRow>
           <Button onClick={handleRestart} variant="outline" className="gap-2">

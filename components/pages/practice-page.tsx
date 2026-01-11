@@ -27,6 +27,8 @@ import { usePracticeSeed } from "@/components/practice/use-practice-seed";
 import { useLens } from "@/lib/lens/use-lens";
 import { useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
+import { getSessionAnalytics } from "@/lib/analytics/answer-analytics";
+import { HardModeSuggestion } from "@/components/practice/hard-mode-suggestion";
 
 function fisherYatesShuffle<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -48,6 +50,9 @@ export function PracticePageContent() {
   const [packWeights, setPackWeights] = useState<Record<string, number>>({});
   const [sessionQuestions, setSessionQuestions] = useState<PracticeQuestion[]>([]);
   const [sessionKey, setSessionKey] = useState(0);
+
+  const [hardModeActive, setHardModeActive] = useState(false);
+  const [suggestionDismissed, setSuggestionDismissed] = useState(false);
 
   const [allRepetition, setAllRepetition] = useState<GlobalRepetition>({});
   const [now, setNow] = useState(0);
@@ -74,6 +79,28 @@ export function PracticePageContent() {
       return { packId: p.packId, dueCount, newCount };
     });
   }, [packs, allRepetition, now, isHydrated]);
+
+  const shouldSuggestHardMode = useMemo(() => {
+    if (!isHydrated || suggestionDismissed || hardModeActive || seed) return false;
+
+    // Trigger A: Practice accuracy on MEDIUM >= 75%
+    // Trigger C: User completed a practice session with >= 60% HARD questions answered correctly
+    const analytics = getSessionAnalytics();
+    const mediumStats = analytics.missedByDifficulty.find(d => d.difficulty === "medium");
+    const hardStats = analytics.missedByDifficulty.find(d => d.difficulty === "hard");
+
+    const triggerA = !!(mediumStats && mediumStats.accuracy >= 75 && mediumStats.total >= 5);
+    const triggerC = !!(hardStats && hardStats.accuracy >= 60 && hardStats.total >= 5);
+
+    if (!triggerA && !triggerC) return false;
+
+    // Safety check: HARD questions must be available in selected packs
+    const hasHardQuestions = selectedPackIds.some(id => 
+      getPracticeQuestionsForPack(id).some(q => q.difficulty === "hard")
+    );
+
+    return hasHardQuestions;
+  }, [isHydrated, suggestionDismissed, hardModeActive, seed, selectedPackIds]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -177,25 +204,85 @@ export function PracticePageContent() {
       const targetCount = targets[id];
       let added = 0;
       
-      // 2a. Prioritize due questions (eligible and seen before)
-      const dueQuestions = fisherYatesShuffle(packPool.filter(q => {
-        const meta = allRepetition[q.id];
-        return meta && meta.nextEligibleAt <= now;
-      }));
+      if (hardModeActive) {
+        // Hard-heavy mix: 60% Hard / 30% Medium / 10% Easy
+        const diffTargets = [
+          { diff: "hard", target: Math.round(targetCount * 0.6) },
+          { diff: "medium", target: Math.round(targetCount * 0.3) },
+          { diff: "easy", target: targetCount - Math.round(targetCount * 0.6) - Math.round(targetCount * 0.3) }
+        ];
 
-      for (const q of dueQuestions) {
-        if (added >= targetCount) break;
-        if (!seenIds.has(q.id)) {
-          selectedQuestions.push(q);
-          seenIds.add(q.id);
-          added++;
+        // Ensure we pick correctly from each difficulty pool
+        diffTargets.forEach(({ diff, target }) => {
+          if (target <= 0) return;
+          
+          const pool = packPool.filter(q => {
+            if (diff === "easy") return q.difficulty === "easy" || !q.difficulty;
+            return q.difficulty === diff;
+          });
+
+          let diffAdded = 0;
+          
+          // Priority 1: Due
+          const due = fisherYatesShuffle(pool.filter(q => {
+            const meta = allRepetition[q.id];
+            return meta && meta.nextEligibleAt <= now;
+          }));
+          for (const q of due) {
+            if (diffAdded >= target || added >= targetCount) break;
+            if (!seenIds.has(q.id)) {
+              selectedQuestions.push(q);
+              seenIds.add(q.id);
+              added++;
+              diffAdded++;
+            }
+          }
+
+          // Priority 2: New
+          if (diffAdded < target && added < targetCount) {
+            const newQs = fisherYatesShuffle(pool.filter(q => !allRepetition[q.id]));
+            for (const q of newQs) {
+              if (diffAdded >= target || added >= targetCount) break;
+              if (!seenIds.has(q.id)) {
+                selectedQuestions.push(q);
+                seenIds.add(q.id);
+                added++;
+                diffAdded++;
+              }
+            }
+          }
+
+          // Priority 3: Remaining in this pool
+          if (diffAdded < target && added < targetCount) {
+            const remaining = fisherYatesShuffle(pool.filter(q => !seenIds.has(q.id)));
+            for (const q of remaining) {
+              if (diffAdded >= target || added >= targetCount) break;
+              selectedQuestions.push(q);
+              seenIds.add(q.id);
+              added++;
+              diffAdded++;
+            }
+          }
+        });
+
+        // Fallback for this pack if targets weren't met (e.g. not enough hard questions)
+        if (added < targetCount) {
+          const remainingInPack = fisherYatesShuffle(packPool.filter(q => !seenIds.has(q.id)));
+          for (const q of remainingInPack) {
+            if (added >= targetCount) break;
+            selectedQuestions.push(q);
+            seenIds.add(q.id);
+            added++;
+          }
         }
-      }
+      } else {
+        // 2a. Prioritize due questions (eligible and seen before)
+        const dueQuestions = fisherYatesShuffle(packPool.filter(q => {
+          const meta = allRepetition[q.id];
+          return meta && meta.nextEligibleAt <= now;
+        }));
 
-      // 2b. Then new questions (never seen)
-      if (added < targetCount) {
-        const newQuestions = fisherYatesShuffle(packPool.filter(q => !allRepetition[q.id]));
-        for (const q of newQuestions) {
+        for (const q of dueQuestions) {
           if (added >= targetCount) break;
           if (!seenIds.has(q.id)) {
             selectedQuestions.push(q);
@@ -203,16 +290,29 @@ export function PracticePageContent() {
             added++;
           }
         }
-      }
 
-      // 2c. Finally, fill with the rest (even if not due)
-      if (added < targetCount) {
-        const remainingPool = fisherYatesShuffle(packPool.filter(q => !seenIds.has(q.id)));
-        for (const q of remainingPool) {
-          if (added >= targetCount) break;
-          selectedQuestions.push(q);
-          seenIds.add(q.id);
-          added++;
+        // 2b. Then new questions (never seen)
+        if (added < targetCount) {
+          const newQuestions = fisherYatesShuffle(packPool.filter(q => !allRepetition[q.id]));
+          for (const q of newQuestions) {
+            if (added >= targetCount) break;
+            if (!seenIds.has(q.id)) {
+              selectedQuestions.push(q);
+              seenIds.add(q.id);
+              added++;
+            }
+          }
+        }
+
+        // 2c. Finally, fill with the rest (even if not due)
+        if (added < targetCount) {
+          const remainingPool = fisherYatesShuffle(packPool.filter(q => !seenIds.has(q.id)));
+          for (const q of remainingPool) {
+            if (added >= targetCount) break;
+            selectedQuestions.push(q);
+            seenIds.add(q.id);
+            added++;
+          }
         }
       }
     });
@@ -241,6 +341,7 @@ export function PracticePageContent() {
 
   const handleNewSession = () => {
     setIsStarted(false);
+    setHardModeActive(false);
     setSessionKey(prev => prev + 1);
   };
 
@@ -251,6 +352,12 @@ export function PracticePageContent() {
       
       {!isStarted ? (
         <div className="space-y-6">
+          <HardModeSuggestion 
+            visible={shouldSuggestHardMode}
+            onAccept={() => setHardModeActive(true)}
+            onDismiss={() => setSuggestionDismissed(true)}
+          />
+
           {seed ? (
             <SectionCard 
               title="Custom Practice Set" 
@@ -393,12 +500,17 @@ export function PracticePageContent() {
             <EmptyState
               icon={BookOpen}
               title={seed ? "Ready to practice review items?" : "Ready to Practice?"}
-              description={seed ? "Tap below to start your custom session." : "Select your session options above to begin."}
+              description={seed ? "Tap below to start your custom session." : hardModeActive ? "Hard Mode is active! You'll get a challenging mix of questions." : "Select your session options above to begin."}
             />
             <Button size="lg" onClick={handleStart} className="gap-2" disabled={!seed && selectedPackIds.length === 0}>
               <Play className="h-4 w-4" />
-              Start Session
+              {hardModeActive ? "Start Hard Mode Session" : "Start Session"}
             </Button>
+            {hardModeActive && (
+              <Button variant="ghost" size="sm" onClick={() => setHardModeActive(false)} className="text-muted-foreground">
+                Reset to normal mix
+              </Button>
+            )}
           </div>
         </div>
       ) : (
@@ -412,6 +524,10 @@ export function PracticePageContent() {
           <PracticeSession 
             key={`${sessionKey}-${sessionQuestions.length}`} 
             questions={sessionQuestions} 
+            onAcceptHardMode={() => {
+              setHardModeActive(true);
+              setIsStarted(false);
+            }}
           />
         </div>
       )}
