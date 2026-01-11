@@ -24,7 +24,7 @@ export function TopBar({ onMenuClick }: TopBarProps) {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <Link href="/" className="hover:opacity-80 transition-opacity flex-shrink-0">
+        <Link href="/app" className="hover:opacity-80 transition-opacity flex-shrink-0">
           <h1 className="text-lg font-semibold tracking-tight">
             Firsttimecontractor
           </h1>

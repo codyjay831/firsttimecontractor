@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { AppShell } from "@/components/app-shell";
 import { TopContextProvider } from "@/lib/top-context/provider";
 import { ReviewProvider } from "@/components/review/review-provider";
 import { PracticeSeedProvider } from "@/components/practice/practice-seed-provider";
@@ -48,7 +47,7 @@ export default function RootLayout({
               <TopContextProvider>
                 <ReviewProvider>
                   <PracticeSeedProvider>
-                    <AppShell>{children}</AppShell>
+                    {children}
                   </PracticeSeedProvider>
                 </ReviewProvider>
               </TopContextProvider>
