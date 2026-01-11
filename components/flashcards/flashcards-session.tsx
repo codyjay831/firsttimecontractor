@@ -103,7 +103,7 @@ export function FlashcardsSession({ deck }: { deck: FlashcardDeck }) {
 
   if (isFinished) {
     return (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         <SectionCard title="Deck Complete">
           <div className="flex items-center gap-4 py-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -116,7 +116,7 @@ export function FlashcardsSession({ deck }: { deck: FlashcardDeck }) {
           </div>
         </SectionCard>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
           <SectionCard title="Total Cards">
             <div className="text-3xl font-bold">{counts.total}</div>
           </SectionCard>
@@ -151,7 +151,7 @@ export function FlashcardsSession({ deck }: { deck: FlashcardDeck }) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <SectionCard 
         title={`Card ${currentIndex + 1} of ${cards.length}`}
       >
@@ -187,7 +187,7 @@ export function FlashcardsSession({ deck }: { deck: FlashcardDeck }) {
         </div>
       </SectionCard>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         <SectionCard title="Front">
           <div className="flex min-h-[240px] flex-col items-center justify-center text-center p-8 bg-muted/30 rounded-lg border">
             <p className="text-xl font-semibold leading-relaxed">

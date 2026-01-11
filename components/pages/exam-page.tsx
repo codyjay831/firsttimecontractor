@@ -259,7 +259,7 @@ export function ExamPageContent() {
   }, 0);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <LensHeader title="Exam simulation" />
       <LensPrompt />
       
@@ -280,13 +280,13 @@ export function ExamPageContent() {
               </Button>
             }
           >
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5">
               <div className="space-y-3">
                 <div className="text-base font-medium text-muted-foreground flex items-center gap-1.5">
                   <Package className="h-5 w-5" />
                   Question Sources
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
                   {packs.map((p) => {
                     const isSelected = selectedPackIds.includes(p.packId);
                     const isRecommended = !(!lens.state && !lens.licenseType && !lens.trade) && (
@@ -327,7 +327,7 @@ export function ExamPageContent() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 items-end">
                 <div className="space-y-2">
                   <div className="text-base font-medium text-muted-foreground">Number of Questions</div>
                   <Select value={length} onValueChange={setLength} open={lengthOpen} onOpenChange={setLengthOpen}>
@@ -374,7 +374,7 @@ export function ExamPageContent() {
             </div>
           </SectionCard>
 
-          <div className="flex flex-col items-stretch gap-6">
+          <div className="flex flex-col items-stretch gap-5">
             <EmptyState
               icon={ClipboardCheck}
               title="Ready for the simulation?"
@@ -389,7 +389,7 @@ export function ExamPageContent() {
           </div>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-5">
           <ActionRow>
             <Button variant="ghost" size="sm" onClick={() => handleNewSession()} className="gap-2 text-muted-foreground">
               <RotateCcw className="h-3.5 w-3.5" />

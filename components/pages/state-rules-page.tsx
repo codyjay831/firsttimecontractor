@@ -11,7 +11,7 @@ export function StateRulesPageContent() {
   const locationLabel = [lens.state, lens.licenseType].filter(Boolean).join(" / ") || "State / License";
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <LensHeader title="State rules" />
       <LensPrompt />
 

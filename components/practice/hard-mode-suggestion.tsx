@@ -29,7 +29,7 @@ export function HardModeSuggestion({ visible, onAccept, onDismiss }: HardModeSug
         </Button>
       </div>
       
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Trophy className="h-6 w-6" />
         </div>

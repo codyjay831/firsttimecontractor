@@ -230,14 +230,14 @@ export function PracticeSession({ questions, onAcceptHardMode }: PracticeSession
 
   if (isFinished) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-5">
         <EmptyState
           icon={CheckCircle2}
           title="Session Complete"
           description="You've reached the end of this practice set. Here is how you did:"
         />
         
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
           <SectionCard title="Total Questions">
             <div className="text-3xl font-bold">{questions.length}</div>
           </SectionCard>
@@ -282,7 +282,7 @@ export function PracticeSession({ questions, onAcceptHardMode }: PracticeSession
   if (!currentQuestion) return null;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
           Progress: {currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)

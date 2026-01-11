@@ -438,7 +438,7 @@ export function PracticePageContent() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <LensHeader title="Practice" />
       <LensPrompt />
       
@@ -487,13 +487,13 @@ export function PracticePageContent() {
                 </Button>
               }
             >
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-5">
                 <div className="space-y-3">
                   <div className="text-base font-medium text-muted-foreground flex items-center gap-1.5">
                     <Package className="h-5 w-5" />
                     Question Sources
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
                     {packs.map((p) => {
                       const isSelected = selectedPackIds.includes(p.packId);
                       const isRecommended = !(!lens.state && !lens.licenseType && !lens.trade) && (
@@ -568,7 +568,7 @@ export function PracticePageContent() {
                   )}
                 </div>
 
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
                   <div className="space-y-2 flex-1">
                     <div className="text-base font-medium text-muted-foreground">Number of Questions</div>
                     <Select value={count} onValueChange={setCount} open={countOpen} onOpenChange={setCountOpen}>
@@ -599,7 +599,7 @@ export function PracticePageContent() {
             </SectionCard>
           )}
 
-          <div className="flex flex-col items-stretch gap-6">
+          <div className="flex flex-col items-stretch gap-5">
             <EmptyState
               icon={BookOpen}
               title={seed ? "Ready to practice review items?" : "Ready to Practice?"}
@@ -619,7 +619,7 @@ export function PracticePageContent() {
           </div>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-5">
           <ActionRow>
             <Button variant="ghost" size="sm" onClick={handleNewSession} className="gap-2 text-muted-foreground">
               <RotateCcw className="h-3.5 w-3.5" />

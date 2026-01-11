@@ -20,7 +20,7 @@ export function QuestionBlock({
   ...choiceListProps 
 }: QuestionBlockProps) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <QuestionPrompt 
         prompt={prompt} 
         meta={meta} 

@@ -306,7 +306,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
     const readinessScore = isHydrated ? calculateReadinessScore(listPacks()) : 0;
 
     return (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         <SectionCard title="Exam Complete">
           <div className="flex items-center gap-4 py-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -319,7 +319,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
           </div>
         </SectionCard>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
           <SectionCard title="Score">
             <div className="flex items-baseline gap-2">
               <div className="text-3xl font-bold">
@@ -360,7 +360,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
         </div>
 
         <SectionCard title="Performance by Category">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {summary.missedByCategory.map((area) => (
               <div key={area.category} className="p-3 bg-muted/30 rounded-lg border border-border/50 flex flex-col gap-2">
                 <div className="flex justify-between items-center gap-2">
@@ -389,7 +389,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
         </SectionCard>
 
         <SectionCard title="Details">
-          <div className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 text-sm">
             <div className="space-y-1">
               <p className="text-muted-foreground">Total Questions</p>
               <p className="font-semibold">{summary.totalQuestions}</p>
@@ -436,7 +436,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
   }
 
   return (
-    <div className="relative flex flex-col gap-6">
+    <div className="relative flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
           Progress: {currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)
@@ -453,8 +453,8 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-[1fr_240px]">
-        <div className="flex flex-col gap-6">
+      <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
+        <div className="flex flex-col gap-5">
           <SectionCard title={view === "review" ? `Reviewing Question ${currentIndex + 1} of ${questions.length}` : `Question ${currentIndex + 1} of ${questions.length}`}>
             <div className="space-y-2">
               <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
@@ -589,7 +589,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
           </ActionRow>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           {view === "exam" ? (
             <SectionCard title="Timer">
               <div className="flex flex-col items-center justify-center py-2">
@@ -621,7 +621,7 @@ export function ExamSession({ questions, durationMinutes, onRestart }: ExamSessi
             </SectionCard>
           )}
 
-          <div className={cn("flex-col gap-6 hidden md:flex", showGrid && "flex absolute inset-0 z-50 bg-background p-6 md:relative md:p-0 md:bg-transparent md:z-auto")}>
+          <div className={cn("flex-col gap-5 hidden md:flex", showGrid && "flex absolute inset-0 z-50 bg-background p-6 md:relative md:p-0 md:bg-transparent md:z-auto")}>
              <SectionCard title="Navigation">
               <div className="grid grid-cols-5 gap-2">
                 {questions.map((q, idx) => {

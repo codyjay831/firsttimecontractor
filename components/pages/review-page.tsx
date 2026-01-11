@@ -276,7 +276,7 @@ export function ReviewPageContent() {
 
   if (!payload || payload.items.length === 0) {
     return (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         <LensHeader title="Review mistakes" />
         <LensPrompt />
         <SectionCard title="No Review Data">
@@ -299,7 +299,7 @@ export function ReviewPageContent() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <LensHeader title="Review mistakes" />
       <LensPrompt />
 
@@ -307,9 +307,9 @@ export function ReviewPageContent() {
         title={`${payload.source === "practice" ? "Practice" : "Exam"} Session Review`}
         description={`Completed on ${formatDate(payload.createdAt)}`}
       >
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-5">
               <div className="flex flex-col gap-0.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Total Missed</span>
                 <span className="text-2xl font-bold tracking-tight">{payload.items.length}</span>
@@ -379,13 +379,13 @@ export function ReviewPageContent() {
         </div>
       </SectionCard>
 
-      <div className="grid gap-6 lg:grid-cols-[350px_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[350px_1fr]">
         {/* List Panel */}
         <div className="flex flex-col gap-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">
             Missed items
           </h3>
-          <div className="flex flex-col gap-6 overflow-y-auto max-h-[600px] pr-1">
+          <div className="flex flex-col gap-5 overflow-y-auto max-h-[600px] pr-1">
             {groupedItems.map((group) => (
               <div key={group.reason} className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 px-1 mb-1">
@@ -427,14 +427,14 @@ export function ReviewPageContent() {
         </div>
 
         {/* Detail Panel */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           {selectedItem ? (
             <>
               <SectionCard 
                 title="Question Detail"
                 description={`Item ${selectedIndex + 1} of ${payload.items.length}`}
               >
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-5">
                   <div className="flex items-center justify-between border-b pb-4">
                     <Button 
                       variant="ghost" 
@@ -473,7 +473,7 @@ export function ReviewPageContent() {
                   </div>
 
                   {isRetrying ? (
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-5">
                       <QuestionBlock
                         prompt={selectedItem.prompt}
                         difficulty={selectedItem.difficulty}
@@ -552,7 +552,7 @@ export function ReviewPageContent() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-5">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-wrap items-center gap-2">
                           {getReasonBadge(selectedItem.reason)}

@@ -162,9 +162,9 @@ export function StudyPageContent() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <LensPrompt />
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
         <LensHeader title="Study" />
         
         <div className="flex flex-col gap-2 min-w-[200px]">
@@ -244,8 +244,8 @@ export function StudyPageContent() {
         title="Exam Readiness" 
         description="Estimated based on your practice and exam accuracy."
       >
-        <div className="flex flex-col gap-6 py-2">
-          <div className="flex flex-col md:flex-row items-center gap-8">
+        <div className="flex flex-col gap-5 py-2">
+          <div className="flex flex-col md:flex-row items-center gap-5">
             <div className="relative flex items-center justify-center">
               <svg className="w-32 h-32 transform -rotate-90">
                 <circle
@@ -421,7 +421,7 @@ export function StudyPageContent() {
           <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground px-1">
             Continue Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {hasReview && (
               <SectionCard 
                 title="Continue Review" 
@@ -585,7 +585,7 @@ export function StudyPageContent() {
             All Study Modes
           </h2>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {studyModes.map((mode) => (
             <SectionCard 
               key={mode.href} 
