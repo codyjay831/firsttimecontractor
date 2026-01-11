@@ -61,7 +61,7 @@ export function PracticeSession({ questions, onAcceptHardMode }: PracticeSession
         setIsHydrated(true);
       });
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- one-time hydration initialization; effect intentionally runs once on mount
 
   // Persist to sessionStorage on changes (skip until hydrated)
   useEffect(() => {

@@ -18,6 +18,11 @@ export function TopBarLensInfo() {
   const store = useTopContext();
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Force close mobile lens info on navigation or context change
+  React.useEffect(() => {
+    setIsOpen(false);
+  }, [pathname, store.state, store.licenseType, store.trade]);
+
   const pathnameLens = lensFromPathname(pathname);
   const isLensedUrl = !!pathnameLens;
   

@@ -6,7 +6,7 @@ interface ActionRowProps {
 
 export function ActionRow({ children }: ActionRowProps) {
   return (
-    <div className="flex items-center justify-end gap-3 py-2">
+    <div className="flex items-center justify-end gap-4 py-4">
       {children}
     </div>
   );

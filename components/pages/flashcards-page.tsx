@@ -5,6 +5,7 @@ import { LensHeader } from "@/components/lens/lens-header";
 import { LensPrompt } from "@/components/lens/lens-prompt";
 import { FlashcardsSession } from "@/components/flashcards/flashcards-session";
 import { getFlashcardDecksActive, loadPack } from "@/lib/content/load-packs";
+import { registerCloseHandler } from "@/lib/close-overlays";
 import {
   Select,
   SelectContent,
@@ -25,6 +26,14 @@ export function FlashcardsPageContent() {
   // Use the default "core" pack for SSR to match what getActivePackId() returns on server
   const decks = mounted ? getFlashcardDecksActive() : loadPack("core").flashcardDecks;
   const [selectedDeckId, setSelectedDeckId] = useState<string | undefined>(undefined);
+  const [deckOpen, setDeckOpen] = useState(false);
+
+  // Register close handler to be called on navigation
+  useEffect(() => {
+    return registerCloseHandler(() => {
+      setDeckOpen(false);
+    });
+  }, []);
 
   // Sync selectedDeckId once mounted
   useEffect(() => {
@@ -50,15 +59,20 @@ export function FlashcardsPageContent() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <LensHeader title="Flashcards" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">Deck:</span>
-          <Select value={selectedDeckId || decks[0]?.id} onValueChange={setSelectedDeckId}>
-            <SelectTrigger className="w-[200px]">
+        <div className="flex items-center gap-3">
+          <span className="text-base font-medium text-muted-foreground">Deck:</span>
+          <Select 
+            value={selectedDeckId || decks[0]?.id} 
+            onValueChange={setSelectedDeckId}
+            open={deckOpen}
+            onOpenChange={setDeckOpen}
+          >
+            <SelectTrigger className="w-[240px]">
               <SelectValue placeholder="Select a deck" />
             </SelectTrigger>
             <SelectContent>
               {decks.map((deck) => (
-                <SelectItem key={deck.id} value={deck.id}>
+                <SelectItem key={deck.id} value={deck.id} className="text-base">
                   {deck.title}
                 </SelectItem>
               ))}

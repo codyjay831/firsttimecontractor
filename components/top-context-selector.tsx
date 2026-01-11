@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTopContext } from "@/lib/top-context/use-top-context";
 import { STATES, LICENSE_TYPES, TRADES } from "@/lib/top-context/types";
+import { registerCloseHandler } from "@/lib/close-overlays";
 import {
   Select,
   SelectContent,
@@ -12,6 +14,19 @@ import {
 
 export function TopContextSelector() {
   const { state, licenseType, trade, setState, setLicenseType, setTrade } = useTopContext();
+
+  const [stateOpen, setStateOpen] = useState(false);
+  const [licenseOpen, setLicenseOpen] = useState(false);
+  const [tradeOpen, setTradeOpen] = useState(false);
+
+  // Register close handler to be called on navigation
+  useEffect(() => {
+    return registerCloseHandler(() => {
+      setStateOpen(false);
+      setLicenseOpen(false);
+      setTradeOpen(false);
+    });
+  }, []);
 
   const handleStateChange = (v: string) => {
     const newValue = v === "none" ? null : v;
@@ -39,7 +54,12 @@ export function TopContextSelector() {
 
   return (
     <div className="flex items-center gap-2">
-      <Select value={state || "none"} onValueChange={handleStateChange}>
+      <Select 
+        value={state || "none"} 
+        onValueChange={handleStateChange}
+        open={stateOpen}
+        onOpenChange={setStateOpen}
+      >
         <SelectTrigger className="h-8 w-[130px]">
           <SelectValue placeholder="State" />
         </SelectTrigger>
@@ -53,7 +73,12 @@ export function TopContextSelector() {
         </SelectContent>
       </Select>
 
-      <Select value={licenseType || "none"} onValueChange={handleLicenseChange}>
+      <Select 
+        value={licenseType || "none"} 
+        onValueChange={handleLicenseChange}
+        open={licenseOpen}
+        onOpenChange={setLicenseOpen}
+      >
         <SelectTrigger className="h-8 w-[180px]">
           <SelectValue placeholder="License Type" />
         </SelectTrigger>
@@ -67,7 +92,12 @@ export function TopContextSelector() {
         </SelectContent>
       </Select>
 
-      <Select value={trade || "none"} onValueChange={handleTradeChange}>
+      <Select 
+        value={trade || "none"} 
+        onValueChange={handleTradeChange}
+        open={tradeOpen}
+        onOpenChange={setTradeOpen}
+      >
         <SelectTrigger className="h-8 w-[150px]">
           <SelectValue placeholder="Trade" />
         </SelectTrigger>

@@ -39,6 +39,8 @@ import {
 } from "@/components/ui/select";
 import { useMemo } from "react";
 import { PracticeQuestion } from "@/lib/practice/types";
+import { registerCloseHandler } from "@/lib/close-overlays";
+import { useEffect } from "react";
 
 type RetryRecord = {
   selectedChoiceId: string | null;
@@ -59,6 +61,14 @@ export function ReviewPageContent() {
 
   // Weak areas selection state
   const [practiceFilter, setPracticeFilter] = useState<string>("all");
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  // Register close handler to be called on navigation
+  useEffect(() => {
+    return registerCloseHandler(() => {
+      setFilterOpen(false);
+    });
+  }, []);
 
   const categories = useMemo(() => {
     if (!payload) return [];
@@ -318,7 +328,12 @@ export function ReviewPageContent() {
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-2 mr-2">
                 <Target className="h-4 w-4 text-muted-foreground" />
-                <Select value={practiceFilter} onValueChange={setPracticeFilter}>
+                <Select 
+                  value={practiceFilter} 
+                  onValueChange={setPracticeFilter}
+                  open={filterOpen}
+                  onOpenChange={setFilterOpen}
+                >
                   <SelectTrigger size="sm" className="w-[180px]">
                     <SelectValue placeholder="Practice mode" />
                   </SelectTrigger>

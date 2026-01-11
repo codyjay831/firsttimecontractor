@@ -35,7 +35,7 @@ export function HardModeSuggestion({ visible, onAccept, onDismiss }: HardModeSug
         </div>
         
         <div className="flex-1 space-y-1">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-base text-muted-foreground leading-relaxed">
             You’re consistently performing well on medium questions. 
             Switching to harder scenarios can help prepare for real exam edge cases.
           </p>
