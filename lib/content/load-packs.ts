@@ -2,6 +2,8 @@ import corePack from "../../content/packs/core.json";
 import c10Pack from "../../content/packs/c10.json";
 import coreCaPack from "../../content/packs/core-ca.json";
 import c10CaPack from "../../content/packs/c10-ca.json";
+import lawCaExpandedPack from "../../content/packs/law-ca-expanded.json";
+import c10CaAdvancedPack from "../../content/packs/c10-ca-advanced.json";
 import { ContentPack, FlashcardDeck } from "./pack-types";
 import { PracticeQuestion } from "../practice/types";
 import { validatePack } from "./validate-pack";
@@ -11,6 +13,8 @@ const PACK_REGISTRY: Record<string, unknown> = {
   "c10": c10Pack,
   "core-ca": coreCaPack,
   "c10-ca": c10CaPack,
+  "law-ca-expanded": lawCaExpandedPack,
+  "c10-ca-advanced": c10CaAdvancedPack,
 };
 
 const SESSION_KEY = "ftc_active_pack_id";

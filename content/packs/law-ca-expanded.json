@@ -1,0 +1,1086 @@
+{
+  "packId": "law-ca-expanded",
+  "title": "CA Law — Expanded",
+  "version": "1.0.0",
+  "description": "Deep California contractor law scenarios (contracts, change orders, liens, workers comp, advertising, discipline).",
+  "applicable": {
+    "states": ["CA"],
+    "licenses": []
+  },
+  "practiceQuestions": [
+    {
+      "id": "law-exp-q1",
+      "prompt": "Scenario: A contractor receives a written change order request from the owner that increases the contract price by $15,000. The contractor performs the work but never receives a signed change order. Under California law, can the contractor recover payment for the change order work?",
+      "choices": [
+        { "id": "a", "text": "Yes, if the work was authorized verbally by the owner." },
+        { "id": "b", "text": "Yes, if the contractor can prove the owner requested the work and accepted the benefit." },
+        { "id": "c", "text": "No, a signed written change order is always required for recovery." },
+        { "id": "d", "text": "Only if the change order was under $5,000." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "While written change orders are strongly recommended, California courts recognize quantum meruit claims when work is performed at the owner's request and the owner accepts the benefit. However, a written change order provides much stronger legal protection. The contractor must prove the owner requested the work and that payment was expected.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q2",
+      "prompt": "Scenario: A contractor files a mechanic's lien on a property but fails to serve a copy of the lien on the property owner within 30 days of recording. What is the consequence?",
+      "choices": [
+        { "id": "a", "text": "The lien is automatically void and unenforceable." },
+        { "id": "b", "text": "The lien remains valid but the contractor cannot recover attorney fees." },
+        { "id": "c", "text": "The lien is valid but the 90-day deadline to file suit is extended." },
+        { "id": "d", "text": "The lien remains valid if the owner had actual notice." }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "Civil Code 8416 requires that a copy of the recorded lien must be served on the owner within 30 days of recording. Failure to serve the lien within this timeframe renders it void and unenforceable. This is a strict requirement with no exceptions for actual notice.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q3",
+      "prompt": "Scenario: A contractor's employee is injured on a job site. The contractor has workers' compensation insurance but the policy lapsed 5 days before the injury due to non-payment. What are the consequences for the contractor?",
+      "choices": [
+        { "id": "a", "text": "The contractor must pay the medical bills directly but faces no other penalty." },
+        { "id": "b", "text": "The contractor faces criminal charges, automatic license suspension, and potential civil liability." },
+        { "id": "c", "text": "The contractor only needs to pay a fine to the CSLB." },
+        { "id": "d", "text": "The contractor can retroactively purchase coverage to cover the injury." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Operating without workers' compensation insurance is a misdemeanor punishable by up to $10,000 fine and/or one year in jail. The CSLB will immediately issue a stop order and suspend the license. The contractor also faces potential civil liability for the employee's injuries, which could far exceed workers' comp benefits.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q4",
+      "prompt": "Scenario: A contractor places an advertisement in a local newspaper but forgets to include their license number. The ad runs for one week. What is the likely penalty?",
+      "choices": [
+        { "id": "a", "text": "No penalty for a first offense." },
+        { "id": "b", "text": "A citation and fine from the CSLB, typically $100-$500 per violation." },
+        { "id": "c", "text": "Automatic license suspension." },
+        { "id": "d", "text": "Only a warning letter." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P Code 7030.5 requires license numbers in all advertising. Violations result in citations and fines. While not an automatic suspension offense, repeated violations can lead to disciplinary action. Each day the ad runs without the license number can be considered a separate violation.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q5",
+      "prompt": "Scenario: A contractor abandons a project after receiving 60% of the contract price but only completing 30% of the work. The owner files a complaint with the CSLB. What disciplinary action is the contractor likely to face?",
+      "choices": [
+        { "id": "a", "text": "A warning letter only." },
+        { "id": "b", "text": "License suspension or revocation, plus potential criminal charges." },
+        { "id": "c", "text": "A fine of up to $1,000." },
+        { "id": "d", "text": "Mandatory continuing education only." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Abandonment (B&P 7107) is a serious violation, especially when combined with taking more money than the value of work performed. This constitutes both abandonment and a violation of payment limitations. The CSLB will likely seek suspension or revocation, and the contractor may face criminal charges for theft.",
+      "category": "Discipline",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q6",
+      "prompt": "Scenario: A contractor receives a Preliminary Notice from a subcontractor 25 days after the sub started work. The sub later files a lien. What portion of the lien is valid?",
+      "choices": [
+        { "id": "a", "text": "The entire lien is valid because it was served before filing." },
+        { "id": "b", "text": "Only work performed in the 20 days before the notice was served, plus all work after." },
+        { "id": "c", "text": "Only work performed after the notice was served." },
+        { "id": "d", "text": "The lien is completely invalid due to late notice." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Civil Code 8204 provides that if a Preliminary Notice is served late, the claimant loses lien rights only for work performed more than 20 days before the notice was served. Work from the 20 days before service plus all work after service remains lienable. This protects owners while still allowing recovery for recent work.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q7",
+      "prompt": "Scenario: A contractor wants to include a 'no lien' clause in their contract with a property owner. Is this enforceable in California?",
+      "choices": [
+        { "id": "a", "text": "Yes, if both parties agree in writing." },
+        { "id": "b", "text": "No, lien rights cannot be waived in advance under California law." },
+        { "id": "c", "text": "Yes, but only for commercial projects." },
+        { "id": "d", "text": "Yes, but only if the contractor is paid in full." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Civil Code 8122 prohibits advance waiver of lien rights. Any contract clause attempting to waive lien rights before work begins is void and unenforceable. However, lien rights can be waived after work is complete and payment is received. This protects contractors from being forced to give up their primary payment security.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q8",
+      "prompt": "Scenario: A contractor's license is suspended for failure to pay a CSLB citation. The contractor continues to perform work. What are the potential consequences?",
+      "choices": [
+        { "id": "a", "text": "Additional fines only." },
+        { "id": "b", "text": "Criminal charges for unlicensed contracting, potential jail time, and permanent license revocation." },
+        { "id": "c", "text": "License revocation only." },
+        { "id": "d", "text": "A warning and requirement to pay the citation." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Performing work with a suspended license is unlicensed contracting, which is a misdemeanor. B&P 7028 makes this punishable by up to $5,000 fine and/or 6 months in jail for a first offense. The CSLB will also seek permanent revocation. Each day of work constitutes a separate violation.",
+      "category": "Discipline",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q9",
+      "prompt": "Scenario: A contractor includes a clause in their home improvement contract requiring disputes to be resolved through binding arbitration. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, arbitration clauses are always enforceable." },
+        { "id": "b", "text": "Yes, but the homeowner has 30 days to opt out." },
+        { "id": "c", "text": "No, arbitration clauses in home improvement contracts are void under B&P 7159." },
+        { "id": "d", "text": "Yes, but only for disputes over $10,000." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "B&P Code 7159.5 specifically prohibits mandatory arbitration clauses in home improvement contracts. Any such clause is void and unenforceable. This protects homeowners' rights to pursue claims in court. However, parties can agree to arbitration after a dispute arises.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q10",
+      "prompt": "Scenario: A contractor receives a stop payment notice from a subcontractor. What must the contractor do with funds they are holding?",
+      "choices": [
+        { "id": "a", "text": "Nothing, stop payment notices don't apply to contractors." },
+        { "id": "b", "text": "Hold the amount specified in the notice and don't pay it to anyone until the dispute is resolved." },
+        { "id": "c", "text": "Pay the subcontractor immediately." },
+        { "id": "d", "text": "Return the funds to the owner." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A stop payment notice requires the party holding funds (in this case, the contractor holding owner funds) to retain the amount specified. The contractor cannot release those funds to anyone until the claim is resolved or a court orders release. Failure to honor a valid stop notice can result in liability.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q11",
+      "prompt": "Scenario: A contractor's employee is classified as an independent contractor but works exclusively for the contractor, uses the contractor's tools, and follows the contractor's daily schedule. If this worker is injured, what are the consequences?",
+      "choices": [
+        { "id": "a", "text": "No consequences, independent contractors aren't covered by workers' comp." },
+        { "id": "b", "text": "The contractor faces penalties for misclassification and may be liable for all medical costs." },
+        { "id": "c", "text": "The worker can file for unemployment only." },
+        { "id": "d", "text": "The contractor only needs to pay a small fine." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Misclassifying employees as independent contractors is illegal. The ABC test in California requires workers to be free from control, perform work outside the usual business, and be independently established. If misclassified, the contractor faces penalties, back taxes, and full liability for injuries. Workers' comp coverage is required for employees.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q12",
+      "prompt": "Scenario: A contractor posts a job advertisement on social media that includes customer testimonials and before/after photos. What must be included?",
+      "choices": [
+        { "id": "a", "text": "Only the contractor's business name." },
+        { "id": "b", "text": "The contractor's license number, and if testimonials are used, a disclosure that results may vary." },
+        { "id": "c", "text": "Only the contractor's phone number." },
+        { "id": "d", "text": "Nothing additional is required for social media ads." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7030.5 requires the license number in all advertising, including social media. Additionally, if testimonials or results are shown, the contractor should include disclaimers that results may vary to avoid misleading consumers. False or misleading advertising can result in citations and disciplinary action.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q13",
+      "prompt": "Scenario: A contractor files a mechanic's lien but fails to file a lawsuit to enforce it within 90 days of completion. What happens to the lien?",
+      "choices": [
+        { "id": "a", "text": "The lien remains valid indefinitely." },
+        { "id": "b", "text": "The lien expires and becomes unenforceable." },
+        { "id": "c", "text": "The deadline is extended to 180 days." },
+        { "id": "d", "text": "The lien converts to a personal judgment." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Civil Code 8460 requires that a lawsuit to enforce a mechanic's lien must be filed within 90 days of completion of the work (or 60 days if a Notice of Completion was recorded). Failure to file within this deadline causes the lien to expire and become completely unenforceable. This is a strict deadline with no extensions.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q14",
+      "prompt": "Scenario: A contractor receives a change order that increases the contract price by 20%. The original contract was for $50,000. Does this require any special handling under California law?",
+      "choices": [
+        { "id": "a", "text": "No, change orders don't require special handling." },
+        { "id": "b", "text": "Yes, if the total change orders exceed 10% of the original contract, the contract may need to be rewritten." },
+        { "id": "c", "text": "Yes, change orders over $5,000 require notarization." },
+        { "id": "d", "text": "Yes, the homeowner has an additional 3-day right to cancel." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "While not always legally required, when change orders significantly alter the contract (typically over 10-15% of the original price), it's best practice to create an amended contract. Some jurisdictions and contract forms require rewriting if changes exceed certain thresholds. This protects both parties and ensures clarity.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q15",
+      "prompt": "Scenario: A contractor's workers' compensation insurance carrier cancels the policy due to non-payment. How many days does the contractor have to obtain new coverage before the CSLB is notified?",
+      "choices": [
+        { "id": "a", "text": "10 days" },
+        { "id": "b", "text": "30 days" },
+        { "id": "c", "text": "The CSLB is notified immediately by the insurance carrier." },
+        { "id": "d", "text": "60 days" }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "Insurance carriers are required to notify the CSLB immediately when a contractor's workers' compensation policy is cancelled or lapses. The contractor cannot delay this notification. The CSLB will issue a stop order and suspend the license immediately upon notification. There is no grace period.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q16",
+      "prompt": "Scenario: A contractor uses a vehicle wrap advertisement that includes their business name and phone number but not their license number. Is this a violation?",
+      "choices": [
+        { "id": "a", "text": "No, vehicle wraps are exempt from license number requirements." },
+        { "id": "b", "text": "Yes, all advertising including vehicle wraps must include the license number." },
+        { "id": "c", "text": "Only if the vehicle is used for commercial purposes." },
+        { "id": "d", "text": "Only if the wrap exceeds 10 square feet." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7030.5 requires the license number in all forms of advertising, including vehicle wraps, signs, business cards, websites, and social media. There are no exceptions for vehicle advertising. Failure to include the license number can result in citations and fines.",
+      "category": "Advertising",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q17",
+      "prompt": "Scenario: A contractor receives a Notice of Completion from the property owner. When must subcontractors file their mechanic's liens?",
+      "choices": [
+        { "id": "a", "text": "90 days from completion of work." },
+        { "id": "b", "text": "30 days from the date the Notice of Completion is recorded." },
+        { "id": "c", "text": "60 days from completion of work." },
+        { "id": "d", "text": "1 year from completion." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "When a valid Notice of Completion is recorded, Civil Code 8412 shortens the deadline for subcontractors to file liens to 30 days from the date the notice is recorded. For prime contractors, the deadline is 60 days. This is why serving Preliminary Notices and monitoring job completion is critical.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q18",
+      "prompt": "Scenario: A contractor is disciplined by the CSLB for a violation. They want to appeal the decision. What is the process?",
+      "choices": [
+        { "id": "a", "text": "File an appeal directly with the California Supreme Court." },
+        { "id": "b", "text": "Request a hearing before an Administrative Law Judge within 15 days." },
+        { "id": "c", "text": "File a complaint with the Better Business Bureau." },
+        { "id": "d", "text": "There is no appeal process for CSLB decisions." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Contractors have the right to appeal CSLB disciplinary actions by requesting a hearing before an Administrative Law Judge (ALJ) through the Office of Administrative Hearings. The request must typically be made within 15 days of receiving the citation or notice. The ALJ's decision can then be appealed to the CSLB Registrar and potentially to civil court.",
+      "category": "Discipline",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q19",
+      "prompt": "Scenario: A contractor includes a 'liquidated damages' clause in their contract that charges $500 per day for delays. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, liquidated damages clauses are always enforceable." },
+        { "id": "b", "text": "Yes, if the amount is reasonable and represents actual damages, not a penalty." },
+        { "id": "c", "text": "No, liquidated damages are never allowed in construction contracts." },
+        { "id": "d", "text": "Only if the delay exceeds 30 days." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Liquidated damages clauses are enforceable if they represent a reasonable estimate of actual damages that would be difficult to calculate, and are not a penalty. Courts will void clauses that are clearly punitive. The amount must bear some relationship to actual losses the owner might suffer from delays.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q20",
+      "prompt": "Scenario: A contractor's employee is injured and files a workers' compensation claim. The contractor disputes that the injury occurred on the job. What happens?",
+      "choices": [
+        { "id": "a", "text": "The claim is automatically denied." },
+        { "id": "b", "text": "The workers' compensation insurance carrier investigates and makes a determination, which can be appealed." },
+        { "id": "c", "text": "The contractor decides whether to pay the claim." },
+        { "id": "d", "text": "The employee must sue in civil court." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Workers' compensation claims are handled through the workers' compensation system, not civil court. The insurance carrier investigates disputed claims and makes a determination. Either party can appeal to the Workers' Compensation Appeals Board. The system is designed to be no-fault, meaning the employee doesn't need to prove negligence.",
+      "category": "Workers Compensation",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q21",
+      "prompt": "Scenario: A contractor places a yard sign advertising their services but the sign blows down and is not visible. A CSLB inspector cites them for advertising without a license number. Is this valid?",
+      "choices": [
+        { "id": "a", "text": "No, if the sign is not visible, there's no violation." },
+        { "id": "b", "text": "Yes, the sign was placed and must include the license number regardless of visibility." },
+        { "id": "c", "text": "Only if someone complains about the sign." },
+        { "id": "d", "text": "Yard signs are exempt from license number requirements." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Once an advertisement is placed (sign, ad, website, etc.), it must comply with B&P 7030.5 regardless of whether it's currently visible or functional. The requirement applies to the act of advertising, not the effectiveness of the advertisement. The contractor is responsible for maintaining compliant advertising.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q22",
+      "prompt": "Scenario: A contractor files a mechanic's lien for $25,000 but the property is worth only $20,000. What happens?",
+      "choices": [
+        { "id": "a", "text": "The lien is invalid because it exceeds the property value." },
+        { "id": "b", "text": "The lien is valid but limited to the property value plus interest." },
+        { "id": "c", "text": "The lien is valid for the full amount, but recovery is limited by the property value." },
+        { "id": "d", "text": "The contractor must reduce the lien amount to match the property value." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "A mechanic's lien can be filed for the full amount owed, even if it exceeds the property value. However, recovery is limited to the property's value plus any interest and costs. If multiple liens exist, they are paid in priority order. The lien amount itself doesn't need to match the property value.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q23",
+      "prompt": "Scenario: A contractor includes a clause requiring the homeowner to pay all attorney fees if there's a dispute. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, attorney fee clauses are always enforceable." },
+        { "id": "b", "text": "Yes, but only if the clause is mutual (applies to both parties)." },
+        { "id": "c", "text": "No, attorney fee clauses are void in home improvement contracts." },
+        { "id": "d", "text": "Only if the dispute exceeds $10,000." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "One-sided attorney fee clauses (requiring only one party to pay) are generally unenforceable in California. However, mutual attorney fee clauses (where the prevailing party recovers fees) are enforceable. Civil Code 1717 makes one-sided clauses mutual by operation of law, but it's better to draft them as mutual from the start.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q24",
+      "prompt": "Scenario: A contractor's license expires but they continue working for 2 weeks before renewing. What are the consequences?",
+      "choices": [
+        { "id": "a", "text": "No consequences if they renew within 30 days." },
+        { "id": "b", "text": "Criminal charges for unlicensed contracting during the lapse period." },
+        { "id": "c", "text": "A small fine only." },
+        { "id": "d", "text": "License suspension for 30 days." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Working with an expired license is unlicensed contracting, which is a misdemeanor. There is no grace period. Each day of work constitutes a separate violation. The contractor faces potential criminal charges, fines, and disciplinary action. Renewing the license doesn't retroactively legalize work performed during the lapse.",
+      "category": "Discipline",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q25",
+      "prompt": "Scenario: A contractor receives a stop payment notice but has already paid the subcontractor who sent it. What is the contractor's liability?",
+      "choices": [
+        { "id": "a", "text": "No liability, payment was already made." },
+        { "id": "b", "text": "The contractor may be liable for the amount that should have been retained." },
+        { "id": "c", "text": "Only if the notice was served before payment." },
+        { "id": "d", "text": "The contractor must recover the payment from the subcontractor." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "If a stop payment notice is properly served before funds are released, the party holding funds must retain the specified amount. If funds are released after receiving a valid stop notice, the party may be liable for the amount that should have been retained. The timing of service is critical.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q26",
+      "prompt": "Scenario: A contractor's workers' compensation policy has a $1 million aggregate limit. If claims exceed this limit in a policy year, what happens?",
+      "choices": [
+        { "id": "a", "text": "The contractor is personally liable for excess claims." },
+        { "id": "b", "text": "The insurance carrier must pay unlimited claims." },
+        { "id": "c", "text": "The policy automatically renews with higher limits." },
+        { "id": "d", "text": "Claims beyond the limit are covered by the state fund." }
+      ],
+      "correctChoiceId": "a",
+      "explanation": "When policy limits are exhausted, the contractor becomes personally liable for any additional claims. This is why contractors should carefully evaluate their risk and consider higher limits or excess coverage. The insurance carrier's obligation ends when the aggregate limit is reached.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q27",
+      "prompt": "Scenario: A contractor uses a business name that is different from their licensed name without registering it as a DBA. What is the violation?",
+      "choices": [
+        { "id": "a", "text": "No violation, contractors can use any name they want." },
+        { "id": "b", "text": "Violation of B&P 7083 for failing to notify CSLB of business name change." },
+        { "id": "c", "text": "Only a violation if the name is misleading." },
+        { "id": "d", "text": "Only a violation for corporations." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P Code 7083 requires contractors to notify the CSLB of any change in business name. Using an unregistered DBA name is a violation. The name on contracts, advertising, and business operations must match the name on the license or be properly registered as a DBA with both the county and CSLB.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q28",
+      "prompt": "Scenario: A contractor files a mechanic's lien but discovers they made an error in the amount. Can they amend the lien?",
+      "choices": [
+        { "id": "a", "text": "Yes, liens can always be amended." },
+        { "id": "b", "text": "Yes, but only to reduce the amount, not increase it." },
+        { "id": "c", "text": "No, liens cannot be amended once filed." },
+        { "id": "d", "text": "Yes, but only with court approval." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A mechanic's lien can be amended to reduce the amount claimed, but generally cannot be increased after the original filing deadline has passed. Increasing a lien after filing could prejudice other lienholders and property owners. If an increase is needed, it's often better to file a new lien if still within the deadline.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q29",
+      "prompt": "Scenario: A contractor includes a 'no damages for delay' clause in their contract. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, these clauses are always enforceable." },
+        { "id": "b", "text": "Yes, unless the delay was caused by the owner's bad faith or active interference." },
+        { "id": "c", "text": "No, these clauses are void as against public policy." },
+        { "id": "d", "text": "Only for commercial projects." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "No damages for delay clauses are generally enforceable, but courts will not enforce them if the delay was caused by the owner's bad faith, active interference, or willful misconduct. They also typically don't apply to delays beyond the contractor's control that weren't contemplated in the contract.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q30",
+      "prompt": "Scenario: A contractor receives a CSLB citation and wants to pay it but needs more time. Can they request an extension?",
+      "choices": [
+        { "id": "a", "text": "Yes, contractors can request a 30-day extension." },
+        { "id": "b", "text": "Yes, but extensions are granted only for good cause and must be requested before the deadline." },
+        { "id": "c", "text": "No, citations must be paid within 15 days with no extensions." },
+        { "id": "d", "text": "Only if the contractor files an appeal." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Contractors can request extensions to pay citations, but extensions are granted only for good cause (such as financial hardship, pending insurance claims, etc.) and must be requested before the payment deadline. The CSLB will consider each request on a case-by-case basis. Simply needing more time is not sufficient cause.",
+      "category": "Discipline",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q31",
+      "prompt": "Scenario: A contractor's employee is injured and the workers' compensation claim is approved. The employee returns to work but is later terminated. Can the employee sue for wrongful termination?",
+      "choices": [
+        { "id": "a", "text": "Yes, employees can always sue for wrongful termination." },
+        { "id": "b", "text": "Yes, if the termination was in retaliation for filing the workers' comp claim." },
+        { "id": "c", "text": "No, workers' comp is the exclusive remedy." },
+        { "id": "d", "text": "Only if the termination was within 30 days of the injury." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "While workers' compensation is generally the exclusive remedy for workplace injuries, employees can sue for wrongful termination if they were fired in retaliation for filing a workers' comp claim. Labor Code 132a prohibits discrimination or termination for exercising workers' comp rights. This is a separate claim from the injury itself.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q32",
+      "prompt": "Scenario: A contractor places an online advertisement that includes a clickable link to their license number. Does this satisfy the license number requirement?",
+      "choices": [
+        { "id": "a", "text": "Yes, as long as the license number is accessible." },
+        { "id": "b", "text": "No, the license number must be visible in the advertisement itself, not behind a link." },
+        { "id": "c", "text": "Only if the link is prominently displayed." },
+        { "id": "d", "text": "Online ads are exempt from license number requirements." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7030.5 requires the license number to be included in the advertisement itself, not hidden behind a link or in fine print. The number must be readily visible to consumers viewing the ad. This ensures consumers can easily verify the contractor's license status.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q33",
+      "prompt": "Scenario: A contractor files a mechanic's lien but the property owner files for bankruptcy before the lien is enforced. What happens to the lien?",
+      "choices": [
+        { "id": "a", "text": "The lien is automatically voided." },
+        { "id": "b", "text": "The lien becomes a secured claim in bankruptcy, but enforcement is stayed." },
+        { "id": "c", "text": "The contractor loses all rights to payment." },
+        { "id": "d", "text": "The lien converts to an unsecured claim." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A mechanic's lien becomes a secured claim in bankruptcy proceedings, which generally provides better recovery than unsecured claims. However, the automatic stay prevents enforcement actions during bankruptcy. The contractor should file a proof of claim and may need to seek relief from the stay to enforce the lien.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q34",
+      "prompt": "Scenario: A contractor includes a 'pay-when-paid' clause stating they will pay subcontractors only after receiving payment from the owner. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, pay-when-paid clauses are always enforceable." },
+        { "id": "b", "text": "Yes, but the contractor must pay within a reasonable time even if owner payment is delayed." },
+        { "id": "c", "text": "No, pay-when-paid clauses are void in California." },
+        { "id": "d", "text": "Only for public works projects." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Pay-when-paid clauses are enforceable but are interpreted narrowly. Courts require that payment be made within a reasonable time even if the owner hasn't paid, unless the clause clearly states payment is conditional on owner payment and the owner's non-payment was not due to the contractor's breach. The contractor cannot delay payment indefinitely.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q35",
+      "prompt": "Scenario: A contractor is cited by the CSLB for a violation. They want to contest it but miss the 15-day deadline. Can they still contest it?",
+      "choices": [
+        { "id": "a", "text": "Yes, they have 30 days total to contest." },
+        { "id": "b", "text": "No, the 15-day deadline is strict with no extensions." },
+        { "id": "c", "text": "Yes, but only with a showing of good cause for the delay." },
+        { "id": "d", "text": "Only if they pay the citation first." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "While the 15-day deadline is strict, contractors can request to contest a citation after the deadline if they can show good cause for missing it (such as not receiving the citation, medical emergency, etc.). However, there is no guarantee the request will be granted. It's critical to respond within the deadline.",
+      "category": "Discipline",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q36",
+      "prompt": "Scenario: A contractor's workers' compensation insurance carrier denies a claim. The employee wants to appeal. What is the process?",
+      "choices": [
+        { "id": "a", "text": "The employee must sue the contractor in civil court." },
+        { "id": "b", "text": "The employee files an appeal with the Workers' Compensation Appeals Board." },
+        { "id": "c", "text": "The contractor decides whether to pay the claim." },
+        { "id": "d", "text": "There is no appeal process for denied claims." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Denied workers' compensation claims can be appealed to the Workers' Compensation Appeals Board (WCAB). The employee files an Application for Adjudication of Claim. The process includes mediation, hearings, and potentially a trial. The contractor and insurance carrier participate in the process but don't have unilateral authority to deny valid claims.",
+      "category": "Workers Compensation",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q37",
+      "prompt": "Scenario: A contractor uses a logo in their advertising that includes their business name but not their license number. Is this compliant?",
+      "choices": [
+        { "id": "a", "text": "Yes, logos don't need license numbers." },
+        { "id": "b", "text": "No, if the logo is used in advertising, the license number must appear somewhere in the same advertisement." },
+        { "id": "c", "text": "Only if the logo is smaller than 2 inches." },
+        { "id": "d", "text": "Logos are exempt from all advertising requirements." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "While the license number doesn't need to be in the logo itself, if the logo is used in advertising, the license number must appear somewhere in that same advertisement. The requirement applies to the overall advertisement, not each individual element. However, it's best practice to include it prominently.",
+      "category": "Advertising",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q38",
+      "prompt": "Scenario: Multiple contractors file mechanic's liens on the same property. In what order are they paid?",
+      "choices": [
+        { "id": "a", "text": "In the order they were filed." },
+        { "id": "b", "text": "Prime contractors first, then subcontractors, then suppliers, based on when work started." },
+        { "id": "c", "text": "All liens are paid equally regardless of priority." },
+        { "id": "d", "text": "The largest liens are paid first." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Mechanic's liens have a priority system: prime contractors generally have priority over subcontractors, who have priority over suppliers. Within each class, priority is typically based on when work first began or materials were first furnished. This priority determines the order of payment when property is sold or foreclosed.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q39",
+      "prompt": "Scenario: A contractor includes a clause requiring disputes to be resolved in a specific county court. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, forum selection clauses are always enforceable." },
+        { "id": "b", "text": "Yes, if the selected forum has a reasonable connection to the transaction." },
+        { "id": "c", "text": "No, forum selection clauses are void in construction contracts." },
+        { "id": "d", "text": "Only for commercial projects." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Forum selection clauses are generally enforceable if the selected forum has a reasonable connection to the transaction (such as where the work is performed, where the contractor is located, or where the contract was signed). However, courts may refuse to enforce them if they would be unreasonable or unfair to one party.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q40",
+      "prompt": "Scenario: A contractor's license is revoked. How long must they wait before applying for a new license?",
+      "choices": [
+        { "id": "a", "text": "30 days" },
+        { "id": "b", "text": "1 year" },
+        { "id": "c", "text": "5 years" },
+        { "id": "d", "text": "There is no set waiting period, but they must show rehabilitation." }
+      ],
+      "correctChoiceId": "d",
+      "explanation": "There is no automatic waiting period after license revocation. However, the contractor must demonstrate rehabilitation and that they are fit to hold a license again. The CSLB will consider factors such as the nature of the violation, time since revocation, evidence of rehabilitation, and current circumstances. Approval is not guaranteed.",
+      "category": "Discipline",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q41",
+      "prompt": "Scenario: A contractor's employee is injured and files a workers' compensation claim. The contractor believes the injury was faked. What can the contractor do?",
+      "choices": [
+        { "id": "a", "text": "Refuse to report the claim to the insurance carrier." },
+        { "id": "b", "text": "Report the claim but provide evidence of fraud to the insurance carrier and potentially law enforcement." },
+        { "id": "c", "text": "Terminate the employee immediately." },
+        { "id": "d", "text": "Ignore the claim completely." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Contractors must report all workplace injury claims to their workers' compensation carrier, even if they suspect fraud. The contractor can provide evidence of suspected fraud to the carrier, who will investigate. Suspected fraud can also be reported to law enforcement. However, the contractor cannot unilaterally deny the claim or retaliate against the employee.",
+      "category": "Workers Compensation",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q42",
+      "prompt": "Scenario: A contractor places a radio advertisement. Must the license number be included?",
+      "choices": [
+        { "id": "a", "text": "No, radio ads are exempt from license number requirements." },
+        { "id": "b", "text": "Yes, but it can be mentioned quickly at the end." },
+        { "id": "c", "text": "Yes, the license number must be clearly stated in the advertisement." },
+        { "id": "d", "text": "Only if the ad is longer than 30 seconds." }
+      ],
+      "correctChoiceId": "c",
+      "explanation": "B&P 7030.5 requires the license number in all forms of advertising, including radio. The number must be clearly stated and audible. Simply mentioning it quickly or in a way that's hard to understand may not satisfy the requirement. The number should be stated clearly enough for listeners to note it.",
+      "category": "Advertising",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q43",
+      "prompt": "Scenario: A contractor files a mechanic's lien but the property is sold before the lien is enforced. What happens to the lien?",
+      "choices": [
+        { "id": "a", "text": "The lien is automatically extinguished." },
+        { "id": "b", "text": "The lien attaches to the property and the new owner takes subject to it." },
+        { "id": "c", "text": "The lien converts to a personal judgment against the seller." },
+        { "id": "d", "text": "The contractor loses all rights to payment." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A properly filed mechanic's lien attaches to the property itself, not just the owner. When the property is sold, the new owner takes the property subject to existing liens. The lienholder can still enforce the lien against the property. However, the new owner may require the lien to be removed before closing, which could require payment or bonding off the lien.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q44",
+      "prompt": "Scenario: A contractor includes a 'time is of the essence' clause in their contract. What does this mean?",
+      "choices": [
+        { "id": "a", "text": "The contractor must complete the work as quickly as possible." },
+        { "id": "b", "text": "Strict compliance with deadlines is required, and delays can be grounds for termination." },
+        { "id": "c", "text": "The contract has no specific meaning." },
+        { "id": "d", "text": "Only the owner must meet deadlines, not the contractor." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A 'time is of the essence' clause makes strict compliance with deadlines a material term of the contract. Failure to meet deadlines can be grounds for termination and damages, even if the delay is minor. Without this clause, courts are more lenient about delays unless they are substantial. This clause should be used carefully and only when timing is truly critical.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q45",
+      "prompt": "Scenario: A contractor receives a CSLB citation for a violation. They pay the fine but want to prevent it from appearing on their record. Is this possible?",
+      "choices": [
+        { "id": "a", "text": "Yes, paying the fine removes it from the record." },
+        { "id": "b", "text": "No, citations become part of the contractor's permanent disciplinary record." },
+        { "id": "c", "text": "Yes, if the violation was minor and it's a first offense." },
+        { "id": "d", "text": "Only if the contractor completes additional education." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CSLB citations become part of the contractor's permanent disciplinary record, regardless of whether the fine is paid. This record is public and can be viewed by potential customers. Multiple citations can lead to more serious disciplinary action. The only way to avoid a record is to successfully contest the citation.",
+      "category": "Discipline",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q46",
+      "prompt": "Scenario: A contractor's workers' compensation policy excludes certain types of work. An employee is injured while performing excluded work. What happens?",
+      "choices": [
+        { "id": "a", "text": "The injury is not covered and the employee has no recourse." },
+        { "id": "b", "text": "The contractor is personally liable for all medical costs and benefits." },
+        { "id": "c", "text": "The state fund automatically covers the injury." },
+        { "id": "d", "text": "The insurance carrier must cover it despite the exclusion." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "If work is excluded from a workers' compensation policy, injuries occurring during that work are not covered by insurance. The contractor becomes personally liable for all medical costs, disability benefits, and other workers' compensation benefits. This is why contractors must ensure their policy covers all work they perform.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q47",
+      "prompt": "Scenario: A contractor uses a website domain name that is similar to a competitor's but doesn't include their license number on the homepage. Is this compliant?",
+      "choices": [
+        { "id": "a", "text": "Yes, websites don't need license numbers on every page." },
+        { "id": "b", "text": "No, the license number must appear on the homepage or main landing page." },
+        { "id": "c", "text": "Only if the website generates leads." },
+        { "id": "d", "text": "Websites are exempt from license number requirements." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7030.5 requires license numbers in all advertising, including websites. The license number should appear on the main page or homepage where visitors first land. Burying it deep in the site or requiring clicks to find it may not satisfy the requirement. The number should be readily visible to site visitors.",
+      "category": "Advertising",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q48",
+      "prompt": "Scenario: A contractor files a mechanic's lien but discovers the property owner has no equity. Is the lien still worth filing?",
+      "choices": [
+        { "id": "a", "text": "No, liens are only valuable if there's equity." },
+        { "id": "b", "text": "Yes, liens can still provide leverage and may be valuable if the property gains value or is refinanced." },
+        { "id": "c", "text": "Only if the contractor plans to foreclose immediately." },
+        { "id": "d", "text": "Liens are automatically void if there's no equity." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Even if a property has no current equity, filing a lien can still be valuable. It creates leverage in negotiations, prevents the owner from refinancing without addressing the debt, and may become valuable if the property gains value. Additionally, liens can sometimes be enforced against other assets or through personal guarantees. However, recovery is limited to available equity.",
+      "category": "Liens",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q49",
+      "prompt": "Scenario: A contractor includes a clause requiring the owner to pay interest on late payments at 2% per month. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "Yes, any interest rate agreed upon is enforceable." },
+        { "id": "b", "text": "Yes, 2% per month (24% annually) is within legal limits for commercial contracts." },
+        { "id": "c", "text": "No, interest rates over 10% are usurious and void." },
+        { "id": "d", "text": "Only for contracts over $100,000." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Interest rates of 2% per month (24% annually) are generally enforceable in commercial contracts in California. The usury laws that cap interest rates apply primarily to consumer loans, not commercial contracts. However, extremely high rates might be challenged as unconscionable. 2% per month is a common rate in construction contracts.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q50",
+      "prompt": "Scenario: A contractor is disciplined by the CSLB and wants to know if the discipline will affect their ability to get bonded. What is the impact?",
+      "choices": [
+        { "id": "a", "text": "Discipline has no impact on bonding." },
+        { "id": "b", "text": "Discipline can make it more difficult and expensive to obtain bonds, or may result in bond denial." },
+        { "id": "c", "text": "Only license revocation affects bonding." },
+        { "id": "d", "text": "The contractor can always get bonded through the state fund." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "CSLB discipline becomes part of the contractor's public record, which bonding companies review when issuing bonds. Multiple citations, suspensions, or serious violations can make it difficult to obtain bonds, result in higher premiums, or lead to bond denial. A clean record is important for maintaining bonding capacity.",
+      "category": "Discipline",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q51",
+      "prompt": "Scenario: A contractor's employee is injured and receives workers' compensation benefits. The employee later sues a third party (not the contractor) for the injury. Can the workers' compensation carrier recover its costs?",
+      "choices": [
+        { "id": "a", "text": "No, the carrier has no right to recovery." },
+        { "id": "b", "text": "Yes, the carrier has a lien on any recovery from the third party lawsuit." },
+        { "id": "c", "text": "Only if the employee agrees." },
+        { "id": "d", "text": "Only if the recovery exceeds $10,000." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "When an employee receives workers' compensation benefits and then sues a third party for the same injury, the workers' compensation carrier has a lien (called a 'workers' compensation lien') on any recovery. The carrier is entitled to reimbursement for benefits paid, minus a share of attorney fees and costs. This prevents double recovery by the employee.",
+      "category": "Workers Compensation",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q52",
+      "prompt": "Scenario: A contractor places a billboard advertisement. Must the license number be included?",
+      "choices": [
+        { "id": "a", "text": "No, billboards are exempt from license number requirements." },
+        { "id": "b", "text": "Yes, the license number must be clearly visible on the billboard." },
+        { "id": "c", "text": "Only if the billboard is larger than 100 square feet." },
+        { "id": "d", "text": "Only if the billboard is within 1 mile of the contractor's office." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P 7030.5 requires license numbers in all forms of advertising, including billboards. The number must be clearly visible and readable. Given that billboards are viewed from a distance, the license number should be large enough to be read by passing motorists. There are no exceptions for outdoor advertising.",
+      "category": "Advertising",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q53",
+      "prompt": "Scenario: A contractor files a mechanic's lien but the property owner files a lawsuit to remove it, claiming the lien is invalid. What is this action called?",
+      "choices": [
+        { "id": "a", "text": "A counter-lien." },
+        { "id": "b", "text": "A petition to release lien or action to quiet title." },
+        { "id": "c", "text": "A motion to dismiss." },
+        { "id": "d", "text": "An appeal of the lien." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Property owners can challenge invalid liens by filing a petition to release the lien or an action to quiet title. These legal actions ask the court to declare the lien invalid and remove it from the property. The lienholder must then prove the lien is valid or risk having it removed and potentially facing liability for filing a fraudulent lien.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q54",
+      "prompt": "Scenario: A contractor includes a 'merger clause' stating that the written contract contains the entire agreement. What is the effect?",
+      "choices": [
+        { "id": "a", "text": "The clause has no legal effect." },
+        { "id": "b", "text": "The clause prevents either party from claiming oral promises or side agreements that contradict the written contract." },
+        { "id": "c", "text": "The clause makes the contract unenforceable." },
+        { "id": "d", "text": "Only applies to commercial contracts." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "A merger clause (also called an integration clause) establishes that the written contract is the complete and final agreement between the parties. It prevents claims about oral promises or side agreements that contradict or add to the written terms. However, it doesn't prevent claims of fraud, mistake, or other defenses to contract enforcement.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q55",
+      "prompt": "Scenario: A contractor receives multiple CSLB citations over a two-year period. What is likely to happen?",
+      "choices": [
+        { "id": "a", "text": "Nothing, citations don't accumulate." },
+        { "id": "b", "text": "The CSLB will likely seek more serious discipline, such as license suspension." },
+        { "id": "c", "text": "Only the most recent citation matters." },
+        { "id": "d", "text": "The contractor will be automatically revoked after 3 citations." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Multiple citations over time demonstrate a pattern of violations and lack of compliance. The CSLB will consider the contractor's entire disciplinary history when determining appropriate action. Multiple citations can lead to accusations seeking suspension or revocation, especially if they involve similar violations or show disregard for regulations.",
+      "category": "Discipline",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q56",
+      "prompt": "Scenario: A contractor's workers' compensation policy has a high deductible. An employee is injured and the claim is $8,000. The deductible is $5,000. Who pays what?",
+      "choices": [
+        { "id": "a", "text": "The insurance carrier pays the entire $8,000." },
+        { "id": "b", "text": "The contractor pays $5,000 and the carrier pays $3,000." },
+        { "id": "c", "text": "The employee pays the deductible." },
+        { "id": "d", "text": "The state fund pays everything." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "With a deductible policy, the contractor is responsible for paying claims up to the deductible amount ($5,000), and the insurance carrier pays the excess ($3,000). The employee receives full benefits regardless. Deductibles help reduce premium costs but increase the contractor's direct financial exposure for claims.",
+      "category": "Workers Compensation",
+      "difficulty": "easy"
+    },
+    {
+      "id": "law-exp-q57",
+      "prompt": "Scenario: A contractor uses a trade name in advertising that implies they hold a license classification they don't actually have. What is the violation?",
+      "choices": [
+        { "id": "a", "text": "No violation if the name is registered." },
+        { "id": "b", "text": "Violation of B&P 7027.1 for misleading advertising about license classification." },
+        { "id": "c", "text": "Only a violation if someone complains." },
+        { "id": "d", "text": "Trade names are exempt from classification requirements." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "B&P Code 7027.1 prohibits advertising that implies a contractor holds a license classification they don't actually possess. Using a trade name that suggests expertise in a field requiring a specific classification (when the contractor doesn't hold it) is misleading and violates the law. This protects consumers from being misled about a contractor's qualifications.",
+      "category": "Advertising",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q58",
+      "prompt": "Scenario: A contractor files a mechanic's lien for work on a condominium unit. Can they lien the entire building?",
+      "choices": [
+        { "id": "a", "text": "Yes, the lien attaches to the entire building." },
+        { "id": "b", "text": "No, the lien is limited to the individual unit where work was performed." },
+        { "id": "c", "text": "Yes, but only for common area work." },
+        { "id": "d", "text": "Condominiums cannot be liened." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "For work on individual condominium units, mechanic's liens attach only to that specific unit, not the entire building. However, work on common areas or the building structure itself may create liens on the entire property or common areas. The lien is limited to the property interest where the work was performed.",
+      "category": "Liens",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q59",
+      "prompt": "Scenario: A contractor includes a clause requiring disputes to be resolved through mediation before litigation. Is this enforceable?",
+      "choices": [
+        { "id": "a", "text": "No, mediation clauses are void." },
+        { "id": "b", "text": "Yes, mediation clauses are enforceable and can require good faith mediation before filing suit." },
+        { "id": "c", "text": "Only if both parties agree at the time of the dispute." },
+        { "id": "d", "text": "Only for commercial projects." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Mediation clauses requiring parties to attempt mediation before filing a lawsuit are generally enforceable. However, they typically cannot completely bar access to courts - they can require good faith mediation efforts first. If mediation fails, parties can still proceed to litigation. These clauses are different from mandatory arbitration clauses, which are restricted in home improvement contracts.",
+      "category": "Contracts & Change Orders",
+      "difficulty": "medium"
+    },
+    {
+      "id": "law-exp-q60",
+      "prompt": "Scenario: A contractor is placed on probation by the CSLB with conditions including completing continuing education. They complete the education but commit another violation during probation. What happens?",
+      "choices": [
+        { "id": "a", "text": "The probation is extended for another year." },
+        { "id": "b", "text": "The CSLB will likely revoke the probation and impose more serious discipline, such as suspension." },
+        { "id": "c", "text": "Nothing, violations during probation don't matter." },
+        { "id": "d", "text": "The contractor only receives a warning." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "Violating the terms of probation or committing new violations during probation demonstrates that the contractor has not been rehabilitated. The CSLB will likely revoke probation and impose more serious discipline, such as license suspension or revocation. Probation is a second chance, and failing to comply shows the contractor cannot be trusted to follow the law.",
+      "category": "Discipline",
+      "difficulty": "hard"
+    },
+    {
+      "id": "law-exp-q61",
+      "prompt": "Scenario: A contractor's workers' compensation experience modification factor increases from 1.0 to 1.5. What does this mean?",
+      "choices": [
+        { "id": "a", "text": "The contractor's insurance premium will decrease." },
+        { "id": "b", "text": "The contractor's insurance premium will increase by approximately 50%." },
+        { "id": "c", "text": "The contractor no longer needs workers' compensation insurance." },
+        { "id": "d", "text": "The modification factor has no impact on premiums." }
+      ],
+      "correctChoiceId": "b",
+      "explanation": "The experience modification factor (EMR or X-Mod) compares a contractor's actual claims history to industry averages. A factor above 1.0 means the contractor has more claims than average, resulting in higher premiums. A 1.5 factor means premiums are approximately 50% higher than the base rate. Factors below 1.0 result in premium discounts.",
+      "category": "Workers Compensation",
+      "difficulty": "medium"
+    }
+  ],
+  "examQuestions": [],
+  "flashcardDecks": [
+    {
+      "id": "law-exp-legal",
+      "title": "CA Legal Fundamentals",
+      "description": "Essential California contractor law concepts",
+      "cards": [
+        {
+          "id": "law-exp-fc1",
+          "front": "What is the maximum down payment for a home improvement contract in California?",
+          "back": "10% of the contract price or $1,000, whichever is less (B&P Code 7159).",
+          "category": "Contracts",
+          "difficulty": "easy"
+        },
+        {
+          "id": "law-exp-fc2",
+          "front": "How many days does a contractor have to file a lawsuit to enforce a mechanic's lien?",
+          "back": "90 days from completion of work (or 60 days if a Notice of Completion was recorded).",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc3",
+          "front": "What happens if a contractor operates without workers' compensation insurance?",
+          "back": "Criminal charges (misdemeanor), up to $10,000 fine and/or 1 year in jail, plus automatic license suspension.",
+          "category": "Workers Compensation",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc4",
+          "front": "Must license numbers appear in all advertising?",
+          "back": "Yes, B&P Code 7030.5 requires license numbers in all forms of advertising including websites, signs, business cards, and social media.",
+          "category": "Advertising",
+          "difficulty": "easy"
+        },
+        {
+          "id": "law-exp-fc5",
+          "front": "Can lien rights be waived in advance in a contract?",
+          "back": "No, Civil Code 8122 prohibits advance waiver of lien rights. Liens can only be waived after work is complete and payment is received.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc6",
+          "front": "What is abandonment under B&P Code 7107?",
+          "back": "Failure to complete a project for the agreed price, or failing to complete it at all without a legal excuse. This includes taking more money than the value of work performed.",
+          "category": "Discipline",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc7",
+          "front": "How long does a contractor have to contest a CSLB citation?",
+          "back": "15 working days from the date the citation is served.",
+          "category": "Discipline",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc8",
+          "front": "What is a Preliminary Notice (Notice to Owner)?",
+          "back": "A notice that must be served within 20 days of starting work to preserve lien rights. It notifies the owner and prime contractor that a party may file a lien.",
+          "category": "Liens",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc9",
+          "front": "Are mandatory arbitration clauses allowed in home improvement contracts?",
+          "back": "No, B&P Code 7159.5 prohibits mandatory arbitration clauses in home improvement contracts. They are void and unenforceable.",
+          "category": "Contracts",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc10",
+          "front": "What is a stop payment notice?",
+          "back": "A notice requiring the party holding funds (owner or contractor) to retain a specified amount to secure payment for work or materials. It must be honored or the party may be liable.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc11",
+          "front": "What is the penalty for misclassifying employees as independent contractors?",
+          "back": "Penalties, back taxes, potential liability for injuries, and workers' compensation violations. The contractor becomes personally liable for all medical costs and benefits.",
+          "category": "Workers Compensation",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc12",
+          "front": "What happens if a mechanic's lien is not served on the owner within 30 days of recording?",
+          "back": "The lien becomes void and unenforceable. Service within 30 days is a strict requirement with no exceptions.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc13",
+          "front": "Can a contractor work with a suspended license?",
+          "back": "No, working with a suspended license is unlicensed contracting, a misdemeanor punishable by up to $5,000 fine and/or 6 months in jail per violation.",
+          "category": "Discipline",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc14",
+          "front": "What is quantum meruit?",
+          "back": "A legal doctrine allowing recovery for work performed when no written contract exists, based on the reasonable value of services provided and accepted by the owner.",
+          "category": "Contracts",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc15",
+          "front": "What is the 120% rule for solar installations?",
+          "back": "Not applicable - this is an electrical code question, not a legal question. For legal: Change orders over 10% may require contract amendments.",
+          "category": "Contracts",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc16",
+          "front": "What is a pay-when-paid clause?",
+          "back": "A contract clause making payment to a subcontractor conditional on the contractor receiving payment from the owner. Enforceable but interpreted narrowly - payment must occur within a reasonable time.",
+          "category": "Contracts",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc17",
+          "front": "What happens to a mechanic's lien when the property owner files for bankruptcy?",
+          "back": "The lien becomes a secured claim in bankruptcy. Enforcement is stayed, but the lienholder has priority over unsecured creditors.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc18",
+          "front": "What is liquidated damages?",
+          "back": "A predetermined amount of damages specified in a contract for breach (such as delays). Enforceable if reasonable and not a penalty.",
+          "category": "Contracts",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc19",
+          "front": "What is the experience modification factor (EMR) in workers' compensation?",
+          "back": "A factor comparing a contractor's claims history to industry averages. Above 1.0 increases premiums, below 1.0 decreases them.",
+          "category": "Workers Compensation",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc20",
+          "front": "Can a contractor use a DBA name without notifying the CSLB?",
+          "back": "No, B&P Code 7083 requires notification of any business name change. Using an unregistered DBA is a violation.",
+          "category": "Advertising",
+          "difficulty": "easy"
+        },
+        {
+          "id": "law-exp-fc21",
+          "front": "What is a merger clause?",
+          "back": "A contract clause stating the written agreement is the complete and final agreement, preventing claims about oral promises or side agreements.",
+          "category": "Contracts",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc22",
+          "front": "What is the priority order for multiple mechanic's liens?",
+          "back": "Prime contractors first, then subcontractors, then suppliers. Within each class, priority is based on when work first began.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc23",
+          "front": "What happens if a workers' compensation policy lapses?",
+          "back": "The insurance carrier immediately notifies the CSLB, which issues a stop order and suspends the license. There is no grace period.",
+          "category": "Workers Compensation",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc24",
+          "front": "What is a forum selection clause?",
+          "back": "A contract clause requiring disputes to be resolved in a specific court or location. Enforceable if the selected forum has a reasonable connection to the transaction.",
+          "category": "Contracts",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc25",
+          "front": "What is the consequence of multiple CSLB citations?",
+          "back": "The CSLB considers the entire disciplinary history. Multiple citations can lead to suspension or revocation, especially if they show a pattern of violations.",
+          "category": "Discipline",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc26",
+          "front": "What is a workers' compensation lien?",
+          "back": "When an employee receives workers' comp benefits and sues a third party, the carrier has a lien on any recovery to reimburse benefits paid.",
+          "category": "Workers Compensation",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc27",
+          "front": "Can a mechanic's lien be amended after filing?",
+          "back": "Yes, but generally only to reduce the amount, not increase it. Increasing a lien after the deadline could prejudice other parties.",
+          "category": "Liens",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc28",
+          "front": "What is 'time is of the essence'?",
+          "back": "A contract clause making strict compliance with deadlines a material term. Delays can be grounds for termination even if minor.",
+          "category": "Contracts",
+          "difficulty": "medium"
+        },
+        {
+          "id": "law-exp-fc29",
+          "front": "What happens if a contractor violates probation terms?",
+          "back": "The CSLB will likely revoke probation and impose more serious discipline such as suspension or revocation.",
+          "category": "Discipline",
+          "difficulty": "hard"
+        },
+        {
+          "id": "law-exp-fc30",
+          "front": "What is the effect of a 'no damages for delay' clause?",
+          "back": "Generally enforceable, but not if the delay was caused by the owner's bad faith, active interference, or willful misconduct.",
+          "category": "Contracts",
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ]
+}
