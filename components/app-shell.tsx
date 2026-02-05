@@ -5,6 +5,7 @@ import { TopBar } from "@/components/top-bar";
 import { LeftNav } from "@/components/left-nav";
 import { SyncManager } from "@/components/auth/sync-manager";
 import { RouteLogger } from "@/components/dev/route-logger";
+import { Copyright } from "@/components/copyright";
 
 /**
  * DESKTOP LAYOUT INVARIANTS
@@ -52,6 +53,7 @@ Manual checks:
         <main className="relative z-0 flex-1 overflow-auto">
           <div className="w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             {children}
+            <Copyright className="mt-12 mb-8 pt-8 border-t" />
           </div>
         </main>
       </div>

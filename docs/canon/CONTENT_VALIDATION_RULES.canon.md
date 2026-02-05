@@ -1,6 +1,6 @@
 # CONTENT_VALIDATION_RULES.canon.md
-Version: 1.0  
-Status: CANON — LOCKED  
+Version: 1.1  
+Status: CANON — ALIGNED  
 Project: Firsttimecontractor  
 Scope: Validation of Questions and Pool Content (All Write Paths)
 
@@ -26,16 +26,21 @@ Validation applies to:
 
 > **No content may be saved or published without passing validation.**
 
-Validation MUST occur server-side.
+Validation occurs at runtime during content pack loading (client-side). Server-side or Build/CI validation is a future goal.
 
 ---
 
 ## 3. Required Fields (Questions)
 
+### v0 Minimal Schema (Enforced Today)
 Every Question MUST include:
-
 - `id`
 - `prompt`
+- `choices` (non-empty)
+- `correctChoiceId` (matching a choice)
+
+### vNext Schema (Planned)
+Every Question SHOULD include:
 - `questionType`
 - `answerKey`
 - `explanation.canonical`
@@ -46,7 +51,7 @@ Every Question MUST include:
 - `status`
 - `version`
 
-Missing any required field MUST block save.
+Missing any v0 field MUST block load. Missing vNext fields will trigger a developer warning in development mode.
 
 ---
 
@@ -61,7 +66,7 @@ Validation MUST confirm:
 
 ---
 
-## 5. Explanation Validation (LOCKED)
+## 5. Explanation Validation (Planned)
 
 Every Question explanation MUST include:
 

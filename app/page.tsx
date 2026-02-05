@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Copyright } from "@/components/copyright";
 
 /**
  * TEMPORARY LANDING PAGE
@@ -32,6 +33,7 @@ export default function LandingPage() {
           </Button>
         </div>
       </div>
+      <Copyright className="mt-16" />
     </div>
   );
 }

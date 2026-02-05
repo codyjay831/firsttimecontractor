@@ -1,5 +1,5 @@
 # 00_index.md
-Version: 1.1  
+Version: 1.2  
 Status: CANON — LOCKED  
 Project: Firsttimecontractor  
 Purpose: Single authoritative index of all canon documents and governance precedence

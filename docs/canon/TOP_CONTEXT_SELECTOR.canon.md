@@ -1,6 +1,6 @@
 # TOP_CONTEXT_SELECTOR.canon.md
-Version: 1.0  
-Status: CANON — LOCKED  
+Version: 1.1  
+Status: CANON — ALIGNED  
 Project: Firsttimecontractor  
 Scope: Top Bar Context Selection (State, License, Trade)
 
@@ -24,11 +24,11 @@ Context is not navigation.
 
 ---
 
-## 3. Canonical Context Fields (v1 LOCKED)
+## 3. Canonical Context Fields (v1.1 ALIGNED)
 
-Top bar MUST support:
+Top bar MAY support:
 
-- Country (optional; default is US if not selected)
+- Country (future/planned; default is US if not selected)
 - State (optional in learning; required for exam simulation)
 - License type (optional; used to narrow lenses)
 - Trade (optional; used to narrow trade pools)
@@ -41,14 +41,14 @@ Top bar MUST support:
 - State selection MUST not create new nav items
 - Missing context MUST reduce scope but not block learning modes
 
-Exam simulation requires:
-- State set
+Exam simulation recommendation:
+- State set (enforcement planned for v1.1)
 
 ---
 
-## 5. UX Copy Rules (LOCKED)
+## 5. UX Copy Rules (RECOMMENDED)
 
-When state is missing and required (exam simulation), display:
+When state is missing and required (exam simulation), recommended copy:
 
 > “Select a state to run an exam simulation.”
 

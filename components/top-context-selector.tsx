@@ -2,7 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useTopContext } from "@/lib/top-context/use-top-context";
-import { STATES, LICENSE_TYPES, TRADES } from "@/lib/top-context/types";
+import { 
+  STATES, 
+  LICENSE_TYPES, 
+  TRADES,
+  LICENSE_TYPES_BY_STATE,
+  TRADES_BY_STATE
+} from "@/lib/top-context/types";
 import { registerCloseHandler } from "@/lib/close-overlays";
 import {
   Select,
@@ -18,6 +24,10 @@ export function TopContextSelector() {
   const [stateOpen, setStateOpen] = useState(false);
   const [licenseOpen, setLicenseOpen] = useState(false);
   const [tradeOpen, setTradeOpen] = useState(false);
+
+  const selectedState = state?.toUpperCase() || "";
+  const stateLicenseTypes = LICENSE_TYPES_BY_STATE[selectedState] ?? LICENSE_TYPES;
+  const stateTrades = TRADES_BY_STATE[selectedState] ?? TRADES;
 
   // Register close handler to be called on navigation
   useEffect(() => {
@@ -66,7 +76,7 @@ export function TopContextSelector() {
         <SelectContent>
           <SelectItem value="none">No State</SelectItem>
           {STATES.map((s) => (
-            <SelectItem key={s.value} value={s.value}>
+            <SelectItem key={s.id} value={s.id}>
               {s.label}
             </SelectItem>
           ))}
@@ -84,8 +94,8 @@ export function TopContextSelector() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="none">No License</SelectItem>
-          {LICENSE_TYPES.map((lt) => (
-            <SelectItem key={lt.value} value={lt.value}>
+          {stateLicenseTypes.map((lt) => (
+            <SelectItem key={lt.id} value={lt.id}>
               {lt.label}
             </SelectItem>
           ))}
@@ -103,8 +113,8 @@ export function TopContextSelector() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="none">No Trade</SelectItem>
-          {TRADES.map((t) => (
-            <SelectItem key={t.value} value={t.value}>
+          {stateTrades.map((t) => (
+            <SelectItem key={t.id} value={t.id}>
               {t.label}
             </SelectItem>
           ))}
